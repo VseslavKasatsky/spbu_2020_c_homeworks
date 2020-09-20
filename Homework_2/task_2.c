@@ -21,7 +21,7 @@ int main()
 			}
 			if (flag)
 			{
-				printf("%d",number_arr[i]);
+				printf("%d", number_arr[i]);
 				i++;
 			}
 			flag = 1;
