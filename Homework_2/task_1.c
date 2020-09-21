@@ -21,7 +21,7 @@ void recursion(int left_sum, int last_term)
 		size++;
 		array = (int*)realloc(values, sizeof(int) * (size));
 		values = array;
-		values[size-1] = i;
+		values[size - 1] = i;
 		recursion(left_sum - i, i);
 		size--;
 	}
