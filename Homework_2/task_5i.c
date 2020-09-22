@@ -22,7 +22,7 @@ int factorial(int number)
 int main()
 {
 	int number = 0;
-	scanf_s("%d", &number);
+	scanf("%d", &number);
 	printf("%d", factorial(number));
 	return 0;
 }
