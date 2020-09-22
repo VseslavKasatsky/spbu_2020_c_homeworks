@@ -1,24 +1,47 @@
 #include <stdio.h>
 #include <string.h>
-int main()
+#include <stdlib.h>
+int const SIZE = 1000;
+
+void main()
 {
-	char str[] = "BlueYellgreenBlueowblueYelBluelowBluePinblkJetBlue";
-	char search[] = "Blue";
-	int amount = 0, i = 0, length = sizeof(search) - 1;
-	char* p = strstr(str, search);
-	while (1)
+	printf("Enter string and substring:\n");
+	char* strMain = (char*)malloc(sizeof(char) * SIZE);
+	char* strSub = (char*)malloc(sizeof(char) * SIZE);
+	scanf("%s", strMain);
+	scanf("%s", strSub);
+
+	int lengthMain = strlen(strMain);
+	int lengthSub = strlen(strSub);
+	int count = 0;
+	for (int i = 0; i < lengthMain - lengthSub + 1; ++i)
 	{
-		char* p = strstr(str, search);
-		if (p == NULL)
+		if (strMain[i] == strSub[0])
 		{
-			break;
+			int check = 1;
+			int continuationI = i + 1;
+			for (int j = 1; j < lengthSub; ++j)
+			{
+				if (strSub[j] == strMain[continuationI])
+				{
+					++check;
+				}
+				else
+				{
+					break;
+				}
+
+				++continuationI;
+			}
+
+			if (check == lengthSub)
+			{
+				++count;
+			}
 		}
-		for (i = 0; i < p - str + 1; i++)
-		{
-			str[i] = '/0';
-		}
-		amount++;
 	}
-	printf("%d", amount);
-	return 0;
+	printf("Number of occurrences of a substring in a string = ");
+	printf("%d", count);
+	free(strMain);
+	free(strSub);
 }

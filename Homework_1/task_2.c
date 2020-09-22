@@ -1,27 +1,35 @@
 #include <stdio.h>
-int const N = 9, M = 5;
-//M-начало, N - конец
+#include <malloc.h>
+#include <stdlib.h>
+void doABarrelRoll(int* arrayOfValues, int begin, int end)
+{
+	int step = (end - begin + 1) / 2;
+	for (int i = 0; i < step; ++i)
+	{
+		arrayOfValues[begin + i] += arrayOfValues[end - i];
+		arrayOfValues[end - i] = arrayOfValues[begin + i] - arrayOfValues[end - i];
+		arrayOfValues[begin + i] -= arrayOfValues[end - i];
+	}
+}
 int main()
 {
-	int arr[14];
+	int M = 0, N = 0, * array = NULL;
+	printf("Vvedite Dlini otrezkov M,N");
+	scanf_s("%d %d", &M, &N);
+	array = (int*)malloc((N + M) * sizeof(int));
 	int i = 0, vault = 0;
 	for (i = 0; i < N + M; i++)
 	{
-		arr[i] = i + 1;
+		printf("array[%d] = ", i);
+		scanf_s("%d", &array[i]);
 	}
-	for (i = 0; i < N; i++)
-	{
-		vault = arr[N + M - 1];
-		for (int j = N + M - 1; j > 0; j--)
-		{
-			arr[j] = arr[j - 1];
-		}
-		arr[0] = vault;
-	}
-
+	doABarrelRoll(array, 0, M - 1);
+	doABarrelRoll(array, M, (M + N - 1));
+	doABarrelRoll(array, 0, (M + N - 1));
 	for (i = 0; i < N + M; i++)
 	{
-		printf("%d ", arr[i]);
+		printf("%d ", array[i]);
 	}
+	free(array);
 	return 0;
 }
