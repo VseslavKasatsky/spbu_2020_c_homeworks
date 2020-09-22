@@ -10,7 +10,7 @@ int helper(const void* a, const void* b)
 
 int main()
 {
-    int i = 0, answer = 0, array[SIZE] = { 0 };
+    int i = 0, answer = 0, array[SIZE];
     for (i = 0; i < SIZE; i++) {
         scanf("%d", &array[i]);
     }
