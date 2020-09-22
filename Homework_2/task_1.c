@@ -28,8 +28,8 @@ void recursion(int left_sum, int last_term)
 }
 int main()
 {
-	int number;
-	scanf_s("%d", &number);
+	int number = 0;
+	scanf("%d", &number);
 	recursion(number, 1);
 	free(values);
 	return 0;
