@@ -4,7 +4,7 @@ int const N = 9, M = 5;
 int main()
 {
 	int arr[14];
-	int i = 0, vault;
+	int i = 0, vault = 0;
 	for (i = 0; i < N + M; i++)
 	{
 		arr[i] = i + 1;

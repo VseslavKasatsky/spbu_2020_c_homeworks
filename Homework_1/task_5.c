@@ -8,7 +8,7 @@ int helper(const void* a, const void* b)
 int main()
 {
 	int arr[9] = { 4, 7, 1, 4, 9, 2, 3, 9, 7 };
-	int i, answer = 0;
+	int i = 0, answer = 0;
 	qsort(arr, SIZE, sizeof(int), helper);
 	for (i = SIZE - 1; i > 0; i--)
 	{
