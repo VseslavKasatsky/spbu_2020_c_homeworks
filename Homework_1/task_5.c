@@ -13,15 +13,12 @@ int
 main()
 {
 	int i = 0, answer = 0, array[SIZE] = {0};
-	for (i = 0; i < SIZE; i++)
-	{
+	for (i = 0; i < SIZE; i++) {
 		scanf("%d", &array[i]);
 	}
 	qsort(array, SIZE, sizeof(int), helper);
-	for (i = SIZE - 1; i > 0; i--)
-	{
-		if (array[i] == array[i - 1])
-		{
+	for (i = SIZE - 1; i > 0; i--) {
+		if (array[i] == array[i - 1]) {
 			answer = array[i];
 			break;
 		}

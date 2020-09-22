@@ -16,28 +16,22 @@ main()
 	int lengthMain = strlen(strMain);
 	int lengthSub = strlen(strSub);
 	int count = 0;
-	for (int i = 0; i < lengthMain - lengthSub + 1; ++i)
-	{
-		if (strMain[i] == strSub[0])
-		{
+	for (int i = 0; i < lengthMain - lengthSub + 1; ++i) {
+		if (strMain[i] == strSub[0]) {
 			int check = 1;
 			int continuationI = i + 1;
-			for (int j = 1; j < lengthSub; ++j)
-			{
-				if (strSub[j] == strMain[continuationI])
-				{
+			for (int j = 1; j < lengthSub; ++j) {
+				if (strSub[j] == strMain[continuationI]) {
 					++check;
 				}
-				else
-				{
+				else {
 					break;
 				}
 
 				++continuationI;
 			}
 
-			if (check == lengthSub)
-			{
+			if (check == lengthSub) {
 				++count;
 			}
 		}
