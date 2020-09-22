@@ -9,7 +9,7 @@ int helper(const void* a, const void* b)
 }
 
 int main()
-{
+ {
 	int i = 0, answer = 0, array[SIZE] = { 0 };
 	for (i = 0; i < SIZE; i++)
 	{
@@ -26,4 +26,4 @@ int main()
 	}
 	printf("%d", answer);
 	return 0;
-}
+ }
