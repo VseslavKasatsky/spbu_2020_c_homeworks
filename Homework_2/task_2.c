@@ -4,7 +4,7 @@
 
 int main()
 {
-	int i, number_arr[4] = { 0 }, j, check_arr[4] = { 0 }, check, flag = 1;
+	int i = 0, number_arr[4] = { 0 }, j = 0, check_arr[4] = { 0 }, check = 0, flag = 1;
 	for (i = 0; i < 4; i++)
 	{
 		srand(time(NULL));
@@ -21,7 +21,7 @@ int main()
 			}
 			if (flag)
 			{
-				printf("%d", number_arr[i]);
+				//printf("%d", number_arr[i]); - answer
 				i++;
 			}
 			flag = 1;
@@ -30,7 +30,7 @@ int main()
 	while (1)
 	{
 		int cow = 0, bull = 0;
-		scanf_s("%d", &check);
+		scanf("%d", &check);
 		for (i = 3; i >= 0; i--)
 		{
 			check_arr[i] = check % 10;
