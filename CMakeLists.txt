@@ -4,8 +4,8 @@ project(spbu_2020_c_homeworks C)
 set(CMAKE_C_STANDARD 11)
 
 set(SOURCE_LIB
-    library/commonUtils/numericOperations.c
-        )
+        library/commonUtils/numericOperations.c
+        Homework_1/task_1.c Homework_1/task_2.c Homework_1/task_3.c Homework_1/task_4.c Homework_1/task_5.c )
 add_library(library ${SOURCE_LIB})
 add_executable(1.task_1 Homework_1/task_1.c)
 add_executable(1.task_2 Homework_1/task_2.c)
