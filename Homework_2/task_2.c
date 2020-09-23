@@ -24,7 +24,7 @@ int main()
     }
     while (1) {
         int cow = 0, bull = 0;
-        printf("OTBET: ");
+        printf("YOUR GUESS: ");
         scanf("%d", &check);
         for (i = 3; i >= 0; --i) {
             check_arr[i] = check % 10;
