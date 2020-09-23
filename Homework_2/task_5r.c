@@ -2,23 +2,21 @@
 
 int factorial(int number)
 {
-	if (number > 1)
-	{
-		return number * factorial(number - 1);
-	}
-	else if (number == 0 || number == 1)
-	{
-		return 1;
-	}
-	else if (number < 0)
-	{
-		return 0;
-	}
+    if (number < 0) {
+        return 0;
+    }
+    if (number == 0) {
+        return 1;
+    }
+    if (number >= 1) {
+        return number * factorial(number - 1);
+    }
 }
 int main()
 {
-	int number = 0;
-	scanf("%d", &number);
-	printf("%d", factorial(number));
+    int number = 0;
+    printf("Enter number for factorial: ");
+    scanf("%d", &number);
+    printf("Factorial: %d", factorial(number));
+    return 0;
 }
-
