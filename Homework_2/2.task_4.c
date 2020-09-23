@@ -1,33 +1,44 @@
 #include <stdio.h>
 int const DIGIT_AMOUNT = 10;
-int main()
+long long int input_digit_frequency(long long int number, int* digit_freq)
 {
-    long long int number = 0;
-    int array[10];
     for (int i = 0; i < DIGIT_AMOUNT; ++i) {
-        array[i] = 0;
+        digit_freq[i] = 0;
     }
     printf("Enter the number: ");
     scanf("%lld", &number);
     while (number > 0) {
-        array[number % 10]++; //Array of digits included in the number
+        digit_freq[number % 10]++; // Array of digits included in the number
         number /= 10;
     }
-    if (array[0] != 0) { //checking the first digit of a number
+    return (number);
+}
+void output_smallest_number(long long int number, int* digit_freq)
+{
+    if (digit_freq[0] != 0) { // checking the first digit of a number
         int i = 1;
         while (number == 0) {
-            if (array[i] != 0) {
+            if (digit_freq[i] != 0) {
                 number = i;
-                array[i]--;
+                digit_freq[i]--;
             }
             i++;
         }
     }
     for (int i = 0; i < DIGIT_AMOUNT; ++i) {
-        while (array[i] != 0) {
-            number = number * 10 + i; //drawing up a number
-            array[i]--;
+        while (digit_freq[i] != 0) {
+            number = number * 10 + i; // drawing up a number
+            digit_freq[i]--;
         }
     }
-    printf("The smallest number of composed digits of the entered number: %lld", number);
+    printf("The smallest number of composed digits of the entered number: %lld",
+        number);
+}
+int main()
+{
+    long long int number = 0;
+    int digit_freq[DIGIT_AMOUNT];
+    int* link = digit_freq;
+    input_digit_frequency(number, link);
+    output_smallest_number(number, link);
 }
