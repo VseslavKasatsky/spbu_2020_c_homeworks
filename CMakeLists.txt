@@ -7,5 +7,5 @@ set(SOURCE_LIB
     library/commonUtils/numericOperations.c
 )
 add_library(library ${SOURCE_LIB})
-add_executable(2.task_5i Homework_2/task_5i.c)
-add_executable(2.task_5r Homework_2/task_5r.c)
+add_executable(2.task_5i Homework_2/task_5.iterative.c)
+add_executable(2.task_5r Homework_2/task_5.recursive.c)
