@@ -21,7 +21,7 @@ int main()
                 array[i]--;
 
             }
-          i++;
+            i++;
         }
     }
     for (int i = 0; i < DIGIT_AMOUNT; ++i) {
