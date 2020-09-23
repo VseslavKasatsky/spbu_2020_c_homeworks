@@ -12,7 +12,7 @@ int main()
 {
     int i = 0, answer = 0, array[SIZE];
     for (i = 0; i < SIZE; i++) {
-        scanf("%d", &array[i]);
+        scanf("array[%d]=", &array[i]);
     }
     qsort(array, SIZE, sizeof(int), helper);
     for (i = SIZE - 1; i > 0; i--) {
@@ -21,6 +21,6 @@ int main()
             break;
         }
     }
-    printf("%d", answer);
+    printf("The largest number occurring more than 2 times: %d", answer);
     return 0;
 }
