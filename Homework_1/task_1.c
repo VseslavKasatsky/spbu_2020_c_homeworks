@@ -5,9 +5,8 @@ int const SIZE = 7;
 int main()
 {
     int array[SIZE][SIZE];
-    int i = 0, j = 0;
-    for (i = 0; i < SIZE; i++) {
-        for (j = 0; j < SIZE; j++) {
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
             array[i][j] = j + 1;
         }
     }
@@ -17,26 +16,26 @@ int main()
         if (circle < SIZE - 1) {
             circle++;
         }
-        for (i = 0; i < circle; i++) {
-            coordinate_y = coordinate_y + 1;
+        for (int i = 0; i < circle; ++i) {
+            coordinate_y++;
             printf("%d", array[coordinate_y][coordinate_x]);
         }
-        for (i = 0; i < circle; i++) {
-            coordinate_x = coordinate_x + 1;
+        for (int i = 0; i < circle; ++i) {
+            coordinate_x++;
             printf("%d", array[coordinate_y][coordinate_x]);
         }
         circle++;
-        for (i = 0; i < circle; i++) {
-            coordinate_y = coordinate_y - 1;
+        for (int i = 0; i < circle; ++i) {
+            coordinate_y--;
             printf("%d", array[coordinate_y][coordinate_x]);
         }
-        for (i = 0; i < circle; i++) {
-            coordinate_x = coordinate_x - 1;
+        for (int i = 0; i < circle; ++i) {
+            coordinate_x--;
             printf("%d", array[coordinate_y][coordinate_x]);
         }
     }
-    for (i = 0; i < circle; i++) {
-        coordinate_y = coordinate_y + 1;
+    for (int i = 0; i < circle; ++i) {
+        coordinate_y++;
         printf("%d", array[coordinate_y][coordinate_x]);
     }
     return 0;
