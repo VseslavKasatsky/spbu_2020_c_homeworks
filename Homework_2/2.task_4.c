@@ -3,7 +3,7 @@ int const DIGIT_AMOUNT = 10;
 int main()
 {
     long long int number = 0;
-    int array[DIGIT_AMOUNT];
+    int array[10];
     for (int i = 0; i < DIGIT_AMOUNT; ++i) {
         array[i] = 0;
     }
@@ -14,13 +14,14 @@ int main()
         number /= 10;
     }
     if (array[0] != 0) { //checking the first digit of a number
-        int i = 0;
+        int i = 1;
         while (number == 0) {
             if (array[i] != 0) {
                 number = i;
                 array[i]--;
-                i++;
+
             }
+          i++;
         }
     }
     for (int i = 0; i < DIGIT_AMOUNT; ++i) {
