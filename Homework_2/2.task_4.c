@@ -7,10 +7,11 @@ int main()
     for (int i = 0; i < DIGIT_AMOUNT; ++i) {
         array[i] = 0;
     }
-    scanf("%I64d", &number);
+    printf("Enter the number: ");
+    scanf("%lld", &number);
     while (number > 0) {
         array[number % 10]++; //Array of digits included in the number
-        number = number / 10;
+        number /= 10;
     }
     if (array[0] != 0) { //checking the first digit of a number
         int i = 0;
@@ -22,11 +23,11 @@ int main()
             }
         }
     }
-    for (int i = 0; i < DIGIT_AMOUNT; i++) {
+    for (int i = 0; i < DIGIT_AMOUNT; ++i) {
         while (array[i] != 0) {
             number = number * 10 + i; //drawing up a number
             array[i]--;
         }
     }
-    printf("%I64d", number);
+    printf("The smallest number of composed digits of the entered number: %lld", number);
 }
