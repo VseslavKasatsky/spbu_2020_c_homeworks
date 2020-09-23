@@ -1,7 +1,7 @@
+#include <crtdbg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <crtdbg.h>
-void print_decomposed_number (int size, int* values)
+void print_decomposed_number(int size, int* values)
 {
     printf("%d", values[0]);
     for (int i = 1; i < size; ++i)
@@ -12,7 +12,7 @@ void print_decomposed_number (int size, int* values)
 void decompose_number(int left_sum, int last_term, int size, int* values)
 {
     if (left_sum == 0) {
-        print_decomposed_number (size, values);
+        print_decomposed_number(size, values);
     }
     for (int i = last_term; i <= left_sum; ++i) {
         size++;
