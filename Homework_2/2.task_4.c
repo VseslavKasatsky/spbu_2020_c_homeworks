@@ -38,7 +38,7 @@ int main()
 {
     long long int number = 0;
     int digit_freq[DIGIT_AMOUNT];
-    int* link = digit_freq;
-    input_digit_frequency(number, link);
-    output_smallest_number(number, link);
+    int* link_digit_freq = digit_freq;
+    input_digit_frequency(number, link_digit_freq);
+    output_smallest_number(number, link_digit_freq);
 }
