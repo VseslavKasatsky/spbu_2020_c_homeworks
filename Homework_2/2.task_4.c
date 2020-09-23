@@ -19,7 +19,6 @@ int main()
             if (array[i] != 0) {
                 number = i;
                 array[i]--;
-
             }
             i++;
         }
