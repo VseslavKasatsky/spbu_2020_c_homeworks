@@ -31,7 +31,7 @@ int main()
         scanf("%d", &check);
         for (int i = 3; i >= 0; --i) {
             check_arr[i] = check % 10;
-            check = check / 10;
+            check /= 10;
         }
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < 4; ++j) {
