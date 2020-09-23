@@ -3,7 +3,7 @@ const int N = 11;
 
 int main()
 {
-    int array[11];
+    int array[N];
     for (int i = 0; i < N; ++i) {
         printf("array[%d]=", i);
         scanf("%d", &array[i]);
