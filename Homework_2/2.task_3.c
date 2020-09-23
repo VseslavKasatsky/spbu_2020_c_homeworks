@@ -5,6 +5,7 @@ int main()
 {
     int array[N], counter_start = 0, counter_end = N - 1, vault = 0;
     for (int i = 0; i < N; ++i) {
+        printf("array[%d]=", i);
         scanf("%d", &array[i]);
     }
     for (; counter_start < counter_end; ++counter_start) {
