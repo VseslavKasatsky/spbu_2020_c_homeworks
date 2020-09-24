@@ -17,7 +17,7 @@ void fill_with_random_numbers(int* random_number, int DIGITAL_RANGE)
                 }
             }
             if (isEqual) {
-                printf("%d", random_number[i]);
+                //printf("%d", random_number[i]); - answer
                 i++;
             }
             isEqual = true;
