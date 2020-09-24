@@ -5,7 +5,6 @@ set(CMAKE_C_STANDARD 11)
 
 set(SOURCE_LIB
         library/commonUtils/numericOperations.c
-        Homework_1/task_1.c Homework_1/task_2.c Homework_1/task_3.c Homework_1/task_4.c Homework_1/task_5.c )
 add_library(library ${SOURCE_LIB})
 
 
