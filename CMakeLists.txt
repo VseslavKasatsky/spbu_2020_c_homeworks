@@ -9,6 +9,8 @@ set(SOURCE_LIB
 add_library(library ${SOURCE_LIB})
 
 add_executable(2.task_1 Homework_2/task_1.c)
+
+add_executable(2.task_4 Homework_2/2.task_4.c)
 add_executable(2.task_3 Homework_2/2.task_3.c)
 add_executable(2.task_5i Homework_2/task_5.iterative.c)
 add_executable(2.task_5r Homework_2/task_5.recursive.c)
