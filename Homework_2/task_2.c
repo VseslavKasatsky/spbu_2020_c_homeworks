@@ -27,7 +27,7 @@ void generating_random_number(int* random_number_array)
 void start_game(int* random_number_array)
 {
     bool flag = 1;
-    int user_number_array[DIGITAL_RANGE] = { 0 }, user_number = 0;
+    int user_number_array[DIGITAL_RANGE], user_number = 0;
     while (flag) {
         int cow = 0, bull = 0;
         printf("YOUR GUESS: ");
