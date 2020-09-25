@@ -3,34 +3,31 @@
 #include <stdlib.h>
 #include <time.h>
 
+int get_unique_number(bool* digitalArray)
+{
+    int unique_number = 0;
+    srand(time(NULL));
+    do {
+        unique_number = rand() % 10;
+    } while (digitalArray[unique_number]);
+    printf("%d", unique_number);
+    return unique_number;
+}
 void fill_with_random_numbers(int* random_numbers, int DigitalRange)
 {
+    bool digitalArray[10] = { false };
     for (int i = 0; i < DigitalRange; ++i) {
-        srand(time(NULL));
-        while (i < DigitalRange) {
-            bool isEqual = true;
-            random_numbers[i] = rand() % 10;
-            for (int j = 0; j < i; ++j) {
-                if (random_numbers[i] == random_numbers[j]) {
-                    isEqual = false;
-                    break;
-                }
-            }
-            if (isEqual) {
-                i++;
-            }
-            isEqual = true;
-        }
+        random_numbers[i] = get_unique_number((bool*)&digitalArray);
+        digitalArray[random_numbers[i]] = true;
     }
 }
 void get_user_guess(int* user_numbers, int DigitalRange)
 {
-    int entered_number = 0;
-    bool isCorrect = false;
-    printf("YOUR GUESS: ");
+    int entered_number = 0, digit_count = 0;
     do {
-        int digit_count = 0;
-        scanf("%d", &entered_number);
+        digit_count = 0;
+        printf("YOUR GUESS: ");
+        scanf_s("%d", &entered_number);
 
         for (int i = DigitalRange - 1; i >= 0; --i) {
             user_numbers[i] = entered_number % 10;
@@ -39,10 +36,7 @@ void get_user_guess(int* user_numbers, int DigitalRange)
             }
             entered_number /= 10; // convert user number to array
         }
-        if (digit_count != DigitalRange) {
-            isCorrect = true;
-        }
-    } while (isCorrect);
+    } while (digit_count != DigitalRange);
 }
 void count_bull_cow(int* user_numbers, int* random_numbers, int* cow,
     int* bull, int DigitalRange)
@@ -80,15 +74,10 @@ int main()
 {
     int DigitalRange = 0;
     bool isCorrect = false;
-    printf("Enter the length of the number to solve: ");
     do {
-        isCorrect = false;
-        scanf("%d", &DigitalRange);
-        if (DigitalRange >= 10 || DigitalRange < 4) {
-            printf("Please enter another number: ");
-            isCorrect = true;
-        }
-    } while (isCorrect);
+        printf("Enter the length of the number to solve: ");
+        scanf_s("%d", &DigitalRange);
+    } while (DigitalRange >= 10 || DigitalRange < 4);
     int* random_numbers = (int*)malloc(DigitalRange * sizeof(int));
     fill_with_random_numbers(random_numbers, DigitalRange);
     start_game(random_numbers, DigitalRange);
