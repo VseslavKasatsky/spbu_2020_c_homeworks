@@ -10,7 +10,6 @@ int get_unique_number(bool* digitalArray)
     do {
         unique_number = rand() % 10;
     } while (digitalArray[unique_number]);
-    printf("%d", unique_number);
     return unique_number;
 }
 void fill_with_random_numbers(int* random_numbers, int DigitalRange)
