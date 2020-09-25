@@ -1,4 +1,3 @@
-#include <crtdbg.h>
 #include <stdio.h>
 #include <stdlib.h>
 void print_decomposed_number(int size, int* values)
