@@ -27,7 +27,7 @@ void get_user_guess(int* user_numbers, int DigitalRange)
     do {
         digit_count = 0;
         printf("YOUR GUESS: ");
-        scanf_s("%d", &entered_number);
+        scanf("%d", &entered_number);
 
         for (int i = DigitalRange - 1; i >= 0; --i) {
             user_numbers[i] = entered_number % 10;
@@ -76,7 +76,7 @@ int main()
     bool isCorrect = false;
     do {
         printf("Enter the length of the number to solve: ");
-        scanf_s("%d", &DigitalRange);
+        scanf("%d", &DigitalRange);
     } while (DigitalRange >= 10 || DigitalRange < 4);
     int* random_numbers = (int*)malloc(DigitalRange * sizeof(int));
     fill_with_random_numbers(random_numbers, DigitalRange);
