@@ -24,7 +24,8 @@ void decompose_number(int left_sum, int last_term, int size, int* values)
 }
 int main()
 {
-    int number = 0, size = 0, *values = NULL;
+    int number = 0, size = 0;
+    int* values = NULL;
     printf("Enter the number to decompose : ");
     scanf("%d", &number);
     decompose_number(number, 1, size, values);
