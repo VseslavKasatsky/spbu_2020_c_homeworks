@@ -72,7 +72,6 @@ void start_game(int* random_numbers, int DigitalRange)
 int main()
 {
     int DigitalRange = 0;
-    bool isCorrect = false;
     do {
         printf("Enter the length of the number to solve: ");
         scanf("%d", &DigitalRange);
