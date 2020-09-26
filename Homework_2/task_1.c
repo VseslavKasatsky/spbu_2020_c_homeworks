@@ -15,7 +15,6 @@ void decompose_number(int left_sum, int last_term, int size, int* values)
     }
     for (int i = last_term; i <= left_sum; ++i) {
         size++;
-        values = (int*)realloc(values, sizeof(int) * (size));
         values[size - 1] = i;
         decompose_number(left_sum - i, i, size, values);
         size--;
@@ -24,9 +23,9 @@ void decompose_number(int left_sum, int last_term, int size, int* values)
 int main()
 {
     int number = 0, size = 0;
-    int* values = NULL;
     printf("Enter the number to decompose : ");
     scanf("%d", &number);
+    int* values = malloc(number * sizeof(int));
     decompose_number(number, 1, size, values);
     free(values);
     return 0;
