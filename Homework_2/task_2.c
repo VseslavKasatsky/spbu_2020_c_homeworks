@@ -10,12 +10,11 @@ int get_unique_number(bool* digital_array)
     do {
         unique_number = rand() % 10;
     } while (digital_array[unique_number]);
-    printf("%d", unique_number);
     return unique_number;
 }
 void fill_with_random_numbers(int* random_numbers, int digital_range)
 {
-    bool digital_array[DIGIT_RANGE] = { false };
+    bool digital_array[10] = { false };
     for (int i = 0; i < digital_range; ++i) {
         random_numbers[i] = get_unique_number((bool*)&digital_array);
         digital_array[random_numbers[i]] = true;
