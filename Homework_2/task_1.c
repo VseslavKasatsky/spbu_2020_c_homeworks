@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-void print_decomposed_number(int size, int* values)
+void printDecomposedNumber(int size, int* values)
 {
     printf("%d", values[0]);
     for (int i = 1; i < size; ++i)
@@ -8,15 +8,15 @@ void print_decomposed_number(int size, int* values)
     printf("\n");
 }
 
-void decompose_number(int left_sum, int last_term, int size, int* values)
+void decomposeNumber(int leftSum, int lastTerm, int size, int* values)
 {
-    if (left_sum == 0) {
-        print_decomposed_number(size, values);
+    if (leftSum == 0) {
+        printDecomposedNumber(size, values);
     }
-    for (int i = last_term; i <= left_sum; ++i) {
+    for (int i = lastTerm; i <= leftSum; ++i) {
         size++;
         values[size - 1] = i;
-        decompose_number(left_sum - i, i, size, values);
+        decomposeNumber(leftSum - i, i, size, values);
         size--;
     }
 }
@@ -26,7 +26,7 @@ int main()
     printf("Enter the number to decompose : ");
     scanf("%d", &number);
     int* values = malloc(number * sizeof(int));
-    decompose_number(number, 1, size, values);
+    decomposeNumber(number, 1, size, values);
     free(values);
     return 0;
 }
