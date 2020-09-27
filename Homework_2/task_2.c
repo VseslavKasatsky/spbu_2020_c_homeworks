@@ -14,7 +14,7 @@ int get_unique_number(bool* digital_array)
 }
 void fill_with_random_numbers(int* random_numbers, int digital_range)
 {
-    bool digital_array[10] = { false };
+    bool digital_array[DIGIT_RANGE] = { false };
     for (int i = 0; i < digital_range; ++i) {
         random_numbers[i] = get_unique_number((bool*)&digital_array);
         digital_array[random_numbers[i]] = true;
