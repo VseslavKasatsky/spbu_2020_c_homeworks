@@ -26,20 +26,17 @@ void fillWithRandomNumbers(int* randomNumbers, int digitalRange)
 void getUserGuess(int* userNumbers, int digitalRange)
 {
     int enteredNumber = 0, digitCount = 0;
+    char enteredNumberCopy[12];
     do {
         digitCount = 0;
-        printf("Enter %d-digit number: YOUR GUESS: ", digitalRange);
-        scanf("%d", &enteredNumber);
-        int enteredNumberCopy = enteredNumber;
-        while (enteredNumberCopy > 0) {
-            enteredNumberCopy /= 10;
+        printf("Enter %d-digit number. YOUR GUESS: ", digitalRange);
+        fgets(enteredNumberCopy, 12 * sizeof(char), stdin);
+        while (enteredNumberCopy[digitCount] != '\0') {
             digitCount++;
         }
-
-    } while (digitCount != digitalRange);
-    for (int i = digitalRange - 1; i >= 0; --i) {
-        userNumbers[i] = enteredNumber % 10;
-        enteredNumber /= 10; // convert user number to array
+    } while (digitCount - 1 != digitalRange);
+    for (int i = 0; i < digitalRange; ++i) {
+        userNumbers[i] = enteredNumberCopy[i] - '0'; // convert user number to array
     }
 }
 void countBullCow(int* userNumbers, int* randomNumbers, int* cow,
@@ -81,7 +78,7 @@ int main()
     do {
         printf("Enter the length of the number to solve from 4 to 10: ");
         scanf("%d", &digitalRange);
-    } while (digitalRange >= 10 || digitalRange < 4);
+    } while (digitalRange > 10 || digitalRange < 4);
     int* randomNumbers = (int*)malloc(digitalRange * sizeof(int));
     memset(randomNumbers, 0, digitalRange);
     fillWithRandomNumbers(randomNumbers, digitalRange);
