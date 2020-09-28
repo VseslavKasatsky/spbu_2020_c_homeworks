@@ -11,7 +11,6 @@ int getUniqueNumber(bool* digitalArray)
     do {
         uniqueNumber = rand() % 10;
     } while (digitalArray[uniqueNumber]);
-    printf("%d", uniqueNumber);
     return uniqueNumber;
 }
 void fillWithRandomNumbers(int* randomNumbers, int digitalRange)
