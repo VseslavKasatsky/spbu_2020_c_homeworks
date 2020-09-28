@@ -11,6 +11,7 @@ int main()
     addListElement(numbers, number3);
     printListHead(numbers);
     printListTail(numbers);
+    printf("%d",head(numbers));
     printList(numbers);
     return 0;
 }

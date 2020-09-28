@@ -34,6 +34,7 @@ void addListElement(List* list, ListElement* elem)
 {
     if (list->head == NULL) {
         list->head = elem;
+        list->tail = elem;
         return;
     }
     ListElement* temp = list->head;
@@ -41,6 +42,7 @@ void addListElement(List* list, ListElement* elem)
         temp = temp->next;
     }
     temp->next = elem;
+    list->tail = elem;
 }
 void printListHead(List* list)
 {
