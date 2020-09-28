@@ -25,18 +25,18 @@ void fillWithRandomNumbers(int* randomNumbers, int digitalRange)
 }
 void getUserGuess(int* userNumbers, int digitalRange)
 {
-    int enteredNumber = 0, digitCount = 0;
-    char enteredNumberCopy[12];
+    int digitCount = 0;
+    char enteredNumber[12];
     do {
         digitCount = 0;
         printf("Enter %d-digit number. YOUR GUESS: ", digitalRange);
-        fgets(enteredNumberCopy, 12 * sizeof(char), stdin);
-        while (enteredNumberCopy[digitCount] != '\0') {
+        fgets(enteredNumber, 12 * sizeof(char), stdin);
+        while (enteredNumber[digitCount] != '\0') {
             digitCount++;
         }
     } while (digitCount - 1 != digitalRange);
     for (int i = 0; i < digitalRange; ++i) {
-        userNumbers[i] = enteredNumberCopy[i] - '0'; // convert user number to array
+        userNumbers[i] = enteredNumber[i] - '0'; // convert user number to array
     }
 }
 void countBullCow(int* userNumbers, int* randomNumbers, int* cow,
