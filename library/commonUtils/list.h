@@ -5,16 +5,14 @@ typedef struct List List;
 #include <stdbool.h>
 List* createList();
 ListElement* createListElement(int value);
-void printList(List* list);
-
-void printListHead(List* list);
-
-void printListTail(List* list);
-
+void addListElement(List* list, ListElement* elem);
 ListElement* tail(List* list);
 ListElement* head(List* list);
-void addListElement(List* list, ListElement* elem);
+int size(List* list);
+bool isEmpty(List* list);
+int getValue(ListElement* listElement);
 
+void printList(List* list);
 void removeList(List* list);
 
 ListElement* retrieve(int position, List* list);

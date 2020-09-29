@@ -9,9 +9,6 @@ int main()
     addListElement(numbers, number1);
     addListElement(numbers, number2);
     addListElement(numbers, number3);
-    printListHead(numbers);
-    printListTail(numbers);
-    printf("%d",head(numbers));
-    printList(numbers);
+    printList( numbers);
     return 0;
 }

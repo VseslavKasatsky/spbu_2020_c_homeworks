@@ -25,10 +25,11 @@ List* createList()
 
 ListElement* createListElement(int value)
 {
-    ListElement* elem = malloc(sizeof(ListElement));
-    elem->value = value;
-    elem->next = NULL;
-    return elem;
+    ListElement* element = malloc(sizeof(ListElement));
+    element->value = value;
+    element->next = NULL;
+    element->previous = NULL;
+    return element;
 }
 void addListElement(List* list, ListElement* elem)
 {
@@ -44,29 +45,26 @@ void addListElement(List* list, ListElement* elem)
     temp->next = elem;
     list->tail = elem;
 }
-void printListHead(List* list)
+ListElement* head(List* list)
 {
-    printf("HEAD -> ");
-    ListElement* temp = list->head;
-    printf("%d", temp->value);
-    printf("\n");
-}
-void printListTail(List* list)
-{
-    printf("TAIL -> ");
-    ListElement* temp = list->head;
-    while (temp->next != NULL) {
-        temp = temp->next;
-    }
-    printf("%d \n", temp->value);
+    return list->head;
 }
 ListElement* tail(List* list)
 {
     return list->tail;
 }
-ListElement* head (List* list)
+int getValue(ListElement* listElement)
 {
- return list->head;
+    return listElement->value;
+}
+bool isEmpty(List* list)
+{
+    return list->size == 0;
+}
+
+int size(List* list)
+{
+    return list->size;
 }
 void printList(List* list)
 {
