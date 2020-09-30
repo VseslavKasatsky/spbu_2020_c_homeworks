@@ -9,11 +9,37 @@ struct Soldier {
 
 struct Troop {
     Soldier* current;
+    Soldier* top;
 };
 
 Troop* createTroop()
 {
     Troop* troop = malloc(sizeof(Troop));
-    troop->current = NULL;
+    troop->top=NULL;
     return troop;
+}
+Soldier* createSoldier()
+{
+    Soldier* soldier = malloc(sizeof(Soldier));
+    soldier->number = 0;
+    soldier->left = NULL;
+    soldier->right = NULL;
+
+    return soldier;
+}
+void addSoldier(int number, Troop* troop)
+{
+    Soldier* soldier= createSoldier();
+    soldier->number=number;
+    if(troop->top=NULL)
+    {
+        troop->top=soldier;
+        soldier->left=soldier;
+        soldier->right=soldier;
+        return;
+    }
+    soldier->left=troop->current;
+    troop->current->left=soldier;
+    soldier->right=troop->current;
+    //nothing, цикл в прогрессе
 }
