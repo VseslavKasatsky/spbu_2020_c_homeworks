@@ -51,7 +51,7 @@ bool insert(ListElement* element, int position, List* list)
     }
     if (position == 1) {
         list->head->previous = element;
-        element->next = list->head;
+        element->next = head(list);
         list->head = element;
         if (list->size == 1) {
             list->tail = element->next;
@@ -61,12 +61,12 @@ bool insert(ListElement* element, int position, List* list)
     }
     if (position - 1 == size(list)) {
         list->tail->next = element;
-        element->previous = list->tail;
+        element->previous = tail(list);
         list->tail = element;
         ++list->size;
         return true;
     }
-    ListElement* temp = list->head;
+    ListElement* temp = head(list);
     for (int i = 0; i < position - 1; ++i) {
         temp = temp->next;
     }
@@ -79,7 +79,7 @@ bool insert(ListElement* element, int position, List* list)
 }
 int locate(ListElement* element, List* list)
 {
-    ListElement* temp = list->head;
+    ListElement* temp = head(list);
     int position = 1;
     while (temp != element) {
         temp = temp->next;
@@ -92,7 +92,7 @@ ListElement* retrieve(int position, List* list)
     if (position > size(list)) {
         return false;
     }
-    ListElement* temp = list->head;
+    ListElement* temp = head(list);
     for (int i = 0; i < position; ++i) {
         temp = temp->next;
     }
@@ -100,7 +100,7 @@ ListElement* retrieve(int position, List* list)
 }
 bool delete (int position, List* list)
 {
-    if (position > size(list)) {
+    if (position > size(list) || position < 1) {
         return false;
     }
     if (list->size == 1) {
@@ -113,8 +113,8 @@ bool delete (int position, List* list)
 
     if (position == 1) {
         list->head->next->previous = NULL;
-        ListElement* temp = list->head;
-        list->head = list->head->next;
+        ListElement* temp = head(list);
+        list->head = head(list)->next;
         free(temp);
         --list->size;
         return true;
@@ -122,13 +122,13 @@ bool delete (int position, List* list)
 
     if (position == size(list)) {
         list->tail->previous->next = NULL;
-        ListElement* temp = list->tail;
-        list->tail = list->tail->previous;
+        ListElement* temp = tail(list);
+        list->tail = tail(list)->previous;
         free(temp);
         --list->size;
         return true;
     }
-    ListElement* temp = list->head;
+    ListElement* temp = head(list);
     for (int i = 0; i < position - 1; ++i) {
         temp = temp->next;
     }
@@ -157,7 +157,7 @@ int size(List* list)
 void printList(List* list)
 {
     printf("START -> ");
-    ListElement* temp = list->head;
+    ListElement* temp = head(list);
     while (temp != NULL) {
         printf("%d -> ", temp->value);
         temp = temp->next;
