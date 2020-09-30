@@ -112,9 +112,9 @@ bool delete (int position, List* list)
     }
 
     if (position == 1) {
-        head(list)->next->previous = NULL;
-        ListElement* temp = head(list);
-        list->head = head(list)->next;
+        list->head->next->previous = NULL;
+        ListElement* temp = list->head;
+        list->head = list->head->next;
         free(temp);
         --list->size;
         return true;
