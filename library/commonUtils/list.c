@@ -1,5 +1,4 @@
 #include "list.h"
-#include <malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
 struct ListElement {
@@ -163,5 +162,6 @@ void printList(List* list)
         printf("%d -> ", temp->value);
         temp = temp->next;
     }
+    free(temp);
     printf("END\n");
 }
