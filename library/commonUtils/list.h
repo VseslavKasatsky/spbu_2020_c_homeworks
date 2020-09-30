@@ -12,7 +12,7 @@ int locate(ListElement* element, List* list);
 ListElement* retrieve(int position, List* list);
 bool delete (int position, List* list);
 void removeList(List* list);
-int size(List* list);
+int getSize(List* list);
 bool isEmpty(List* list);
 void printList(List* list);
 

@@ -59,7 +59,7 @@ bool insert(ListElement* element, int position, List* list)
         ++list->size;
         return true;
     }
-    if (position - 1 == size(list)) {
+    if (position - 1 == getSize(list)) {
         list->tail->next = element;
         element->previous = tail(list);
         list->tail = element;
@@ -89,7 +89,7 @@ int locate(ListElement* element, List* list)
 }
 ListElement* retrieve(int position, List* list)
 {
-    if (position > size(list)) {
+    if (position > getSize(list)) {
         return false;
     }
     ListElement* temp = head(list);
@@ -100,7 +100,7 @@ ListElement* retrieve(int position, List* list)
 }
 bool delete (int position, List* list)
 {
-    if (position > size(list) || position < 1) {
+    if (position > getSize(list) || position < 1) {
         return false;
     }
     if (list->size == 1) {
@@ -120,7 +120,7 @@ bool delete (int position, List* list)
         return true;
     }
 
-    if (position == size(list)) {
+    if (position == getSize(list)) {
         list->tail->previous->next = NULL;
         ListElement* temp = tail(list);
         list->tail = tail(list)->previous;
@@ -150,7 +150,7 @@ bool isEmpty(List* list)
     return list->size == 0;
 }
 
-int size(List* list)
+int getSize(List* list)
 {
     return list->size;
 }
