@@ -53,6 +53,7 @@ void printBrigade(Brigade* brigade, int lastNumber)
         printf("->");
     }
     printf(" END \n");
+    free(temp);
 }
 void nextSoldier(Brigade* brigade)
 {
@@ -69,4 +70,9 @@ void deleteSoldier(Brigade* brigade)
 int getLastNumber(Brigade* brigade)
 {
     return brigade->actual->number;
+}
+void removeBrigade(Brigade* brigade)
+{
+    free(brigade->actual);
+    free(brigade);
 }

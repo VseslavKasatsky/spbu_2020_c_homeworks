@@ -9,4 +9,5 @@ void printBrigade(Brigade* brigade, int lastNumber);
 void deleteSoldier(Brigade* brigade);
 void nextSoldier(Brigade* brigade);
 int getLastNumber(Brigade* brigade);
+void removeBrigade(Brigade* brigade);
 #endif //SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_SOLDIERS_H_

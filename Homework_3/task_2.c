@@ -18,5 +18,6 @@ int main()
         deleteSoldier(soldiers);
     }
     printf("The last survivor number is: %d", getLastNumber(soldiers));
+    removeBrigade(soldiers);
     return 0;
 }
