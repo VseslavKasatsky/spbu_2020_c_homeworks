@@ -2,15 +2,21 @@
 #include <stdio.h>
 int main()
 {
-    List* soldiers = createList();
-    int numberOfSoldiers=0;
+    Brigade* soldiers = createBrigade();
+    int numberOfSoldiers = 0, killRatio = 0;
     printf("Enter number of soldiers: ");
-    scanf("%d",&numberOfSoldiers);
-    for(int i=1;i<=numberOfSoldiers;++i)
-    {
-        ListElement* number=createListElement(0,i);
-        insert(number,i,soldiers);
+    scanf("%d", &numberOfSoldiers);
+    for (int i = 1; i <= numberOfSoldiers; ++i) {
+        addSoldier(i, soldiers);
     }
-    printList(soldiers);
+    printf("Enter the number, every M you want to kill: ");
+    scanf("%d", &killRatio);
+    for (int i = 1; i < numberOfSoldiers; ++i) {
+        for (int j = 1; j < killRatio; ++j) {
+            nextSoldier(soldiers);
+        }
+        deleteSoldier(soldiers);
+    }
+    printf("The last survivor number is: %d", getLastNumber(soldiers));
     return 0;
 }
