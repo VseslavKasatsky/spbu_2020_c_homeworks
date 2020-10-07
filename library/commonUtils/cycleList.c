@@ -13,34 +13,34 @@ struct CycleList {
 
 CycleList* createCycleList()
 {
-    CycleList* troop = malloc(sizeof(CycleList));
-    troop->actual = NULL;
-    return troop;
+    CycleList* cycleList = malloc(sizeof(CycleList));
+    cycleList->actual = NULL;
+    return cycleList;
 }
 CycleListElement* createCycleListElement()
 {
-    CycleListElement* soldier = malloc(sizeof(CycleListElement));
-    soldier->number = 0;
-    soldier->left = NULL;
-    soldier->right = NULL;
+    CycleListElement* element = malloc(sizeof(CycleListElement));
+    element->number = 0;
+    element->left = NULL;
+    element->right = NULL;
 
-    return soldier;
+    return element;
 }
 void addCycleListElement(int number, CycleList* cycleList)
 {
-    CycleListElement* soldier = createCycleListElement();
-    soldier->number = number;
+    CycleListElement* element = createCycleListElement();
+    element->number = number;
     if (cycleList->actual == NULL) {
-        cycleList->actual = soldier;
-        soldier->left = soldier;
-        soldier->right = soldier;
+        cycleList->actual = element;
+        element->left = element;
+        element->right = element;
         return;
     }
     CycleListElement* left = cycleList->actual->left;
-    soldier->left = left;
-    left->right = soldier;
-    cycleList->actual->left = soldier;
-    soldier->right = cycleList->actual;
+    element->left = left;
+    left->right = element;
+    cycleList->actual->left = element;
+    element->right = cycleList->actual;
 }
 void printCycleList(CycleList* cycleList, int lastNumber)
 {
