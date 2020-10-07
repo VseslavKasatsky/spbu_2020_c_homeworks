@@ -41,6 +41,9 @@ ListElement* tail(List* list)
 }
 bool insert(ListElement* element, int position, List* list)
 {
+    if (position > getSize(list) + 1) {
+        return false;
+    }
     if (isEmpty(list)) {
         element->previous = NULL;
         element->next = NULL;
