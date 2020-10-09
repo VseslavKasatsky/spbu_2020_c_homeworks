@@ -90,7 +90,7 @@ int locate(ListElement* element, List* list)
 }
 ListElement* retrieve(int position, List* list)
 {
-    if (position > getSize(list)) {
+    if (position > getSize(list) - 1 || position < getSize(list) < 0) {
         return false;
     }
     ListElement* temp = head(list);
@@ -99,7 +99,7 @@ ListElement* retrieve(int position, List* list)
     }
     return temp->previous->value;
 }
-bool delete (int position, List* list)
+bool deleteElementOnPosition(int position, List* list)
 {
     if (position > getSize(list) || position < 1) {
         return false;
@@ -142,7 +142,7 @@ bool delete (int position, List* list)
 void removeList(List* list)
 {
     while (!isEmpty(list)) {
-        delete(1, list);
+        deleteElementOnPosition(1, list);
     }
     free(list);
 }

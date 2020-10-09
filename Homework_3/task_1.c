@@ -16,7 +16,7 @@ int main()
     printf("Locate: %d \n", locate(number10, numbers));
     printf("Retrieve: %d \n", retrieve(2, numbers));
     printList(numbers);
-    delete(3, numbers);
+    deleteElementOnPosition(3, numbers);
     printList(numbers);
     removeList(numbers);
     return 0;

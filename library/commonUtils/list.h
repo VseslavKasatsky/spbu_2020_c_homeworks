@@ -10,7 +10,7 @@ ListElement* head(List* list);
 bool insert(ListElement* element, int position, List* list);
 int locate(ListElement* element, List* list);
 ListElement* retrieve(int position, List* list);
-bool delete (int position, List* list);
+bool deleteElementOnPosition(int position, List* list);
 void removeList(List* list);
 int getSize(List* list);
 bool isEmpty(List* list);
