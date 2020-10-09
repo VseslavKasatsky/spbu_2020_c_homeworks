@@ -47,7 +47,7 @@ bool insert(ListElement* element, int position, List* list)
     if (isEmpty(list)) {
         list->head = element;
         list->tail = element;
-        ++list->size;
+        list->size++;
         return true;
     }
     if (position == 1) {
@@ -57,14 +57,14 @@ bool insert(ListElement* element, int position, List* list)
         if (list->size == 1) {
             list->tail = element->next;
         }
-        ++list->size;
+        list->size++;
         return true;
     }
     if (position - 1 == getSize(list)) {
         list->tail->next = element;
         element->previous = tail(list);
         list->tail = element;
-        ++list->size;
+        list->size++;
         return true;
     }
     ListElement* temp = head(list);
@@ -75,7 +75,7 @@ bool insert(ListElement* element, int position, List* list)
     element->previous = temp->previous;
     temp->previous = element;
     element->next = temp;
-    ++list->size;
+    list->size++;
     return true;
 }
 int locate(ListElement* element, List* list)
