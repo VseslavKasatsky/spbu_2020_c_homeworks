@@ -1,12 +1,12 @@
 #include "cycleList.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 struct CycleListElement {
     struct CycleListElement* left;
     struct CycleListElement* right;
     int number;
 };
-
 struct CycleList {
     CycleListElement* actual;
 };
@@ -26,6 +26,7 @@ CycleListElement* createCycleListElement()
 
     return element;
 }
+
 void addCycleListElement(int number, CycleList* cycleList)
 {
     CycleListElement* element = createCycleListElement();
@@ -42,6 +43,30 @@ void addCycleListElement(int number, CycleList* cycleList)
     cycleList->actual->left = element;
     element->right = cycleList->actual;
 }
+
+void nextCycleListElement(CycleList* cycleList)
+{
+    cycleList->actual = cycleList->actual->right;
+}
+int getLastNumber(CycleList* cycleList)
+{
+    return cycleList->actual->number;
+}
+
+void deleteCycleListElement(CycleList* cycleList)
+{
+    CycleListElement* temporary = cycleList->actual;
+    temporary->left->right = temporary->right;
+    temporary->right->left = temporary->left;
+    cycleList->actual = cycleList->actual->right;
+    free(temporary);
+}
+void removeCycleList(CycleList* cycleList)
+{
+    free(cycleList->actual);
+    free(cycleList);
+}
+
 void printCycleList(CycleList* cycleList, int lastNumber)
 {
     printf("Start-> ");
@@ -54,25 +79,4 @@ void printCycleList(CycleList* cycleList, int lastNumber)
     }
     printf(" END \n");
     free(temporary);
-}
-void nextCycleListElement(CycleList* cycleList)
-{
-    cycleList->actual = cycleList->actual->right;
-}
-void deleteCycleListElement(CycleList* cycleList)
-{
-    CycleListElement* temporary = cycleList->actual;
-    temporary->left->right = temporary->right;
-    temporary->right->left = temporary->left;
-    cycleList->actual = cycleList->actual->right;
-    free(temporary);
-}
-int getLastNumber(CycleList* cycleList)
-{
-    return cycleList->actual->number;
-}
-void removeCycleList(CycleList* cycleList)
-{
-    free(cycleList->actual);
-    free(cycleList);
 }
