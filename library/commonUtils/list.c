@@ -41,7 +41,7 @@ ListElement* tail(List* list)
 }
 bool insert(ListElement* element, int position, List* list)
 {
-    if (position > getSize(list) + 1) {
+    if (position > getSize(list) - 1 || position < 0) {
         return false;
     }
     if (isEmpty(list)) {
@@ -50,13 +50,10 @@ bool insert(ListElement* element, int position, List* list)
         list->size++;
         return true;
     }
-    if (position == 1) {
+    if (position == 0) {
         list->head->previous = element;
         element->next = head(list);
         list->head = element;
-        if (list->size == 1) {
-            list->tail = element->next;
-        }
         list->size++;
         return true;
     }
@@ -108,7 +105,7 @@ bool deleteElementOnPosition(int position, List* list)
         free(list->head);
         list->head = NULL;
         list->tail = NULL;
-        --list->size;
+        list->size--;
         return true;
     }
 
@@ -117,7 +114,7 @@ bool deleteElementOnPosition(int position, List* list)
         ListElement* temp = head(list);
         list->head = head(list)->next;
         free(temp);
-        --list->size;
+        list->size--;
         return true;
     }
 
@@ -126,7 +123,7 @@ bool deleteElementOnPosition(int position, List* list)
         ListElement* temp = tail(list);
         list->tail = tail(list)->previous;
         free(temp);
-        --list->size;
+        list->size--;
         return true;
     }
     ListElement* temp = head(list);
@@ -136,7 +133,7 @@ bool deleteElementOnPosition(int position, List* list)
     temp->previous->next = temp->next;
     temp->next->previous = temp->previous;
     free(temp);
-    --list->size;
+    list->size--;
     return true;
 }
 void removeList(List* list)
