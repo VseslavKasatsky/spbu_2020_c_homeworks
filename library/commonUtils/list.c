@@ -1,6 +1,7 @@
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 struct ListElement {
     int value;
     struct ListElement* next;
@@ -39,6 +40,7 @@ ListElement* tail(List* list)
 {
     return list->tail;
 }
+
 bool insert(ListElement* element, int position, List* list)
 {
     if (position > getSize(list) || position < 0) {
@@ -75,27 +77,7 @@ bool insert(ListElement* element, int position, List* list)
     list->size++;
     return true;
 }
-int locate(ListElement* element, List* list)
-{
-    ListElement* locateElement = head(list);
-    int position = 0;
-    while (locateElement != element) {
-        locateElement = locateElement->next;
-        ++position;
-    }
-    return position;
-}
-ListElement* retrieve(int position, List* list)
-{
-    if (position > getSize(list) || position < 0 || getSize(list) < 0) {
-        return false;
-    }
-    ListElement* retrieveElement = head(list);
-    for (int i = 0; i < position; ++i) {
-        retrieveElement = retrieveElement->next;
-    }
-    return retrieveElement;
-}
+
 bool deleteElementOnPosition(int position, List* list)
 {
     if (position > getSize(list) || position < 0) {
@@ -136,6 +118,37 @@ bool deleteElementOnPosition(int position, List* list)
     list->size--;
     return true;
 }
+
+int locate(ListElement* element, List* list)
+{
+    ListElement* locateElement = head(list);
+    int position = 0;
+    while (locateElement != element) {
+        locateElement = locateElement->next;
+        ++position;
+    }
+    return position;
+}
+ListElement* retrieve(int position, List* list)
+{
+    if (position > getSize(list) || position < 0 || getSize(list) < 0) {
+        return false;
+    }
+    ListElement* retrieveElement = head(list);
+    for (int i = 0; i < position; ++i) {
+        retrieveElement = retrieveElement->next;
+    }
+    return retrieveElement;
+}
+int getSize(List* list)
+{
+    return list->size;
+}
+bool isEmpty(List* list)
+{
+    return list->size == 0;
+}
+
 void removeList(List* list)
 {
     while (!isEmpty(list)) {
@@ -147,15 +160,7 @@ void removeElement(ListElement* listElement)
 {
     free(listElement);
 }
-bool isEmpty(List* list)
-{
-    return list->size == 0;
-}
 
-int getSize(List* list)
-{
-    return list->size;
-}
 void printList(List* list)
 {
     printf("START -> ");
