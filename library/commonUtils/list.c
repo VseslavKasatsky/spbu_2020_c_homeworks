@@ -7,7 +7,6 @@ struct ListElement {
     struct ListElement* next;
     struct ListElement* previous;
 };
-
 struct List {
     struct ListElement* head;
     struct ListElement* tail;
@@ -22,7 +21,6 @@ List* createList()
     list->size = 0;
     return list;
 }
-
 ListElement* createListElement(int value)
 {
     ListElement* element = malloc(sizeof(ListElement));
@@ -90,7 +88,6 @@ bool deleteElementOnPosition(int position, List* list)
         list->size--;
         return true;
     }
-
     if (position == 0) {
         list->head->next->previous = NULL;
         ListElement* deleteElement = head(list);
@@ -99,7 +96,6 @@ bool deleteElementOnPosition(int position, List* list)
         list->size--;
         return true;
     }
-
     if (position == getSize(list) - 1) {
         list->tail->previous->next = NULL;
         ListElement* deleteElement = tail(list);
