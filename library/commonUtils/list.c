@@ -45,8 +45,6 @@ bool insert(ListElement* element, int position, List* list)
         return false;
     }
     if (isEmpty(list)) {
-        element->previous = NULL;
-        element->next = NULL;
         list->head = element;
         list->tail = element;
         ++list->size;
@@ -144,7 +142,7 @@ bool delete (int position, List* list)
 void removeList(List* list)
 {
     while (!isEmpty(list)) {
-        delete (1, list);
+        delete(1, list);
     }
     free(list);
 }
@@ -160,11 +158,10 @@ int getSize(List* list)
 void printList(List* list)
 {
     printf("START -> ");
-    ListElement* temp = head(list);
-    while (temp != NULL) {
-        printf("%d -> ", temp->value);
-        temp = temp->next;
+    ListElement* toPrint = head(list);
+    while (toPrint != NULL) {
+        printf("%d -> ", toPrint->value);
+        toPrint = toPrint->next;
     }
-    free(temp);
     printf("END\n");
 }
