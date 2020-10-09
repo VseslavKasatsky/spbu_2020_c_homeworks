@@ -41,7 +41,7 @@ ListElement* tail(List* list)
 }
 bool insert(ListElement* element, int position, List* list)
 {
-    if (position > getSize(list) - 1 || position < 0) {
+    if (position > getSize(list) || position < 0) {
         return false;
     }
     if (isEmpty(list)) {
@@ -57,48 +57,48 @@ bool insert(ListElement* element, int position, List* list)
         list->size++;
         return true;
     }
-    if (position - 1 == getSize(list)) {
+    if (position == getSize(list)) {
         list->tail->next = element;
         element->previous = tail(list);
         list->tail = element;
         list->size++;
         return true;
     }
-    ListElement* temp = head(list);
-    for (int i = 0; i < position - 1; ++i) {
-        temp = temp->next;
+    ListElement* insertElement = head(list);
+    for (int i = 0; i < position; ++i) {
+        insertElement = insertElement->next;
     }
-    temp->previous->next = element;
-    element->previous = temp->previous;
-    temp->previous = element;
-    element->next = temp;
+    insertElement->previous->next = element;
+    element->previous = insertElement->previous;
+    insertElement->previous = element;
+    element->next = insertElement;
     list->size++;
     return true;
 }
 int locate(ListElement* element, List* list)
 {
-    ListElement* temp = head(list);
-    int position = 1;
-    while (temp != element) {
-        temp = temp->next;
+    ListElement* locateElement = head(list);
+    int position = 0;
+    while (locateElement != element) {
+        locateElement = locateElement->next;
         ++position;
     }
     return position;
 }
 ListElement* retrieve(int position, List* list)
 {
-    if (position > getSize(list) - 1 || position < getSize(list) < 0) {
+    if (position > getSize(list) || position < 0 || getSize(list) < 0) {
         return false;
     }
-    ListElement* temp = head(list);
+    ListElement* retrieveElement = head(list);
     for (int i = 0; i < position; ++i) {
-        temp = temp->next;
+        retrieveElement = retrieveElement->next;
     }
-    return temp->previous->value;
+    return retrieveElement->value;
 }
 bool deleteElementOnPosition(int position, List* list)
 {
-    if (position > getSize(list) || position < 1) {
+    if (position > getSize(list) || position < 0) {
         return false;
     }
     if (list->size == 1) {
@@ -109,7 +109,7 @@ bool deleteElementOnPosition(int position, List* list)
         return true;
     }
 
-    if (position == 1) {
+    if (position == 0) {
         list->head->next->previous = NULL;
         ListElement* temp = head(list);
         list->head = head(list)->next;
@@ -118,7 +118,7 @@ bool deleteElementOnPosition(int position, List* list)
         return true;
     }
 
-    if (position == getSize(list)) {
+    if (position == getSize(list) - 1) {
         list->tail->previous->next = NULL;
         ListElement* temp = tail(list);
         list->tail = tail(list)->previous;
@@ -127,7 +127,7 @@ bool deleteElementOnPosition(int position, List* list)
         return true;
     }
     ListElement* temp = head(list);
-    for (int i = 0; i < position - 1; ++i) {
+    for (int i = 0; i < position; ++i) {
         temp = temp->next;
     }
     temp->previous->next = temp->next;
