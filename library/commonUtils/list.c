@@ -94,7 +94,7 @@ ListElement* retrieve(int position, List* list)
     for (int i = 0; i < position; ++i) {
         retrieveElement = retrieveElement->next;
     }
-    return retrieveElement->value;
+    return retrieveElement;
 }
 bool deleteElementOnPosition(int position, List* list)
 {
@@ -102,7 +102,7 @@ bool deleteElementOnPosition(int position, List* list)
         return false;
     }
     if (list->size == 1) {
-        free(list->head);
+        removeElement(list->head);
         list->head = NULL;
         list->tail = NULL;
         list->size--;
@@ -111,28 +111,28 @@ bool deleteElementOnPosition(int position, List* list)
 
     if (position == 0) {
         list->head->next->previous = NULL;
-        ListElement* temp = head(list);
+        ListElement* deleteElement = head(list);
         list->head = head(list)->next;
-        free(temp);
+        removeElement(deleteElement);
         list->size--;
         return true;
     }
 
     if (position == getSize(list) - 1) {
         list->tail->previous->next = NULL;
-        ListElement* temp = tail(list);
+        ListElement* deleteElement = tail(list);
         list->tail = tail(list)->previous;
-        free(temp);
+        removeElement(deleteElement);
         list->size--;
         return true;
     }
-    ListElement* temp = head(list);
+    ListElement* deleteElement = head(list);
     for (int i = 0; i < position; ++i) {
-        temp = temp->next;
+        deleteElement = deleteElement->next;
     }
-    temp->previous->next = temp->next;
-    temp->next->previous = temp->previous;
-    free(temp);
+    deleteElement->previous->next = deleteElement->next;
+    deleteElement->next->previous = deleteElement->previous;
+    removeElement(deleteElement);
     list->size--;
     return true;
 }
@@ -142,6 +142,10 @@ void removeList(List* list)
         deleteElementOnPosition(1, list);
     }
     free(list);
+}
+void removeElement(ListElement* listElement)
+{
+    free(listElement);
 }
 bool isEmpty(List* list)
 {
