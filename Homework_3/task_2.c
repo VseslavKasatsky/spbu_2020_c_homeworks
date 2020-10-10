@@ -7,9 +7,9 @@ int main()
     printf("Enter number of soldiers: ");
     scanf("%d", &numberOfSoldiers);
 
-    CycleList* soldiers = createCycleList();
-    for (int i = 1; i <= numberOfSoldiers; ++i) {
-        addCycleListElement(i, soldiers);
+    List* soldiers = createList();
+    for (int i = 0; i < numberOfSoldiers; ++i) {
+        insert(createListElement(i + 1, soldiers), i, soldiers);
     }
 
     printf("Enter the number, every M you want to kill: ");
@@ -19,10 +19,10 @@ int main()
         for (int j = 1; j < killRatio; ++j) {
             nextCycleListElement(soldiers);
         }
-        deleteCycleListElement(soldiers);
+        deleteCurrentElement(soldiers);
     }
 
-    printf("The last survivor number is: %d", getLastNumber(soldiers));
-    removeCycleList(soldiers);
+    printf("The last survivor number is: %d", getCurrentValue(soldiers));
+    removeList(soldiers);
     return 0;
 }

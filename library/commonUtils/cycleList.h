@@ -1,17 +1,25 @@
-#ifndef SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_CYCLELIST_H_
-#define SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_CYCLELIST_H_
+#ifndef SPBU_2020_C_HOMEWORKS_LIBRARY_commonUtils_CYCLELIST_H_
+#define SPBU_2020_C_HOMEWORKS_LIBRARY_commonUtils_CYCLELIST_H_
+#include <stdbool.h>
 
-typedef struct CycleListElement CycleListElement;
-typedef struct CycleList CycleList;
+typedef struct ListElement ListElement;
+typedef struct List List;
 
-CycleList* createCycleList();
-CycleListElement* createCycleListElement();
+List* createList();
+ListElement* createListElement(int value, List* list);
+ListElement* tail(List* list);
+ListElement* head(List* list);
 
-void addCycleListElement(int number, CycleList* cycleList);
-void printCycleList(CycleList* cycleList, int lastNumber);
-void deleteCycleListElement(CycleList* cycleList);
-void nextCycleListElement(CycleList* cycleList);
-void removeCycleList(CycleList* cycleList);
+bool insert(ListElement* element, int position, List* list);
+bool deleteCurrentElement(List* list);
+bool isEmpty(List* list);
 
-int getLastNumber(CycleList* cycleList);
-#endif //SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_CYCLELIST_H_
+void removeList(List* list);
+void removeElement(ListElement* list);
+void nextCycleListElement(List* list);
+
+int getSize(List* list);
+int locate(ListElement* element, List* list);
+int getCurrentValue(List* list);
+
+#endif // SPBU_2020_C_HOMEWORKS_LIBRARY_commonUtils_CYCLELIST_H_

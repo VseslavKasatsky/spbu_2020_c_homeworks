@@ -2,81 +2,112 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct CycleListElement {
-    struct CycleListElement* left;
-    struct CycleListElement* right;
-    int number;
+struct ListElement {
+    int value;
+    struct ListElement* next;
+    struct ListElement* previous;
 };
-struct CycleList {
-    CycleListElement* actual;
+struct List {
+    struct ListElement* head;
+    struct ListElement* tail;
+    struct ListElement* current;
+    int size;
 };
-
-CycleList* createCycleList()
+List* createList()
 {
-    CycleList* cycleList = malloc(sizeof(CycleList));
-    cycleList->actual = NULL;
-    return cycleList;
+    List* list = malloc(sizeof(List));
+    list->head = NULL;
+    list->tail = NULL;
+    list->current = NULL;
+    list->size = 0;
+    return list;
 }
-CycleListElement* createCycleListElement()
+ListElement* createListElement(int value, List* list)
 {
-    CycleListElement* element = malloc(sizeof(CycleListElement));
-    element->number = 0;
-    element->left = NULL;
-    element->right = NULL;
-
+    ListElement* element = malloc(sizeof(ListElement));
+    element->value = value;
+    element->next = NULL;
+    element->previous = NULL;
     return element;
 }
-
-void addCycleListElement(int number, CycleList* cycleList)
+ListElement* head(List* list)
 {
-    CycleListElement* element = createCycleListElement();
-    element->number = number;
-    if (cycleList->actual == NULL) {
-        cycleList->actual = element;
-        element->left = element;
-        element->right = element;
-        return;
+    return list->head;
+}
+ListElement* tail(List* list)
+{
+    return list->tail;
+}
+bool insert(ListElement* element, int position, List* list)
+{
+    if (position > getSize(list) || position < 0) {
+        return false;
     }
-    CycleListElement* left = cycleList->actual->left;
-    element->left = left;
-    left->right = element;
-    cycleList->actual->left = element;
-    element->right = cycleList->actual;
-}
-
-void nextCycleListElement(CycleList* cycleList)
-{
-    cycleList->actual = cycleList->actual->right;
-}
-int getLastNumber(CycleList* cycleList)
-{
-    return cycleList->actual->number;
-}
-
-void deleteCycleListElement(CycleList* cycleList)
-{
-    CycleListElement* temporary = cycleList->actual;
-    temporary->left->right = temporary->right;
-    temporary->right->left = temporary->left;
-    cycleList->actual = cycleList->actual->right;
-    free(temporary);
-}
-void removeCycleList(CycleList* cycleList)
-{
-    free(cycleList->actual);
-    free(cycleList);
-}
-
-void printCycleList(CycleList* cycleList, int lastNumber)
-{
-    printf("Start-> ");
-    CycleListElement* temporary = cycleList->actual;
-    printf("%d->", cycleList->actual->number);
-    while (temporary->number != lastNumber) {
-        temporary = temporary->right;
-        printf("%d", temporary->number);
-        printf("->");
+    if (isEmpty(list)) {
+        list->head = element;
+        list->tail = element;
+        list->size++;
+        list->current = element;
+        return true;
     }
-    printf(" END \n");
-    free(temporary);
+    if (position == 0) {
+        list->head->previous = element;
+        element->next = head(list);
+        list->head = element;
+        list->size++;
+        return true;
+    }
+    if (position == getSize(list)) {
+        list->tail->next = element;
+        element->previous = tail(list);
+        list->tail = element;
+        element->next = head(list);
+        list->head->previous = element;
+        list->size++;
+        return true;
+    }
+    ListElement* insertElement = head(list);
+    for (int i = 0; i < position; ++i) {
+        insertElement = insertElement->next;
+    }
+    insertElement->previous->next = element;
+    element->previous = insertElement->previous;
+    insertElement->previous = element;
+    element->next = insertElement;
+    list->size++;
+    return true;
+}
+bool deleteCurrentElement(List* list)
+{
+    ListElement* deleteElement = list->current;
+    deleteElement->previous->next = deleteElement->next;
+    deleteElement->next->previous = deleteElement->previous;
+    list->current = list->current->next;
+    removeElement(deleteElement);
+    return true;
+}
+int getSize(List* list)
+{
+    return list->size;
+}
+bool isEmpty(List* list)
+{
+    return list->size == 0;
+}
+void removeList(List* list)
+{
+    deleteCurrentElement(list);
+    free(list);
+}
+void removeElement(ListElement* listElement)
+{
+    free(listElement);
+}
+void nextCycleListElement(List* list)
+{
+    list->current = list->current->next;
+}
+int getCurrentValue(List* list)
+{
+    return list->current->value;
 }
