@@ -1,18 +1,17 @@
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 struct ListElement {
     int value;
     struct ListElement* next;
     struct ListElement* previous;
 };
-
 struct List {
     struct ListElement* head;
     struct ListElement* tail;
     int size;
 };
-
 List* createList()
 {
     List* list = malloc(sizeof(List));
@@ -21,7 +20,6 @@ List* createList()
     list->size = 0;
     return list;
 }
-
 ListElement* createListElement(int value)
 {
     ListElement* element = malloc(sizeof(ListElement));
@@ -30,7 +28,6 @@ ListElement* createListElement(int value)
     element->previous = NULL;
     return element;
 }
-
 ListElement* head(List* list)
 {
     return list->head;
@@ -41,130 +38,125 @@ ListElement* tail(List* list)
 }
 bool insert(ListElement* element, int position, List* list)
 {
-    if (position > getSize(list) + 1) {
+    if (position > getSize(list) || position < 0) {
         return false;
     }
     if (isEmpty(list)) {
-        element->previous = NULL;
-        element->next = NULL;
         list->head = element;
         list->tail = element;
-        ++list->size;
+        list->size++;
         return true;
     }
-    if (position == 1) {
+    if (position == 0) {
         list->head->previous = element;
         element->next = head(list);
         list->head = element;
-        if (list->size == 1) {
-            list->tail = element->next;
-        }
-        ++list->size;
+        list->size++;
         return true;
     }
-    if (position - 1 == getSize(list)) {
+    if (position == getSize(list)) {
         list->tail->next = element;
         element->previous = tail(list);
         list->tail = element;
-        ++list->size;
+        list->size++;
         return true;
     }
-    ListElement* temp = head(list);
-    for (int i = 0; i < position - 1; ++i) {
-        temp = temp->next;
+    ListElement* insertElement = head(list);
+    for (int i = 0; i < position; ++i) {
+        insertElement = insertElement->next;
     }
-    temp->previous->next = element;
-    element->previous = temp->previous;
-    temp->previous = element;
-    element->next = temp;
-    ++list->size;
+    insertElement->previous->next = element;
+    element->previous = insertElement->previous;
+    insertElement->previous = element;
+    element->next = insertElement;
+    list->size++;
+    return true;
+}
+bool deleteElementOnPosition(int position, List* list)
+{
+    if (position >= getSize(list) || position < 0) {
+        return false;
+    }
+    if (list->size == 1) {
+        removeElement(list->head);
+        list->head = NULL;
+        list->tail = NULL;
+        list->size--;
+        return true;
+    }
+    if (position == 0) {
+        list->head->next->previous = NULL;
+        ListElement* deleteElement = head(list);
+        list->head = head(list)->next;
+        removeElement(deleteElement);
+        list->size--;
+        return true;
+    }
+    if (position == getSize(list) - 1) {
+        list->tail->previous->next = NULL;
+        ListElement* deleteElement = tail(list);
+        list->tail = tail(list)->previous;
+        removeElement(deleteElement);
+        list->size--;
+        return true;
+    }
+    ListElement* deleteElement = head(list);
+    for (int i = 0; i < position; ++i) {
+        deleteElement = deleteElement->next;
+    }
+    deleteElement->previous->next = deleteElement->next;
+    deleteElement->next->previous = deleteElement->previous;
+    removeElement(deleteElement);
+    list->size--;
     return true;
 }
 int locate(ListElement* element, List* list)
 {
-    ListElement* temp = head(list);
-    int position = 1;
-    while (temp != element) {
-        temp = temp->next;
+    ListElement* locateElement = head(list);
+    int position = 0;
+    while (locateElement != element) {
+        locateElement = locateElement->next;
         ++position;
     }
     return position;
 }
 ListElement* retrieve(int position, List* list)
 {
-    if (position > getSize(list)) {
+    if (position >= getSize(list) || position < 0 || getSize(list) < 0) {
         return false;
     }
-    ListElement* temp = head(list);
+    ListElement* retrieveElement = head(list);
     for (int i = 0; i < position; ++i) {
-        temp = temp->next;
+        retrieveElement = retrieveElement->next;
     }
-    return temp->previous->value;
+    return retrieveElement;
 }
-bool delete (int position, List* list)
+int getSize(List* list)
 {
-    if (position > getSize(list) || position < 1) {
-        return false;
-    }
-    if (list->size == 1) {
-        free(list->head);
-        list->head = NULL;
-        list->tail = NULL;
-        --list->size;
-        return true;
-    }
-
-    if (position == 1) {
-        list->head->next->previous = NULL;
-        ListElement* temp = head(list);
-        list->head = head(list)->next;
-        free(temp);
-        --list->size;
-        return true;
-    }
-
-    if (position == getSize(list)) {
-        list->tail->previous->next = NULL;
-        ListElement* temp = tail(list);
-        list->tail = tail(list)->previous;
-        free(temp);
-        --list->size;
-        return true;
-    }
-    ListElement* temp = head(list);
-    for (int i = 0; i < position - 1; ++i) {
-        temp = temp->next;
-    }
-    temp->previous->next = temp->next;
-    temp->next->previous = temp->previous;
-    free(temp);
-    --list->size;
-    return true;
-}
-void removeList(List* list)
-{
-    while (!isEmpty(list)) {
-        delete (1, list);
-    }
-    free(list);
+    return list->size;
 }
 bool isEmpty(List* list)
 {
     return list->size == 0;
 }
-
-int getSize(List* list)
+void removeList(List* list)
 {
-    return list->size;
+    while (!isEmpty(list)) {
+        deleteElementOnPosition(0, list);
+    }
+    free(list);
+}
+void removeElement(ListElement* listElement)
+{
+    free(listElement);
 }
 void printList(List* list)
 {
     printf("START -> ");
-    ListElement* temp = head(list);
-    while (temp != NULL) {
-        printf("%d -> ", temp->value);
-        temp = temp->next;
+    ListElement* toPrint = head(list);
+    while (toPrint != NULL) {
+        printf("%d -> ", toPrint->value);
+        toPrint = toPrint->next;
     }
-    free(temp);
     printf("END\n");
 }
