@@ -122,7 +122,7 @@ int locate(ListElement* element, List* list)
 }
 ListElement* retrieve(int position, List* list)
 {
-    if (position > getSize(list) - 1 || position < 0 || getSize(list) < 0) {
+    if (position >= getSize(list) || position < 0 || getSize(list) < 0) {
         return false;
     }
     ListElement* retrieveElement = head(list);
