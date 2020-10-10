@@ -16,6 +16,7 @@ int main()
     printf("Locate: %d \n", locate(number10, numbers));
     printList(numbers);
     deleteElementOnPosition(1, numbers);
+    deleteElementOnPosition(getSize(numbers),numbers);
     printList(numbers);
     removeList(numbers);
     return 0;

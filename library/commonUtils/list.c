@@ -12,7 +12,6 @@ struct List {
     struct ListElement* tail;
     int size;
 };
-
 List* createList()
 {
     List* list = malloc(sizeof(List));
@@ -29,7 +28,6 @@ ListElement* createListElement(int value)
     element->previous = NULL;
     return element;
 }
-
 ListElement* head(List* list)
 {
     return list->head;
@@ -38,7 +36,6 @@ ListElement* tail(List* list)
 {
     return list->tail;
 }
-
 bool insert(ListElement* element, int position, List* list)
 {
     if (position > getSize(list) || position < 0) {
@@ -75,10 +72,9 @@ bool insert(ListElement* element, int position, List* list)
     list->size++;
     return true;
 }
-
 bool deleteElementOnPosition(int position, List* list)
 {
-    if (position > getSize(list) || position < 0) {
+    if (position >= getSize(list) || position < 0) {
         return false;
     }
     if (list->size == 1) {
@@ -114,7 +110,6 @@ bool deleteElementOnPosition(int position, List* list)
     list->size--;
     return true;
 }
-
 int locate(ListElement* element, List* list)
 {
     ListElement* locateElement = head(list);
@@ -127,7 +122,7 @@ int locate(ListElement* element, List* list)
 }
 ListElement* retrieve(int position, List* list)
 {
-    if (position > getSize(list) || position < 0 || getSize(list) < 0) {
+    if (position > getSize(list) - 1 || position < 0 || getSize(list) < 0) {
         return false;
     }
     ListElement* retrieveElement = head(list);
@@ -144,11 +139,10 @@ bool isEmpty(List* list)
 {
     return list->size == 0;
 }
-
 void removeList(List* list)
 {
     while (!isEmpty(list)) {
-        deleteElementOnPosition(1, list);
+        deleteElementOnPosition(0, list);
     }
     free(list);
 }
@@ -156,7 +150,6 @@ void removeElement(ListElement* listElement)
 {
     free(listElement);
 }
-
 void printList(List* list)
 {
     printf("START -> ");
