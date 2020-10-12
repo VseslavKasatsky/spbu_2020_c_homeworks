@@ -24,4 +24,5 @@ int getSize(List* list);
 int locate(ListElement* element, List* list);
 int getElementValue(ListElement* element);
 
+
 #endif // SPBU_2020_C_HOMEWORKS_LIBRARY_commonUtils_LIST_H_
