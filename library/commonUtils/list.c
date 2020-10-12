@@ -160,3 +160,14 @@ void printList(List* list)
     }
     printf("END\n");
 }
+int getElementValue(ListElement* element)
+{
+    return element->value;
+}
+ListElement* nextElement(List* list, ListElement* previousElement)
+{
+    if (previousElement == tail(list)) {
+        return head(list);
+    }
+    return previousElement->next;
+}
