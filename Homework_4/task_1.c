@@ -130,6 +130,7 @@ int postfixCalculator(char* string)
     deleteStruct(pointer);
     return result;
 }
+
 int main()
 {
     printf("Enter a postfix expression:\nExample: (5 5 + 10 * 10 /):\n");
