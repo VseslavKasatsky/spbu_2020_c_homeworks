@@ -8,8 +8,9 @@ typedef struct Stack Stack;
 Stack* createStack(StackElement* element);
 StackElement* createStackElement(int value);
 
-int determineSign(char* subString);
-int postfixCalculator(char* string);
+int getHeadValue(Stack* stack);
+int getQuantity(Stack* stack);
+int getHeadNextValue(Stack* stack);
 
 void deleteStruct(Stack* stack);
 void addNewStackElement(Stack* stack, char* inputItem);
