@@ -29,7 +29,7 @@ StackElement* createStackElement(int value)
     return stackElement;
 }
 
-bool isEnd(Stack* stack)
+bool isEmpty(Stack* stack)
 {
     return stack->head->next == NULL;
 }
@@ -44,7 +44,7 @@ void addNewStackElement(Stack* stack, char* inputItem)
 
 void deleteStruct(Stack* stack)
 {
-    while (!isEnd(stack)) {
+    while (!isEmpty(stack)) {
         StackElement* oldHead = stack->head;
         stack->head = stack->head->next;
         free(oldHead);
@@ -88,4 +88,14 @@ void perfomOperation(Stack* stack, int sign)
     stack->head = stack->head->next;
     stack->quantity--;
     free(oldHead);
+}
+void printStack(Stack* stack)
+{
+    printf("START -> ");
+    StackElement* toPrint = stack->head;
+    while (toPrint != NULL) {
+        printf("%d -> ", toPrint->value);
+        toPrint = toPrint->next;
+    }
+    printf("END\n");
 }

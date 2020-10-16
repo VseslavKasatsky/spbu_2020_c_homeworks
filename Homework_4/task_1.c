@@ -6,27 +6,31 @@
 char* getString()
 {
     int size = 1;
+    int i = 0;
     char* string = (char*)malloc(sizeof(char));
     char element = getchar();
     while (element != '\n') {
-        string[size - 1] = element;
-        ++size;
-        string = (char*)realloc(string, size);
+        if (size == i) {
+            size *= 2;
+            string = (char*)realloc(string, size);
+        }
+        string[i] = element;
         element = getchar();
+        ++i;
     }
-    string[size - 1] = '\0';
+    string[i] = '\0';
     return string;
 }
 
 int determineSign(char* subString)
 {
-    if (strcmp(subString, "+") == 0) {
+    if (*subString == '+') {
         return 1;
-    } else if (strcmp(subString, "-") == 0) {
+    } else if (*subString == '-') {
         return 2;
-    } else if (strcmp(subString, "*") == 0) {
+    } else if (*subString == '*') {
         return 3;
-    } else if (strcmp(subString, "/") == 0) {
+    } else if (*subString == '/') {
         return 4;
     }
     return 0;
@@ -49,6 +53,7 @@ int postfixCalculator(char* string)
 
     if (getQuantity(stack) != 1) {
         printf("Invalid input");
+        deleteStruct(stack);
         exit(0);
     }
 
