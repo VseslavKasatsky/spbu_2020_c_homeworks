@@ -77,15 +77,15 @@ void perfomOperation(Stack* stack, int sign)
         stack->head->next->value = valueTwo + valueOne;
     } else
 
-        if (sign == 2) {
+    if (sign == 2) {
         stack->head->next->value = valueTwo - valueOne;
     } else
 
-        if (sign == 3) {
+    if (sign == 3) {
         stack->head->next->value = valueTwo * valueOne;
     } else
 
-        if (sign == 4) {
+    if (sign == 4) {
         stack->head->next->value = valueTwo / valueOne;
     }
 
