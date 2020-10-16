@@ -1,4 +1,4 @@
-#include "../library/commonUtils/stack.h"
+#include "../library/commonUtils/stackPostfix.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
