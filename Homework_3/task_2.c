@@ -14,9 +14,9 @@ int getLastSurvivor(int numberOfSoldiers, int killRatio, List* soldiers)
     ListElement* current = head(soldiers);
     for (int i = 1; i < numberOfSoldiers; ++i) {
         for (int j = 1; j < killRatio; ++j) {
-            current = nextElement(soldiers, current);
+            current = getNextElement(soldiers, current);
         }
-        ListElement* currentCopy = nextElement(soldiers, current);
+        ListElement* currentCopy = getNextElement(soldiers, current);
         deleteElementOnPosition(locate(current, soldiers), soldiers);
         current = currentCopy;
     }
