@@ -51,7 +51,7 @@ int postfixCalculator(char* string)
         subString = strtok(NULL, " ");
     }
 
-    if (getQuantity(stack) != 1) {
+    if (getSize(stack) != 1) {
         printf("Invalid input");
         deleteStruct(stack);
         exit(0);

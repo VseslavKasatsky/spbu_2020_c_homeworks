@@ -9,7 +9,7 @@ Stack* createStack(StackElement* element);
 StackElement* createStackElement(int value);
 
 int getHeadValue(Stack* stack);
-int getQuantity(Stack* stack);
+int getSize(Stack* stack);
 int getHeadNextValue(Stack* stack);
 
 void deleteStruct(Stack* stack);

@@ -31,7 +31,7 @@ StackElement* createStackElement(int value)
 
 bool isEmpty(Stack* stack)
 {
-    return stack->head->next == NULL;
+    return getSize(stack) == 0;
 }
 
 void addNewStackElement(Stack* stack, char* inputItem)
@@ -47,6 +47,7 @@ void deleteStruct(Stack* stack)
     while (!isEmpty(stack)) {
         StackElement* oldHead = stack->head;
         stack->head = stack->head->next;
+        stack->quantity--;
         free(oldHead);
     }
 
@@ -64,7 +65,7 @@ int getHeadNextValue(Stack* stack)
     return stack->head->next->value;
 }
 
-int getQuantity(Stack* stack)
+int getSize(Stack* stack)
 {
     return stack->quantity;
 }
