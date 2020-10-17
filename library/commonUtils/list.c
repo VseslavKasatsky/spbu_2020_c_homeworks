@@ -164,7 +164,7 @@ int getElementValue(ListElement* element)
 {
     return element->value;
 }
-ListElement* getNextElement(List* list, ListElement* previousElement)
+ListElement* getNextInCycle(List* list, ListElement* previousElement)
 {
     if (previousElement == tail(list)) {
         return head(list);
