@@ -2,6 +2,7 @@
 #include <stdio.h>
 #define SIZEOFMANTISSA 52
 #define SIZEOFEXPONENT 11
+#define SHIFT 1023
 
 int getExponent(unsigned long long bits)
 {
@@ -15,7 +16,7 @@ int getExponent(unsigned long long bits)
     for (int i = 0; i < SIZEOFEXPONENT; ++i) {
         exponent += binaryExponent[i] * (1 << (SIZEOFEXPONENT - 1 - i));
     }
-    return exponent - 1023;
+    return exponent - SHIFT;
 }
 
 double getMantissa(unsigned long long bits)
