@@ -27,10 +27,10 @@ double getMantissa(unsigned long long bits)
     }
     binaryMantissa[0] = 1;
     double mantissa = 0;
-    long long int powerOfTwo = 1;
+    unsigned long long divider = 1;
     for (int i = 0; i < SIZEOFMANTISSA + 1; ++i) {
-        mantissa = mantissa + ((double)binaryMantissa[i] / powerOfTwo);
-        powerOfTwo *= 2;
+        mantissa = mantissa + ((double)binaryMantissa[i] / divider);
+        divider <<= 1;
     }
     return mantissa;
 }
