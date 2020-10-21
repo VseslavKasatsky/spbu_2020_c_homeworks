@@ -5,7 +5,9 @@ set(CMAKE_C_STANDARD 11)
 
 set(SOURCE_LIB
         library/commonUtils/numericOperations.c)
+
 add_library(library ${SOURCE_LIB})
+add_library(stackPostfix library/commonUtils/stackPostfix.c)
 add_library(list library/commonUtils/list.c)
 
 add_executable(1.task_1 Homework_1/task_1.c)
@@ -23,5 +25,8 @@ add_executable(3.task_1 Homework_3/task_1.c)
 target_link_libraries(3.task_1 list)
 add_executable(3.task_2 Homework_3/task_2.c)
 target_link_libraries(3.task_2 list)
+
+add_executable(4.task_1 Homework_4/task_1.c)
+target_link_libraries(4.task_1 stackPostfix)
 add_executable(4.task_2 Homework_4/task_2.c)
 add_executable(4.task_3 Homework_4/task_3.c)
