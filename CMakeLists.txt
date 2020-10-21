@@ -25,6 +25,8 @@ add_executable(3.task_1 Homework_3/task_1.c)
 target_link_libraries(3.task_1 list)
 add_executable(3.task_2 Homework_3/task_2.c)
 target_link_libraries(3.task_2 list)
+
 add_executable(4.task_1 Homework_4/task_1.c)
 target_link_libraries(4.task_1 stackPostfix)
+add_executable(4.task_2 Homework_4/task_2.c)
 add_executable(4.task_3 Homework_4/task_3.c)
