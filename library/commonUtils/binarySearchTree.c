@@ -136,8 +136,9 @@ bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, int value, Bi
             minimumRightChildParent->leftChild = NULL;
             if (parent == NULL) {
                 tree->root = minimumRightChild;
-            } else
+            } else {
                 changeParent(direction, parent, tree, minimumRightChild);
+            }
             free(node);
             return true;
         }
