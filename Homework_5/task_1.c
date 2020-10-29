@@ -58,7 +58,7 @@ bool executeRequest(BinarySearchTree* tree)
     }
     default: {
         printf("It's not a command \n Try again!");
-        return true;
+        break;
     }
     }
     return true;
