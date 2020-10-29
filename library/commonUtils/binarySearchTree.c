@@ -215,7 +215,7 @@ void printInDescendingRecursive(BinaryTreeNode* node)
     printInDescendingRecursive(node->leftChild);
 }
 
-void printInDescending(BinarySearchTree* tree)
+void printDescending(BinarySearchTree* tree)
 {
     printf("\n Here's your tree: ");
     if (tree != NULL) {

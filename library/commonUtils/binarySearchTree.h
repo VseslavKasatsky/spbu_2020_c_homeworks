@@ -12,7 +12,7 @@ bool addValue(BinarySearchTree* tree, int value);
 bool removeValue(BinarySearchTree* tree, int value);
 
 void printAscending(BinarySearchTree* tree);
-void printInDescending(BinarySearchTree* tree);
+void printDescending(BinarySearchTree* tree);
 void printInSpecialForm(BinarySearchTree* tree);
 
 #endif // SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_BINARYSEARCHTREE_H_
