@@ -31,6 +31,5 @@ add_executable(4.task_1 Homework_4/task_1.c)
 target_link_libraries(4.task_1 stackPostfix)
 add_executable(4.task_2 Homework_4/task_2.c)
 add_executable(4.task_3 Homework_4/task_3.c)
-
 add_executable(5.task_1 Homework_5/task_1.c)
 target_link_libraries(5.task_1 binarySearchTree)
