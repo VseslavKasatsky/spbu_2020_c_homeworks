@@ -12,11 +12,12 @@ void getMaximumInsertAttempts(HashTable* table);
 int getElementCount(HashTable* table);
 int getBucketCount(HashTable* table);
 int getWordAmount(HashTable* table);
+
 float getLoadFactor(HashTable* table);
 float getAverageNumberOfAttempts(HashTable* table);
 
 bool pushElement(HashTable* table, char* key, int amount, int insertionAttempts);
-bool getWordCount(HashTable* table, char* key);
+bool getWordInformation(HashTable* table, char* key);
 
 void destroyHashTable(HashTable* table);
 void printListOfMostCommonWords(HashTable* table);

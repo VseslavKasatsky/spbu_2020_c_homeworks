@@ -185,7 +185,7 @@ bool pushElement(HashTable* table, char* key, int amount, int insertionAttempts)
     return true;
 }
 
-bool getWordCount(HashTable* table, char* key)
+bool getWordInformation(HashTable* table, char* key)
 {
     int attempt = 1;
     int hash = getHash(key, table->polynomFactor, table->bucketCount);
