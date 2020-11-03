@@ -42,7 +42,7 @@ bool isEmpty(BinarySearchTree* tree)
     return (tree->root == NULL);
 }
 
-bool changeParent(enum Direction direction, BinaryTreeNode* parent, BinarySearchTree* tree, BinaryTreeNode* newNode)
+bool changeParent(BinarySearchTree* tree, BinaryTreeNode* parent, BinaryTreeNode* newNode, enum Direction direction)
 {
     if (direction == left) {
         parent->leftChild = newNode;
@@ -107,21 +107,21 @@ bool addValue(BinarySearchTree* tree, int value)
     return addValueRecursive(tree->root, value);
 }
 
-bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, int value, BinaryTreeNode* parent, enum Direction direction)
+bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTreeNode* parent, int value, enum Direction direction)
 {
     if (node->value == value) {
         if (isLeaf(node)) {
             free(node);
-            changeParent(direction, parent, tree, NULL);
+            changeParent(tree, parent, NULL, direction);
             return true;
         }
         if (node->leftChild == NULL && node->rightChild != NULL) {
-            changeParent(direction, parent, tree, node->rightChild);
+            changeParent(tree, parent, node->rightChild, direction);
             free(node);
             return true;
         }
         if (node->leftChild != NULL && node->rightChild == NULL) {
-            changeParent(direction, parent, tree, node->leftChild);
+            changeParent(tree, parent, node->leftChild, direction);
             free(node);
             return true;
         }
@@ -137,17 +137,17 @@ bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, int value, Bi
             if (parent == NULL) {
                 tree->root = minimumRightChild;
             } else {
-                changeParent(direction, parent, tree, minimumRightChild);
+                changeParent(tree, parent, minimumRightChild, direction);
             }
             free(node);
             return true;
         }
     }
     if (node->value > value && node->leftChild != NULL) {
-        return removeRecursive(tree, node->leftChild, value, node, left);
+        return removeRecursive(tree, node->leftChild, node, value, left);
     }
     if (node->value < value && node->rightChild != NULL) {
-        return removeRecursive(tree, node->rightChild, value, node, right);
+        return removeRecursive(tree, node->rightChild, node, value, right);
     }
     return false;
 }
@@ -157,30 +157,30 @@ bool removeValue(BinarySearchTree* tree, int value)
     if (isEmpty(tree)) {
         return false;
     }
-    return removeRecursive(tree, tree->root, value, NULL, none);
+    return removeRecursive(tree, tree->root, NULL, value, none);
 }
 
-void removeTreeRecursive(BinaryTreeNode* node, BinaryTreeNode* parent, enum Direction d, BinarySearchTree* tree)
+void removeTreeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTreeNode* parent, enum Direction direction)
 {
     if (node == NULL) {
         return;
     }
     if (isLeaf(node)) {
-        changeParent(d, parent, tree, NULL);
+        changeParent(tree, parent, NULL, direction);
         free(node);
         return;
     }
-    removeTreeRecursive(node->leftChild, node, left, tree);
-    removeTreeRecursive(node->rightChild, node, right, tree);
-    changeParent(d, parent, tree, NULL);
+    removeTreeRecursive(tree, node->leftChild, node, left);
+    removeTreeRecursive(tree, node->rightChild, node, right);
+    changeParent(tree, parent, NULL, direction);
     free(node);
 }
 
 void removeTree(BinarySearchTree* tree)
 {
     if (tree != NULL) {
-        removeTreeRecursive(tree->root->leftChild, tree->root, left, tree);
-        removeTreeRecursive(tree->root->rightChild, tree->root, right, tree);
+        removeTreeRecursive(tree, tree->root->leftChild, tree->root, left);
+        removeTreeRecursive(tree, tree->root->rightChild, tree->root, right);
         free(tree->root);
         tree->root = NULL;
         free(tree);

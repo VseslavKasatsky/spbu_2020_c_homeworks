@@ -23,21 +23,21 @@ bool executeRequest(BinarySearchTree* tree)
         return false;
     }
     case 1: {
-        printf("Enter number");
+        printf("Enter number: ");
         int number = 0;
         scanf("%d", &number);
         addValue(tree, number);
         break;
     }
     case 2: {
-        printf("Enter number");
+        printf("Enter number: ");
         int number = 0;
         scanf("%d", &number);
         removeValue(tree, number);
         break;
     }
     case 3: {
-        printf("Enter number");
+        printf("Enter number: ");
         int number = 0;
         scanf("%d", &number);
         printf("Is there a number %d - ", number);
