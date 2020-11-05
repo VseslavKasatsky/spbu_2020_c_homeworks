@@ -22,6 +22,7 @@ add_executable(2.task_3 Homework_2/2.task_3.c)
 add_executable(2.task_4 Homework_2/2.task_4.c)
 add_executable(2.task_5i Homework_2/task_5.iterative.c)
 add_executable(2.task_5r Homework_2/task_5.recursive.c)
+
 add_executable(3.task_1 Homework_3/task_1.c)
 target_link_libraries(3.task_1 list)
 add_executable(3.task_2 Homework_3/task_2.c)
@@ -31,5 +32,9 @@ add_executable(4.task_1 Homework_4/task_1.c)
 target_link_libraries(4.task_1 stackPostfix)
 add_executable(4.task_2 Homework_4/task_2.c)
 add_executable(4.task_3 Homework_4/task_3.c)
+
 add_executable(5.task_1 Homework_5/task_1.c)
 target_link_libraries(5.task_1 binarySearchTree)
+
+add_executable(Test_1 Test/task_1.c)
+add_executable(Test_2 Test/task_2.c library/commonUtils/test1_2.c)
