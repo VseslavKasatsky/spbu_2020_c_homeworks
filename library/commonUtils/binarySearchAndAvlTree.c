@@ -140,11 +140,11 @@ BinaryTreeNode* balanceTree(BinaryTreeNode* node)
         node->height = 1;
         return node;
     }
-    if (node->leftChild != NULL) {
-        node->leftChild = balanceTree(node->leftChild);
-    }
     if (node->rightChild != NULL) {
         node->rightChild = balanceTree(node->rightChild);
+    }
+    if (node->leftChild != NULL) {
+        node->leftChild = balanceTree(node->leftChild);
     }
     updateHeight(node);
     return balanceBranch(node);
@@ -174,7 +174,7 @@ bool addValueToAVL(BinarySearchTree* tree, int value)
 {
     if (isEmpty(tree)) {
         tree->root = createNode(value);
-        updateHeight(tree->root);
+        tree->root->height = 1;
         return true;
     }
     if (addValueRecursive(tree->root, value)) {
