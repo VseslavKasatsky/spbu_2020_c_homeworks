@@ -26,14 +26,14 @@ bool executeRequest(BinarySearchTree* tree)
         printf("Enter number: ");
         int number = 0;
         scanf("%d", &number);
-        addValueToBST(tree, number);
+        addValueToAVL(tree, number);
         break;
     }
     case 2: {
         printf("Enter number: ");
         int number = 0;
         scanf("%d", &number);
-        removeValueFromBST(tree, number);
+        removeValueFromAVL(tree, number);
         break;
     }
     case 3: {

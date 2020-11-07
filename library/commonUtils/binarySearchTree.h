@@ -8,8 +8,10 @@ BinarySearchTree* createTree();
 void removeTree(BinarySearchTree* tree);
 
 bool exists(BinarySearchTree* tree, int value);
-bool addValue(BinarySearchTree* tree, int value);
-bool removeValue(BinarySearchTree* tree, int value);
+bool addValueToAVL(BinarySearchTree* tree, int value);
+bool removeValueFromAVL(BinarySearchTree* tree, int value);
+bool addValueToBST(BinarySearchTree* tree, int value);
+bool removeValueFromBST(BinarySearchTree* tree, int value);
 
 void printAscending(BinarySearchTree* tree);
 void printDescending(BinarySearchTree* tree);

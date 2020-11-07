@@ -4,6 +4,7 @@
 
 typedef struct BinaryTreeNode {
     int value;
+    int height;
     struct BinaryTreeNode* leftChild;
     struct BinaryTreeNode* rightChild;
 } BinaryTreeNode;
@@ -29,6 +30,7 @@ BinaryTreeNode* createNode(int value)
     node->rightChild = NULL;
     node->leftChild = NULL;
     node->value = value;
+    node->height = 0;
     return node;
 }
 
@@ -78,6 +80,76 @@ bool exists(BinarySearchTree* tree, int value)
     return existsRecursive(tree->root, value);
 }
 
+int getHeight(BinaryTreeNode* node)
+{
+    return node == NULL ? 0 : node->height;
+}
+
+int getBalanceFactor(BinaryTreeNode* node)
+{
+    return getHeight(node->rightChild) - getHeight(node->leftChild);
+}
+
+void updateHeight(BinaryTreeNode* node)
+{
+    int heightLeft = getHeight(node->leftChild);
+    int heightRight = getHeight(node->rightChild);
+    node->height = (heightLeft > heightRight ? heightLeft : heightRight) + 1;
+}
+
+BinaryTreeNode* rotateLeft(BinaryTreeNode* root)
+{
+    BinaryTreeNode* pivot = root->rightChild;
+    root->rightChild = pivot->leftChild;
+    pivot->leftChild = root;
+    updateHeight(root);
+    updateHeight(pivot);
+    return pivot;
+}
+
+BinaryTreeNode* rotateRight(BinaryTreeNode* root)
+{
+    BinaryTreeNode* pivot = root->leftChild;
+    root->leftChild = pivot->rightChild;
+    pivot->rightChild = root;
+    updateHeight(root);
+    updateHeight(pivot);
+    return pivot;
+}
+
+BinaryTreeNode* balanceBranch(BinaryTreeNode* root)
+{
+    if (getBalanceFactor(root) == 2) {
+        if (getBalanceFactor(root->rightChild) < 0) {
+            root->rightChild = rotateRight(root->rightChild);
+        }
+        return rotateLeft(root);
+    }
+    if (getBalanceFactor(root) == -2) {
+        if (getBalanceFactor(root->leftChild) > 0) {
+            root->leftChild = rotateLeft(root->leftChild);
+        }
+        return rotateRight(root);
+    }
+    return root;
+}
+
+BinaryTreeNode* balanceTree(BinaryTreeNode* node)
+{
+    if (isLeaf(node)) {
+        node->height = 1;
+        return node;
+    }
+    if (node->leftChild != NULL) {
+        node->leftChild = balanceTree(node->leftChild);
+    }
+    if (node->rightChild != NULL) {
+        node->rightChild = balanceTree(node->rightChild);
+    }
+    updateHeight(node);
+    return balanceBranch(node);
+}
+
 bool addValueRecursive(BinaryTreeNode* node, int value)
 {
     if (node->value == value) {
@@ -98,7 +170,21 @@ bool addValueRecursive(BinaryTreeNode* node, int value)
     }
 }
 
-bool addValue(BinarySearchTree* tree, int value)
+bool addValueToAVL(BinarySearchTree* tree, int value)
+{
+    if (isEmpty(tree)) {
+        tree->root = createNode(value);
+        updateHeight(tree->root);
+        return true;
+    }
+    if (addValueRecursive(tree->root, value)) {
+        tree->root = balanceTree(tree->root);
+        return true;
+    }
+    return false;
+}
+
+bool addValueToBST(BinarySearchTree* tree, int value)
 {
     if (isEmpty(tree)) {
         tree->root = createNode(value);
@@ -148,12 +234,27 @@ bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTreeNod
     return false;
 }
 
-bool removeValue(BinarySearchTree* tree, int value)
+bool removeValueFromAVL(BinarySearchTree* tree, int value)
 {
     if (isEmpty(tree)) {
         return false;
     }
-    return removeRecursive(tree, tree->root, NULL, value, none);
+    if (removeRecursive(tree, tree->root, NULL, value, none)) {
+        tree->root = balanceTree(tree->root);
+        return true;
+    }
+    return false;
+}
+
+bool removeValueFromBST(BinarySearchTree* tree, int value)
+{
+    if (isEmpty(tree)) {
+        return false;
+    }
+    if (removeRecursive(tree, tree->root, NULL, value, none)) {
+        return true;
+    }
+    return false;
 }
 
 void removeTreeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTreeNode* parent, enum Direction direction)
