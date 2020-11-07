@@ -1,4 +1,4 @@
-#include "binarySearchTree.h"
+#include "binarySearchAndAvlTree.h"
 #include <stdio.h>
 #include <stdlib.h>
 
