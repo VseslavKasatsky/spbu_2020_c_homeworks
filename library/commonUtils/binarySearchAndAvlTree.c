@@ -1,4 +1,4 @@
-#include "binarySearchTree.h"
+#include "binarySearchAndAvlTree.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -116,7 +116,11 @@ bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node,
 {
     if (node->value == value) {
         if (isLeaf(node)) {
-            changeParent(tree, parent, NULL, direction);
+            if (parent != NULL) {
+                changeParent(tree, parent, NULL, direction);
+            } else {
+                tree->root = NULL;
+            }
         } else if (node->leftChild == NULL && node->rightChild != NULL) {
             changeParent(tree, parent, node->rightChild, direction);
         } else if (node->leftChild != NULL && node->rightChild == NULL) {
