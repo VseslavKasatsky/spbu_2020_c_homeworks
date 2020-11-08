@@ -37,10 +37,12 @@ bool isLeaf(BinaryTreeNode* node)
     return node->leftChild == NULL && node->rightChild == NULL;
 }
 
-bool isEmpty(BinarySearchTree* tree) { return (tree->root == NULL); }
+bool isEmpty(BinarySearchTree* tree)
+{
+    return (tree->root == NULL);
+}
 
-bool changeParent(BinarySearchTree* tree, BinaryTreeNode* parent,
-    BinaryTreeNode* newNode, enum Direction direction)
+bool changeParent(BinarySearchTree* tree, BinaryTreeNode* parent, BinaryTreeNode* newNode, enum Direction direction)
 {
     if (direction == left) {
         parent->leftChild = newNode;
