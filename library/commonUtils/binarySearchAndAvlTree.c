@@ -200,7 +200,11 @@ bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTreeNod
 {
     if (node->value == value) {
         if (isLeaf(node)) {
-            changeParent(tree, parent, NULL, direction);
+            if (parent != NULL) {
+                changeParent(tree, parent, NULL, direction);
+            } else {
+                tree->root = NULL;
+            }
         } else if (node->leftChild == NULL && node->rightChild != NULL) {
             changeParent(tree, parent, node->rightChild, direction);
         } else if (node->leftChild != NULL && node->rightChild == NULL) {
@@ -240,7 +244,9 @@ bool removeValueFromAVL(BinarySearchTree* tree, int value)
         return false;
     }
     if (removeRecursive(tree, tree->root, NULL, value, none)) {
-        tree->root = balanceTree(tree->root);
+        if (tree->root != NULL) {
+            tree->root = balanceTree(tree->root);
+        }
         return true;
     }
     return false;
@@ -276,9 +282,11 @@ void removeTreeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTre
 void removeTree(BinarySearchTree* tree)
 {
     if (tree != NULL) {
-        removeTreeRecursive(tree, tree->root->leftChild, tree->root, left);
-        removeTreeRecursive(tree, tree->root->rightChild, tree->root, right);
-        free(tree->root);
+        if (tree->root != NULL) {
+            removeTreeRecursive(tree, tree->root->leftChild, tree->root, left);
+            removeTreeRecursive(tree, tree->root->rightChild, tree->root, right);
+            free(tree->root);
+        }
         tree->root = NULL;
         free(tree);
     }
