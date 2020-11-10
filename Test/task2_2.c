@@ -15,8 +15,8 @@ bool getDate(int* date, FILE* file)
         if (buffer == EOF) {
             return false;
         }
-        if ((i == 2) && buffer != '.') {
-            printf("%c", buffer);
+        if ((i == 2 || i == 4) && buffer != '.') {
+            return true;
         }
         if ((buffer >= '0') && (buffer <= '9')) {
             date[i] = buffer - '0';
@@ -85,6 +85,8 @@ int main()
     }
     int* date = (int*)malloc(DATE_SIZE * sizeof(int));
     int* minimumDate = (int*)malloc(DATE_SIZE * sizeof(int));
+    char* smallCrutch = (char*)malloc(DATE_SIZE + 2 * sizeof(char));
+
     memset(minimumDate, 9, DATE_SIZE * sizeof(int));
 
     bool flag = getDate(date, file);
@@ -101,6 +103,7 @@ int main()
     }
     free(date);
     free(minimumDate);
+    free(smallCrutch);
     fclose(file);
     return 0;
 }
