@@ -85,8 +85,6 @@ int main()
     }
     int* date = (int*)malloc(DATE_SIZE * sizeof(int));
     int* minimumDate = (int*)malloc(DATE_SIZE * sizeof(int));
-    char* smallCrutch = (char*)malloc(DATE_SIZE + 2 * sizeof(char));
-
     memset(minimumDate, 9, DATE_SIZE * sizeof(int));
 
     bool flag = getDate(date, file);
@@ -103,7 +101,6 @@ int main()
     }
     free(date);
     free(minimumDate);
-    free(smallCrutch);
     fclose(file);
     return 0;
 }
