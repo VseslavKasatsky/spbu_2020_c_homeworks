@@ -18,6 +18,10 @@ bool getDate(int* date, FILE* file)
         if ((buffer >= '0') && (buffer <= '9')) {
             date[i] = buffer - '0';
             ++i;
+            if(i==9)
+            {
+                return false;
+            }
         }
     }
     return true;
