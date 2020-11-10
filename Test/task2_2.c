@@ -15,7 +15,7 @@ bool getDate(int* date, FILE* file)
         if (buffer == EOF) {
             return false;
         }
-        if ((i == 2 || i == 4) && buffer != '.') {
+        if ((i == 2 || i == 5) && buffer != '.') {
             return true;
         }
         if ((buffer >= '0') && (buffer <= '9')) {
