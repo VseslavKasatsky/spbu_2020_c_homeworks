@@ -15,12 +15,14 @@ bool getDate(int* date, FILE* file)
         if (buffer == EOF) {
             return false;
         }
+        if ((i == 2) && buffer != '.') {
+            printf("%c", buffer);
+        }
         if ((buffer >= '0') && (buffer <= '9')) {
             date[i] = buffer - '0';
             ++i;
-            if(i==9)
-            {
-                return false;
+            if (i == 9) {
+                return true;
             }
         }
     }
@@ -38,7 +40,7 @@ bool compareDate(int* date, int* minimumDate)
 {
     int dateBuffer = 0;
     int minimumDateBuffer = 0;
-    if ((date[0] == 0&& date[1] ==0) || (date[2] == 0 && date[3] == 0) || (date[4] == 0 && date[5] == 0 && date[6] == 0 && date[7] == 0)) {
+    if ((date[0] == 0 && date[1] == 0) || (date[2] == 0 && date[3] == 0) || (date[4] == 0 && date[5] == 0 && date[6] == 0 && date[7] == 0)) {
         return false;
     }
     for (int i = 4; i < 8; ++i) {
