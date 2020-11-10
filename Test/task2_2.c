@@ -3,11 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-int const DATE_SIZE = 8;
+int const DATE_SIZE = 10;
 
-bool getDate(int* date, FILE* file)
+typedef struct Date {
+    int year;
+    int month;
+    int day;
+} Date;
+
+bool getDate(char* date, FILE* file)
 {
-    memset(date, 0, DATE_SIZE * sizeof(int));
+    memset(date, 0, DATE_SIZE * sizeof(char));
     char buffer = 0;
     int i = 0;
     while (buffer != ' ') {
@@ -15,13 +21,10 @@ bool getDate(int* date, FILE* file)
         if (buffer == EOF) {
             return false;
         }
-        if ((i == 2 || i == 5) && buffer != '.') {
-            return true;
-        }
-        if ((buffer >= '0') && (buffer <= '9')) {
-            date[i] = buffer - '0';
+        if (((buffer >= '0') && (buffer <= '9')) || (buffer == '.' && (i == 2 || i == 5))) {
+            date[i] = buffer;
             ++i;
-            if (i == 9) {
+            if (i == 10) {
                 return true;
             }
         }
@@ -29,51 +32,70 @@ bool getDate(int* date, FILE* file)
     return true;
 }
 
-void arrayCopy(int* arrayFrom, int* arrayTo)
+int getYear(char* date)
 {
-    for (int i = 0; i < 8; ++i) {
-        arrayTo[i] = arrayFrom[i];
+    int year = 0;
+    for (int i = 6; i < 10; ++i) {
+        year = year * 10 + (date[i] - '0');
     }
+    return year;
 }
 
-bool compareDate(int* date, int* minimumDate)
+int getMonth(char* date)
 {
-    int dateBuffer = 0;
-    int minimumDateBuffer = 0;
-    if ((date[0] == 0 && date[1] == 0) || (date[2] == 0 && date[3] == 0) || (date[4] == 0 && date[5] == 0 && date[6] == 0 && date[7] == 0)) {
+    int month = 0;
+    for (int i = 3; i < 5; ++i) {
+        month = month * 10 + (date[i] - '0');
+    }
+    return month;
+}
+
+int getDay(char* date)
+{
+    int day = 0;
+    for (int i = 0; i < 2; ++i) {
+        day = day * 10 + (date[i] - '0');
+    }
+    return day;
+}
+
+bool isDate(char* date)
+{
+    if (date[0] - '0' > 3) {
         return false;
     }
-    for (int i = 4; i < 8; ++i) {
-        dateBuffer = dateBuffer * 10 + date[i];
-        minimumDateBuffer = minimumDateBuffer * 10 + minimumDate[i];
-    }
-    if (dateBuffer == minimumDateBuffer) {
-        for (int i = 2; i < 4; ++i) {
-            dateBuffer = dateBuffer * 10 + date[i];
-            minimumDateBuffer = minimumDateBuffer * 10 + minimumDate[i];
-        }
-        if (dateBuffer == minimumDateBuffer) {
-            for (int i = 0; i < 2; ++i) {
-                dateBuffer = dateBuffer * 10 + date[i];
-                minimumDateBuffer = minimumDateBuffer * 10 + minimumDate[i];
-            }
-            if (dateBuffer < minimumDateBuffer) {
-                arrayCopy(date, minimumDate);
-                return true;
-            }
-            return false;
-        }
-        if (dateBuffer < minimumDateBuffer) {
-            arrayCopy(date, minimumDate);
-            return true;
-        }
+    if (date[0] == 0) {
         return false;
     }
-    if (dateBuffer < minimumDateBuffer) {
-        arrayCopy(date, minimumDate);
-        return true;
+    if (date[3] - '0' > 1) {
+        return false;
     }
-    return false;
+    return true;
+}
+
+Date compareDate(char* date, Date minimumDate)
+{
+    if (!isDate(date)) {
+        return minimumDate;
+    }
+    Date currentDate = { getYear(date), getMonth(date), getDay(date) };
+    if (currentDate.year < minimumDate.year) {
+        minimumDate = currentDate;
+        return minimumDate;
+    }
+    if (currentDate.year == minimumDate.year) {
+        if (currentDate.month < minimumDate.month) {
+            minimumDate = currentDate;
+            return minimumDate;
+        }
+        if (currentDate.month == minimumDate.month) {
+            if (currentDate.day < minimumDate.day) {
+                minimumDate = currentDate;
+                return minimumDate;
+            }
+        }
+    }
+    return minimumDate;
 }
 
 int main()
@@ -83,24 +105,15 @@ int main()
         printf("ERROR! The program could not open the file!");
         return -1;
     }
-    int* date = (int*)malloc(DATE_SIZE * sizeof(int));
-    int* minimumDate = (int*)malloc(DATE_SIZE * sizeof(int));
-    memset(minimumDate, 9, DATE_SIZE * sizeof(int));
-
+    char* date = (char*)malloc(DATE_SIZE * sizeof(char));
+    Date minimumDate = { 9999, 99, 99 };
     bool flag = getDate(date, file);
     while (flag) {
-        compareDate(date, minimumDate);
+        minimumDate = compareDate(date, minimumDate);
         flag = getDate(date, file);
     }
-    printf("Minimum date is ");
-    for (int i = 0; i < 8; ++i) {
-        if (i == 2 || i == 4) {
-            printf(".");
-        }
-        printf("%d", minimumDate[i]);
-    }
+    printf("Minimum date is %d.%d.%d ", minimumDate.day, minimumDate.month, minimumDate.year);
     free(date);
-    free(minimumDate);
     fclose(file);
     return 0;
 }
