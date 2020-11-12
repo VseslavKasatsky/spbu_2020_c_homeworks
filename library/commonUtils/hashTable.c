@@ -28,18 +28,22 @@ float getLoadFactor(HashTable* table)
     return (float)table->elementCount / (float)table->bucketCount;
 }
 
-float getAverageNumberOfAttempts(HashTable* table)
+void printAverageNumberOfAttempts(HashTable* table)
 {
+    if (table->elementCount == 0) {
+        printf("Average number of attends: 0\n");
+        return;
+    }
     int sumOfInsertAttempts = 0;
     for (int i = 0; i < table->bucketCount; ++i) {
         if (table->types[i] == used) {
             sumOfInsertAttempts += table->hashTable[i]->insertionAttempts;
         }
     }
-    return (float)sumOfInsertAttempts / (float)table->elementCount;
+    printf("Average number of attends: %f\n", (float)sumOfInsertAttempts / (float)table->elementCount);
 }
 
-void getMaximumInsertAttempts(HashTable* table)
+void printMaximumInsertAttempts(HashTable* table)
 {
     int maximumInsertAttempts = 0;
     for (int i = 0; i < table->bucketCount; ++i) {
@@ -53,17 +57,17 @@ void getMaximumInsertAttempts(HashTable* table)
     }
 }
 
-int getElementCount(HashTable* table)
+void printElementCount(HashTable* table)
 {
-    return table->elementCount;
+    printf("Number of unique words: %d\n", table->elementCount);
 }
 
-int getBucketCount(HashTable* table)
+void printNumberOfEmptyCells(HashTable* table)
 {
-    return table->bucketCount;
+    printf("Number of empty table cells: %d\n", table->bucketCount - table->elementCount);
 }
 
-int getWordAmount(HashTable* table)
+void printWordAmount(HashTable* table)
 {
     int wordAmount = 0;
     for (int i = 0; i < table->bucketCount; ++i) {
@@ -71,7 +75,12 @@ int getWordAmount(HashTable* table)
             wordAmount += table->hashTable[i]->amount;
         }
     }
-    return wordAmount;
+    printf("Total added words: %d\n", wordAmount);
+}
+
+void printLoadFactor(HashTable* table)
+{
+    printf("Load factor: %f\n", getLoadFactor(table));
 }
 
 HashElement* createHashElement(char* key)
@@ -87,16 +96,21 @@ HashElement* createHashElement(char* key)
     return newElement;
 }
 
+void initializeTable(HashTable* table, int size)
+{
+    table->hashTable = (HashElement**)malloc(sizeof(HashElement*) * size);
+    table->types = (enum CellType*)malloc(sizeof(enum CellType) * size);
+    memset(table->hashTable, 0, size * sizeof(HashElement*));
+    memset(table->types, (int)empty, size * sizeof(enum CellType));
+    table->bucketCount = size;
+    table->elementCount = 0;
+}
+
 HashTable* createHashTableWithSize(int polynomFactor, int size)
 {
     HashTable* newTable = (HashTable*)malloc(sizeof(HashTable));
-    newTable->hashTable = (HashElement**)malloc(sizeof(HashElement*) * size);
-    newTable->types = (enum CellType*)malloc(sizeof(enum CellType) * size);
-    newTable->bucketCount = size;
-    newTable->elementCount = 0;
     newTable->polynomFactor = polynomFactor;
-    memset(newTable->types, (int)empty, size * sizeof(enum CellType));
-    memset(newTable->hashTable, 0, size * sizeof(HashElement*));
+    initializeTable(newTable, size);
 
     return newTable;
 }
@@ -134,20 +148,16 @@ void expandTable(HashTable* table)
     int oldSize = table->bucketCount;
     int size = table->bucketCount * 2;
 
-    table->hashTable = (HashElement**)malloc(sizeof(HashElement*) * size);
-    table->types = (enum CellType*)malloc(sizeof(enum CellType) * size);
-    memset(table->hashTable, 0, size * sizeof(HashElement*));
-    memset(table->types, (int)empty, size * sizeof(enum CellType));
-    table->bucketCount = size;
-    table->elementCount = 0;
-
+    initializeTable(table, size);
     for (int i = 0; i < oldSize; ++i) {
         if (oldTypes[i] == used) {
             HashElement* element = oldElements[i];
-            pushElement(table, element->key, element->amount, element->insertionAttempts);
+            pushElement(table, element->key, element->amount);
         }
     }
-
+    for (int i = 0; i < oldSize; ++i) {
+        free(oldElements[i]);
+    }
     free(oldElements);
     free(oldTypes);
 }
@@ -157,7 +167,7 @@ int getIndex(HashTable* table, int hash, int attempt)
     return (hash + (attempt + attempt * attempt) / 2) % table->bucketCount;
 }
 
-bool pushElement(HashTable* table, char* key, int amount, int insertionAttempts)
+void pushElement(HashTable* table, char* key, int amount)
 {
     int attempt = 1;
     int hash = getHash(key, table->polynomFactor, table->bucketCount);
@@ -168,32 +178,34 @@ bool pushElement(HashTable* table, char* key, int amount, int insertionAttempts)
                 table->hashTable[index]->insertionAttempts = attempt;
             }
             table->hashTable[index]->amount++;
-            return true;
+            return;
         }
         ++attempt;
         index = getIndex(table, hash, attempt);
     }
+
     HashElement* newElement = createHashElement(key);
     table->hashTable[index] = newElement;
     table->types[index] = used;
     table->elementCount++;
-    newElement->insertionAttempts = insertionAttempts;
+    newElement->insertionAttempts = attempt;
     newElement->amount = amount;
+
     if (getLoadFactor(table) > maxLoadFactor) {
         expandTable(table);
     }
-    return true;
 }
 
-bool getWordInformation(HashTable* table, char* key)
+bool removeElement(HashTable* table, char* key)
 {
     int attempt = 1;
     int hash = getHash(key, table->polynomFactor, table->bucketCount);
     int index = getIndex(table, hash, attempt);
-    while (table->types[index] == used) {
+    while (table->types[index] == used || attempt != table->bucketCount) {
         if (strcmp(table->hashTable[index]->key, key) == 0) {
-            printf("number of repetitions of a word %d\n", table->hashTable[index]->amount);
-            printf("number of attempts to insert %d\n", table->hashTable[index]->insertionAttempts);
+            table->types[index] = empty;
+            table->elementCount--;
+            free(table->hashTable[index]);
             return true;
         }
         ++attempt;
@@ -202,34 +214,33 @@ bool getWordInformation(HashTable* table, char* key)
     return false;
 }
 
-void printListOfMostCommonWords(HashTable* table)
+void printListOfMostCommonWords(HashTable* table, int numberOfRepetitiveWords)
 {
-    HashElement** elements = (HashElement**)malloc(10 * sizeof(HashElement*));
-    memset(elements, (int)NULL, 10 * sizeof(HashElement*));
+    if (table->elementCount == 0) {
+        printf("There are no items in the table\n");
+        return;
+    }
+    int* elementsIndex = (int*)malloc(numberOfRepetitiveWords * sizeof(int));
+    memset(elementsIndex, -1, numberOfRepetitiveWords * sizeof(int));
     for (int i = 0; i < table->bucketCount; ++i) {
         if (table->types[i] == used) {
-            if (elements[0] == NULL) {
-                elements[0] = table->hashTable[i];
-            } else {
-                for (int j = 0; j < 10; ++j) {
-                    if (elements[j] != NULL && elements[j]->amount < table->hashTable[i]->amount) {
-                        for (int k = 9; k > j; --k) {
-                            elements[k] = elements[k - 1];
-                        }
-                        elements[j] = table->hashTable[i];
-                        break;
-                    } else if (elements[j] == NULL) {
-                        elements[j] = table->hashTable[i];
-                        break;
-                    }
+            int index = 0;
+            while (elementsIndex[index] > -1 && table->hashTable[i]->amount < table->hashTable[elementsIndex[index]]->amount && index < numberOfRepetitiveWords) {
+                ++index;
+            }
+            if (index < numberOfRepetitiveWords) {
+                for (int j = numberOfRepetitiveWords - 1; j > index; --j) {
+                    elementsIndex[j] = elementsIndex[j - 1];
                 }
+                elementsIndex[index] = i;
             }
         }
     }
-    for (int i = 0; i < 10; ++i) {
-        if (elements[i] != NULL) {
-            printf("\n %d. %s - repeated %d times", i + 1, elements[i]->key, elements[i]->amount);
-        }
+    int i = 0;
+    while (elementsIndex[i] != -1 && i < numberOfRepetitiveWords) {
+        printf("\n %d. %s - repeated %d times", i + 1, table->hashTable[elementsIndex[i]]->key, table->hashTable[elementsIndex[i]]->amount);
+        ++i;
     }
-    free(elements);
+    printf("\n");
+    free(elementsIndex);
 }

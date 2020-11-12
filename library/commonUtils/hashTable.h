@@ -8,18 +8,18 @@ HashTable* createHashTable(int polynomFactor);
 
 int getHash(char* key, int polynomFactor, int module);
 
-void getMaximumInsertAttempts(HashTable* table);
-int getElementCount(HashTable* table);
-int getBucketCount(HashTable* table);
-int getWordAmount(HashTable* table);
+void printMaximumInsertAttempts(HashTable* table);
+void printElementCount(HashTable* table);
+void printNumberOfEmptyCells(HashTable* table);
+void printWordAmount(HashTable* table);
+void printLoadFactor(HashTable* table);
+void printAverageNumberOfAttempts(HashTable* table);
 
 float getLoadFactor(HashTable* table);
-float getAverageNumberOfAttempts(HashTable* table);
 
-bool pushElement(HashTable* table, char* key, int amount, int insertionAttempts);
-bool getWordInformation(HashTable* table, char* key);
+void pushElement(HashTable* table, char* key, int amount);
 
 void destroyHashTable(HashTable* table);
-void printListOfMostCommonWords(HashTable* table);
+void printListOfMostCommonWords(HashTable* table, int numberOfRepetitiveWords);
 
 #endif // SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_HASHTABLE_H_

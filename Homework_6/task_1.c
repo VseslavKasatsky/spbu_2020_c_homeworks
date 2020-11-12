@@ -3,57 +3,68 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-int const LONGESTWORDLENGTH = 27;
-
-bool getWord(char* word, FILE* file)
+bool isLetter(char buffer)
 {
-    memset(word, 0, LONGESTWORDLENGTH * sizeof(char));
-    char buffer = 0;
-    int i = 0;
-    while (buffer != ' ') {
-        buffer = fgetc(file);
-        if (buffer == EOF) {
-            return false;
-        }
-        if ((buffer >= 'a') && (buffer <= 'z')) {
-            word[i] = buffer;
-            ++i;
-        } else if ((buffer >= 'A') && (buffer <= 'Z'))
+    return (buffer >= 'a' && buffer <= 'z') || (buffer >= 'A' && buffer <= 'Z');
+}
 
-        {
-            buffer = tolower(buffer);
-            word[i] = buffer;
-            ++i;
+void readWordAndPush(FILE* file, HashTable* table)
+{
+    bool isEndOfFile = false;
+    while (!isEndOfFile) {
+        int size = 1;
+        char* word = (char*)malloc(size * sizeof(char));
+        word[0] = '0';
+        int index = 0;
+        char buffer = fgetc(file);
+        while (isLetter(buffer)) {
+            if (buffer >= 'A' && buffer <= 'Z') {
+                buffer = tolower(buffer);
+            }
+            word[index] = buffer;
+            ++index;
+            if (size == index) {
+                size = size * 2;
+                word = (char*)realloc(word, size * sizeof(char));
+            }
+            buffer = fgetc(file);
         }
+        if (buffer == EOF) {
+            isEndOfFile = true;
+        }
+        if (isLetter(word[0])) {
+            word[index] = '\0';
+            pushElement(table, word, 1);
+        }
+        free(word);
     }
-    return true;
 }
 
 int main()
 {
-    char* word = (char*)malloc(LONGESTWORDLENGTH * sizeof(char));
     FILE* file = fopen("text.txt", "r");
     if (file == NULL) {
         printf("ERROR! The program could not open the file!");
         return -1;
     }
-    bool flag = getWord(word, file);
     HashTable* table = createHashTable(2);
-    while (flag) {
-        pushElement(table, word, 1, 1);
-        flag = getWord(word, file);
-    }
-    printf("Average number of attends: %f\n", getAverageNumberOfAttempts(table));
-    getMaximumInsertAttempts(table);
-    printf("Load factor: %f\n", getLoadFactor(table));
-    printf("Total added words: %d\n", getWordAmount(table));
-    printf("Number of unique words: %d\n", getElementCount(table));
-    printf("Number of empty table cells: %d\n", getBucketCount(table) - getElementCount(table));
-    printListOfMostCommonWords(table);
+
+    readWordAndPush(file, table);
+
+    printf("Enter the number of the most repetitive words to display: ");
+    int numberOfRepetitiveWords = 0;
+    scanf("%d", &numberOfRepetitiveWords);
+    printListOfMostCommonWords(table, numberOfRepetitiveWords);
+
+    printAverageNumberOfAttempts(table);
+    printMaximumInsertAttempts(table);
+    printElementCount(table);
+    printWordAmount(table);
+    printNumberOfEmptyCells(table);
+    printLoadFactor(table);
+
     fclose(file);
-    free(word);
     destroyHashTable(table);
     return 0;
 }
