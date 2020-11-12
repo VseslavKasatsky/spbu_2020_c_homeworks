@@ -86,8 +86,8 @@ void printLoadFactor(HashTable* table)
 HashElement* createHashElement(char* key)
 {
     HashElement* newElement = (HashElement*)malloc(sizeof(HashElement));
-    int keySize = strlen(key);
-    newElement->key = (char*)malloc(sizeof(char) * keySize);
+    int keySize = (int)strlen(key);
+    newElement->key = (char*)malloc((keySize + 1) * sizeof(char));
     strcpy(newElement->key, key);
 
     newElement->insertionAttempts = 0;
@@ -122,7 +122,7 @@ HashTable* createHashTable(int polynomFactor)
 
 int getHash(char* key, int polynomFactor, int module)
 {
-    int size = strlen(key);
+    int size = (int)strlen(key);
     int currentHash = 0;
     for (int i = 0; i < size; ++i) {
         currentHash = ((currentHash * polynomFactor) + (key[i] - 'a')) % module;
@@ -130,10 +130,20 @@ int getHash(char* key, int polynomFactor, int module)
     return currentHash;
 }
 
+void deleteHashElement(HashElement* element)
+{
+    if (element->key != NULL) {
+        free(element->key);
+    }
+    free(element);
+}
+
 void destroyHashTable(HashTable* table)
 {
     for (int i = 0; i < table->bucketCount; ++i) {
-        free(table->hashTable[i]);
+        if (table->types[i] == used) {
+            deleteHashElement(table->hashTable[i]);
+        }
     }
     free(table->hashTable);
     free(table->types);
@@ -153,11 +163,10 @@ void expandTable(HashTable* table)
         if (oldTypes[i] == used) {
             HashElement* element = oldElements[i];
             pushElement(table, element->key, element->amount);
+            deleteHashElement(element);
         }
     }
-    for (int i = 0; i < oldSize; ++i) {
-        free(oldElements[i]);
-    }
+
     free(oldElements);
     free(oldTypes);
 }
