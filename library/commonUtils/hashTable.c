@@ -240,7 +240,7 @@ void printListOfMostCommonWords(HashTable* table, int numberOfRepetitiveWords)
         tryToAddWordToListOfMostCommonWords(table, elementsIndex, i, numberOfRepetitiveWords);
     }
     int i = 0;
-    while (elementsIndex[i] != -1 && i < numberOfRepetitiveWords) {
+    while (i < numberOfRepetitiveWords && elementsIndex[i] != -1) {
         printf("\n %d. %s - repeated %d times", i + 1, table->hashTable[elementsIndex[i]]->key, table->hashTable[elementsIndex[i]]->amount);
         ++i;
     }
