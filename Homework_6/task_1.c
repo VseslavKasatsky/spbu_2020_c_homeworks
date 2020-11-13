@@ -51,18 +51,13 @@ int main()
     HashTable* table = createHashTable(2);
 
     readWordAndPush(file, table);
-
+    removeElement(table, (char*)"he");
     printf("Enter the number of the most repetitive words to display: ");
     int numberOfRepetitiveWords = 0;
     scanf("%d", &numberOfRepetitiveWords);
-    printListOfMostCommonWords(table, numberOfRepetitiveWords);
 
-    printAverageNumberOfAttempts(table);
-    printMaximumInsertAttempts(table);
-    printElementCount(table);
-    printWordAmount(table);
-    printNumberOfEmptyCells(table);
-    printLoadFactor(table);
+    printListOfMostCommonWords(table, numberOfRepetitiveWords);
+    printTableStatistic(table);
 
     fclose(file);
     destroyHashTable(table);

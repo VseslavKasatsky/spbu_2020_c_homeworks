@@ -28,10 +28,12 @@ float getLoadFactor(HashTable* table)
     return (float)table->elementCount / (float)table->bucketCount;
 }
 
-void printAverageNumberOfAttempts(HashTable* table)
+void printTableStatistic(HashTable* table)
 {
     if (table->elementCount == 0) {
-        printf("Average number of attends: 0\n");
+        printf("No words added. \n");
+        printf("Number of empty table cells: %d\n", table->bucketCount - table->elementCount);
+        printf("Load factor: %f\n", getLoadFactor(table));
         return;
     }
     int sumOfInsertAttempts = 0;
@@ -41,10 +43,7 @@ void printAverageNumberOfAttempts(HashTable* table)
         }
     }
     printf("Average number of attends: %f\n", (float)sumOfInsertAttempts / (float)table->elementCount);
-}
 
-void printMaximumInsertAttempts(HashTable* table)
-{
     int maximumInsertAttempts = 0;
     for (int i = 0; i < table->bucketCount; ++i) {
         if (table->types[i] == used && table->hashTable[i]->insertionAttempts > maximumInsertAttempts) {
@@ -55,20 +54,10 @@ void printMaximumInsertAttempts(HashTable* table)
         if (table->types[i] == used && table->hashTable[i]->insertionAttempts == maximumInsertAttempts)
             printf("The word w/ most attempts <%s> - %d\n", table->hashTable[i]->key, table->hashTable[i]->insertionAttempts);
     }
-}
 
-void printElementCount(HashTable* table)
-{
     printf("Number of unique words: %d\n", table->elementCount);
-}
-
-void printNumberOfEmptyCells(HashTable* table)
-{
     printf("Number of empty table cells: %d\n", table->bucketCount - table->elementCount);
-}
 
-void printWordAmount(HashTable* table)
-{
     int wordAmount = 0;
     for (int i = 0; i < table->bucketCount; ++i) {
         if (table->types[i] == used) {
@@ -76,10 +65,6 @@ void printWordAmount(HashTable* table)
         }
     }
     printf("Total added words: %d\n", wordAmount);
-}
-
-void printLoadFactor(HashTable* table)
-{
     printf("Load factor: %f\n", getLoadFactor(table));
 }
 
@@ -210,17 +195,38 @@ bool removeElement(HashTable* table, char* key)
     int attempt = 1;
     int hash = getHash(key, table->polynomFactor, table->bucketCount);
     int index = getIndex(table, hash, attempt);
-    while (table->types[index] == used || attempt != table->bucketCount) {
-        if (strcmp(table->hashTable[index]->key, key) == 0) {
+    int startIndex = index;
+    while (table->types[index] == used) {
+        if (table->hashTable[index]->key != NULL && strcmp(table->hashTable[index]->key, key) == 0) {
             table->types[index] = empty;
             table->elementCount--;
-            free(table->hashTable[index]);
+            deleteHashElement(table->hashTable[index]);
             return true;
         }
         ++attempt;
         index = getIndex(table, hash, attempt);
+        if (startIndex == index) {
+            return false;
+        }
     }
     return false;
+}
+
+void tryToAddWordToListOfMostCommonWords(HashTable* table, int* elementsIndex, int indexInHashTable, int numberOfRepetitiveWords)
+{
+    if (table->types[indexInHashTable] == used) {
+        int index = 0;
+        while (elementsIndex[index] > -1 && table->hashTable[indexInHashTable]->amount < table->hashTable[elementsIndex[index]]->amount && index < numberOfRepetitiveWords) {
+            ++index;
+        }
+        if (index < numberOfRepetitiveWords) {
+            for (int j = numberOfRepetitiveWords - 1; j > index; --j) {
+                printf("%d i %d\n", j, j - 1);
+                elementsIndex[j] = elementsIndex[j - 1];
+            }
+            elementsIndex[index] = indexInHashTable;
+        }
+    }
 }
 
 void printListOfMostCommonWords(HashTable* table, int numberOfRepetitiveWords)
@@ -232,18 +238,7 @@ void printListOfMostCommonWords(HashTable* table, int numberOfRepetitiveWords)
     int* elementsIndex = (int*)malloc(numberOfRepetitiveWords * sizeof(int));
     memset(elementsIndex, -1, numberOfRepetitiveWords * sizeof(int));
     for (int i = 0; i < table->bucketCount; ++i) {
-        if (table->types[i] == used) {
-            int index = 0;
-            while (elementsIndex[index] > -1 && table->hashTable[i]->amount < table->hashTable[elementsIndex[index]]->amount && index < numberOfRepetitiveWords) {
-                ++index;
-            }
-            if (index < numberOfRepetitiveWords) {
-                for (int j = numberOfRepetitiveWords - 1; j > index; --j) {
-                    elementsIndex[j] = elementsIndex[j - 1];
-                }
-                elementsIndex[index] = i;
-            }
-        }
+        tryToAddWordToListOfMostCommonWords(table, elementsIndex, i, numberOfRepetitiveWords);
     }
     int i = 0;
     while (elementsIndex[i] != -1 && i < numberOfRepetitiveWords) {
