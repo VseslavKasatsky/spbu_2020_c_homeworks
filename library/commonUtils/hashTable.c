@@ -221,7 +221,6 @@ void tryToAddWordToListOfMostCommonWords(HashTable* table, int* elementsIndex, i
         }
         if (index < numberOfRepetitiveWords) {
             for (int j = numberOfRepetitiveWords - 1; j > index; --j) {
-                printf("%d i %d\n", j, j - 1);
                 elementsIndex[j] = elementsIndex[j - 1];
             }
             elementsIndex[index] = indexInHashTable;
