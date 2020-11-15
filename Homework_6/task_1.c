@@ -64,9 +64,12 @@ int main()
         printf("ERROR! The program could not open the file!");
         return -1;
     }
-    HashTable* table = createHashTable(2);
+    int (*getHash)(char*, int, int) = &getHashOutside;
+    int (*getIndex)(int, int, int) = &getIndexOutside;
+    HashTable* table = createHashTable(2, getHash, getIndex);
 
     readWordAndPush(file, table);
+
     printf("Enter the number of the most repetitive words to display: ");
     int numberOfRepetitiveWords = 0;
     scanf("%d", &numberOfRepetitiveWords);

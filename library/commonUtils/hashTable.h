@@ -4,7 +4,7 @@
 
 typedef struct HashTable HashTable;
 
-HashTable* createHashTable(int polynomFactor);
+HashTable* createHashTable(int polynomFactor, int (*getHash)(char*, int, int), int (*getIndex)(int, int, int));
 
 void printMaximumInsertAttempts(HashTable* table);
 void printElementCount(HashTable* table);
@@ -23,6 +23,4 @@ bool removeElement(HashTable* table, char* key);
 
 void destroyHashTable(HashTable* table);
 
-extern int getHashOutside(char* key, int polynomFactor, int module);
-extern int getIndexOutside(int hash, int attempt, int module);
 #endif // SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_HASHTABLE_H_

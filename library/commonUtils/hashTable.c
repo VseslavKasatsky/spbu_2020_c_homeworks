@@ -19,6 +19,8 @@ struct HashTable {
     int bucketCount;
     int elementCount;
     int polynomFactor;
+    int (*getHash)(char*, int, int);
+    int (*getIndex)(int, int, int);
 };
 
 const float maxLoadFactor = 0.7;
@@ -111,18 +113,20 @@ void initializeTable(HashTable* table, int size)
     table->elementCount = 0;
 }
 
-HashTable* createHashTableWithSize(int polynomFactor, int size)
+HashTable* createHashTableWithSize(int polynomFactor, int size, int (*getHash)(char*, int, int), int (*getIndex)(int, int, int))
 {
     HashTable* newTable = (HashTable*)malloc(sizeof(HashTable));
     newTable->polynomFactor = polynomFactor;
+    newTable->getHash = getHash;
+    newTable->getIndex = getIndex;
     initializeTable(newTable, size);
 
     return newTable;
 }
 
-HashTable* createHashTable(int polynomFactor)
+HashTable* createHashTable(int polynomFactor, int (*getHash)(char*, int, int), int (*getIndex)(int, int, int))
 {
-    return createHashTableWithSize(polynomFactor, 1);
+    return createHashTableWithSize(polynomFactor, 1, getHash, getIndex);
 }
 
 void deleteHashElement(HashElement* element)
@@ -169,8 +173,8 @@ void expandTable(HashTable* table)
 void pushElement(HashTable* table, char* key, int amount)
 {
     int attempt = 1;
-    int hash = getHashOutside(key, table->polynomFactor, table->bucketCount);
-    int index = getIndexOutside(hash, attempt, table->bucketCount);
+    int hash = table->getHash(key, table->polynomFactor, table->bucketCount);
+    int index = table->getIndex(hash, attempt, table->bucketCount);
     while (table->types[index] == used) {
         if (strcmp(table->hashTable[index]->key, key) == 0) {
             if (table->hashTable[index]->insertionAttempts < attempt) {
@@ -180,7 +184,7 @@ void pushElement(HashTable* table, char* key, int amount)
             return;
         }
         ++attempt;
-        index = getIndexOutside(hash, attempt, table->bucketCount);
+        index = table->getIndex(hash, attempt, table->bucketCount);
     }
 
     HashElement* newElement = createHashElement(key);
@@ -198,8 +202,8 @@ void pushElement(HashTable* table, char* key, int amount)
 bool removeElement(HashTable* table, char* key)
 {
     int attempt = 1;
-    int hash = getHashOutside(key, table->polynomFactor, table->bucketCount);
-    int index = getIndexOutside(hash, attempt, table->bucketCount);
+    int hash = table->getHash(key, table->polynomFactor, table->bucketCount);
+    int index = table->getIndex(hash, attempt, table->bucketCount);
     int startIndex = index;
     while (table->types[index] == used) {
         if (table->hashTable[index]->key != NULL && strcmp(table->hashTable[index]->key, key) == 0) {
@@ -209,7 +213,7 @@ bool removeElement(HashTable* table, char* key)
             return true;
         }
         ++attempt;
-        index = getIndexOutside(hash, attempt, table->bucketCount);
+        index = table->getIndex(hash, attempt, table->bucketCount);
         if (startIndex == index) {
             return false;
         }
