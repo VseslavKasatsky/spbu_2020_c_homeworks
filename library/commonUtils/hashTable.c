@@ -200,7 +200,6 @@ bool removeElement(HashTable* table, char* key)
     int attempt = 1;
     int hash = getHashOutside(key, table->polynomFactor, table->bucketCount);
     int index = getIndexOutside(hash, attempt, table->bucketCount);
-    ;
     int startIndex = index;
     while (table->types[index] == used) {
         if (table->hashTable[index]->key != NULL && strcmp(table->hashTable[index]->key, key) == 0) {
@@ -211,7 +210,6 @@ bool removeElement(HashTable* table, char* key)
         }
         ++attempt;
         index = getIndexOutside(hash, attempt, table->bucketCount);
-        ;
         if (startIndex == index) {
             return false;
         }
