@@ -43,6 +43,10 @@ void printMaximumInsertAttempts(HashTable* table)
 }
 void printAverageNumberOfAttempts(HashTable* table)
 {
+    if (table->elementCount == 0) {
+        printf("Average number of attends: 0\n");
+        return;
+    }
     int sumOfInsertAttempts = 0;
     for (int i = 0; i < table->bucketCount; ++i) {
         if (table->types[i] == used) {
