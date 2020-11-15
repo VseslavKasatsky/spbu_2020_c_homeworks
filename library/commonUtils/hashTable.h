@@ -24,4 +24,6 @@ bool removeElement(HashTable* table, char* key);
 void destroyHashTable(HashTable* table);
 void printListOfMostCommonWords(HashTable* table, int numberOfRepetitiveWords);
 
+extern int getHashOutside(char* key, int polynomFactor, int module);
+extern int getIndexOutside(int hash, int attempt, int module);
 #endif // SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_HASHTABLE_H_

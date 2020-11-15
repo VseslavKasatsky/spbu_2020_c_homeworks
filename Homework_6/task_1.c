@@ -3,6 +3,22 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+int getHashOutside(char* key, int polynomFactor, int module)
+{
+    int size = (int)strlen(key);
+    int currentHash = 0;
+    for (int i = 0; i < size; ++i) {
+        currentHash = ((currentHash * polynomFactor) + (key[i] - 'a')) % module;
+    }
+    return currentHash;
+}
+
+int getIndexOutside(int hash, int attempt, int module)
+{
+    return (hash + (attempt + attempt * attempt) / 2) % module;
+}
 
 bool isLetter(char buffer)
 {

@@ -127,12 +127,7 @@ HashTable* createHashTable(int polynomFactor)
 
 int getHash(char* key, int polynomFactor, int module)
 {
-    int size = (int)strlen(key);
-    int currentHash = 0;
-    for (int i = 0; i < size; ++i) {
-        currentHash = ((currentHash * polynomFactor) + (key[i] - 'a')) % module;
-    }
-    return currentHash;
+    return getHashOutside(key, polynomFactor, module);
 }
 
 void deleteHashElement(HashElement* element)
@@ -178,7 +173,7 @@ void expandTable(HashTable* table)
 
 int getIndex(HashTable* table, int hash, int attempt)
 {
-    return (hash + (attempt + attempt * attempt) / 2) % table->bucketCount;
+    return getIndexOutside(hash, attempt, table->bucketCount);
 }
 
 void pushElement(HashTable* table, char* key, int amount)
