@@ -64,9 +64,7 @@ int main()
         printf("ERROR! The program could not open the file!");
         return -1;
     }
-    int (*getHash)(char*, int, int) = &getHashOutside;
-    int (*getIndex)(int, int, int) = &getIndexOutside;
-    HashTable* table = createHashTable(2, getHash, getIndex);
+    HashTable* table = createHashTable(2, &getHashOutside, &getIndexOutside);
 
     readWordAndPush(file, table);
 
