@@ -125,11 +125,6 @@ HashTable* createHashTable(int polynomFactor)
     return createHashTableWithSize(polynomFactor, 1);
 }
 
-int getHash(char* key, int polynomFactor, int module)
-{
-    return getHashOutside(key, polynomFactor, module);
-}
-
 void deleteHashElement(HashElement* element)
 {
     if (element->key != NULL) {
@@ -171,16 +166,11 @@ void expandTable(HashTable* table)
     free(oldTypes);
 }
 
-int getIndex(HashTable* table, int hash, int attempt)
-{
-    return getIndexOutside(hash, attempt, table->bucketCount);
-}
-
 void pushElement(HashTable* table, char* key, int amount)
 {
     int attempt = 1;
-    int hash = getHash(key, table->polynomFactor, table->bucketCount);
-    int index = getIndex(table, hash, attempt);
+    int hash = getHashOutside(key, table->polynomFactor, table->bucketCount);
+    int index = getIndexOutside(hash, attempt, table->bucketCount);
     while (table->types[index] == used) {
         if (strcmp(table->hashTable[index]->key, key) == 0) {
             if (table->hashTable[index]->insertionAttempts < attempt) {
@@ -190,7 +180,7 @@ void pushElement(HashTable* table, char* key, int amount)
             return;
         }
         ++attempt;
-        index = getIndex(table, hash, attempt);
+        index = getIndexOutside(hash, attempt, table->bucketCount);
     }
 
     HashElement* newElement = createHashElement(key);
@@ -208,8 +198,9 @@ void pushElement(HashTable* table, char* key, int amount)
 bool removeElement(HashTable* table, char* key)
 {
     int attempt = 1;
-    int hash = getHash(key, table->polynomFactor, table->bucketCount);
-    int index = getIndex(table, hash, attempt);
+    int hash = getHashOutside(key, table->polynomFactor, table->bucketCount);
+    int index = getIndexOutside(hash, attempt, table->bucketCount);
+    ;
     int startIndex = index;
     while (table->types[index] == used) {
         if (table->hashTable[index]->key != NULL && strcmp(table->hashTable[index]->key, key) == 0) {
@@ -219,7 +210,8 @@ bool removeElement(HashTable* table, char* key)
             return true;
         }
         ++attempt;
-        index = getIndex(table, hash, attempt);
+        index = getIndexOutside(hash, attempt, table->bucketCount);
+        ;
         if (startIndex == index) {
             return false;
         }
