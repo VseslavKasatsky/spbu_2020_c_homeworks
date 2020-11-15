@@ -28,22 +28,8 @@ float getLoadFactor(HashTable* table)
     return (float)table->elementCount / (float)table->bucketCount;
 }
 
-void printTableStatistic(HashTable* table)
+void printMaximumInsertAttempts(HashTable* table)
 {
-    if (table->elementCount == 0) {
-        printf("No words added. \n");
-        printf("Number of empty table cells: %d\n", table->bucketCount - table->elementCount);
-        printf("Load factor: %f\n", getLoadFactor(table));
-        return;
-    }
-    int sumOfInsertAttempts = 0;
-    for (int i = 0; i < table->bucketCount; ++i) {
-        if (table->types[i] == used) {
-            sumOfInsertAttempts += table->hashTable[i]->insertionAttempts;
-        }
-    }
-    printf("Average number of attends: %f\n", (float)sumOfInsertAttempts / (float)table->elementCount);
-
     int maximumInsertAttempts = 0;
     for (int i = 0; i < table->bucketCount; ++i) {
         if (table->types[i] == used && table->hashTable[i]->insertionAttempts > maximumInsertAttempts) {
@@ -54,7 +40,27 @@ void printTableStatistic(HashTable* table)
         if (table->types[i] == used && table->hashTable[i]->insertionAttempts == maximumInsertAttempts)
             printf("The word w/ most attempts <%s> - %d\n", table->hashTable[i]->key, table->hashTable[i]->insertionAttempts);
     }
-
+}
+void printAverageNumberOfAttempts(HashTable* table)
+{
+    int sumOfInsertAttempts = 0;
+    for (int i = 0; i < table->bucketCount; ++i) {
+        if (table->types[i] == used) {
+            sumOfInsertAttempts += table->hashTable[i]->insertionAttempts;
+        }
+    }
+    printf("Average number of attends: %f\n", (float)sumOfInsertAttempts / (float)table->elementCount);
+}
+void printElementCount(HashTable* table)
+{
+    printf("Number of unique words: %d\n", table->elementCount);
+}
+void printNumberOfEmptyCells(HashTable* table)
+{
+    printf("Number of empty table cells: %d\n", table->bucketCount - table->elementCount);
+}
+void printWordAmount(HashTable* table)
+{
     int wordAmount = 0;
     for (int i = 0; i < table->bucketCount; ++i) {
         if (table->types[i] == used) {
@@ -62,9 +68,20 @@ void printTableStatistic(HashTable* table)
         }
     }
     printf("Total added words: %d\n", wordAmount);
-    printf("Number of unique words: %d\n", table->elementCount);
-    printf("Number of empty table cells: %d\n", table->bucketCount - table->elementCount);
+}
+void printLoadFactor(HashTable* table)
+{
     printf("Load factor: %f\n", getLoadFactor(table));
+}
+
+void printTableStatistic(HashTable* table)
+{
+    printAverageNumberOfAttempts(table);
+    printLoadFactor(table);
+    printMaximumInsertAttempts(table);
+    printElementCount(table);
+    printWordAmount(table);
+    printNumberOfEmptyCells(table);
 }
 
 HashElement* createHashElement(char* key)

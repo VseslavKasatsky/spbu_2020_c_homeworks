@@ -8,6 +8,12 @@ HashTable* createHashTable(int polynomFactor);
 
 int getHash(char* key, int polynomFactor, int module);
 
+void printMaximumInsertAttempts(HashTable* table);
+void printElementCount(HashTable* table);
+void printNumberOfEmptyCells(HashTable* table);
+void printWordAmount(HashTable* table);
+void printLoadFactor(HashTable* table);
+void printAverageNumberOfAttempts(HashTable* table);
 void printTableStatistic(HashTable* table);
 
 float getLoadFactor(HashTable* table);
