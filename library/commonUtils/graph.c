@@ -51,7 +51,7 @@ Edge** createEdgeArray(int amount)
     return edgeArray;
 }
 
-void removeEdgeArray(Edge** edgeArray, int amount)
+void destroyEdgeArray(Edge** edgeArray, int amount)
 {
     for (int i = 0; i < amount; ++i) {
         free(edgeArray[i]);
@@ -59,7 +59,7 @@ void removeEdgeArray(Edge** edgeArray, int amount)
     free(edgeArray);
 }
 
-void removeGraph(Graph* graph)
+void destroyGraph(Graph* graph)
 {
     for (int i = 0; i < graph->countVertex; ++i) {
         free(graph->matrix[i]);
