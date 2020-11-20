@@ -2,31 +2,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct BinaryTreeNode {
+typedef struct TreeNode {
     int value;
     int height;
-    struct BinaryTreeNode* leftChild;
-    struct BinaryTreeNode* rightChild;
-} BinaryTreeNode;
+    struct TreeNode* leftChild;
+    struct TreeNode* rightChild;
+} TreeNode;
 
 struct BinarySearchTree {
-    struct BinaryTreeNode* root;
+    struct TreeNode* root;
+};
+
+struct AvlTree {
+    struct TreeNode* root;
 };
 
 enum Direction { left,
     right,
     none };
 
-BinarySearchTree* createTree()
+AvlTree* createAvlTree()
+{
+    AvlTree* newTree = (AvlTree*)malloc(sizeof(AvlTree));
+    newTree->root = NULL;
+    return newTree;
+}
+
+BinarySearchTree* createBinarySearchTree()
 {
     BinarySearchTree* newTree = (BinarySearchTree*)malloc(sizeof(BinarySearchTree));
     newTree->root = NULL;
     return newTree;
 }
 
-BinaryTreeNode* createNode(int value)
+TreeNode* createNode(int value)
 {
-    BinaryTreeNode* node = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
+    TreeNode* node = (TreeNode*)malloc(sizeof(TreeNode));
     node->rightChild = NULL;
     node->leftChild = NULL;
     node->value = value;
@@ -34,17 +45,22 @@ BinaryTreeNode* createNode(int value)
     return node;
 }
 
-bool isLeaf(BinaryTreeNode* node)
+bool isLeaf(TreeNode* node)
 {
     return node->leftChild == NULL && node->rightChild == NULL;
 }
 
-bool isEmpty(BinarySearchTree* tree)
+bool isEmptyBst(BinarySearchTree* tree)
 {
     return (tree->root == NULL);
 }
 
-bool changeParent(BinarySearchTree* tree, BinaryTreeNode* parent, BinaryTreeNode* newNode, enum Direction direction)
+bool isEmptyAvl(AvlTree* tree)
+{
+    return (tree->root == NULL);
+}
+
+bool changeParent(BinarySearchTree* tree, TreeNode* parent, TreeNode* newNode, enum Direction direction)
 {
     if (direction == left) {
         parent->leftChild = newNode;
@@ -58,7 +74,21 @@ bool changeParent(BinarySearchTree* tree, BinaryTreeNode* parent, BinaryTreeNode
     return true;
 }
 
-bool existsRecursive(BinaryTreeNode* node, int value)
+bool changeParentAvl(AvlTree* tree, TreeNode* parent, TreeNode* newNode, enum Direction direction)
+{
+    if (direction == left) {
+        parent->leftChild = newNode;
+    }
+    if (direction == right) {
+        parent->rightChild = newNode;
+    }
+    if (direction == none) {
+        tree->root = newNode;
+    }
+    return true;
+}
+
+bool existsRecursive(TreeNode* node, int value)
 {
     if (node->value == value) {
         return true;
@@ -72,34 +102,42 @@ bool existsRecursive(BinaryTreeNode* node, int value)
     return false;
 }
 
-bool exists(BinarySearchTree* tree, int value)
+bool existsBst(BinarySearchTree* tree, int value)
 {
-    if (isEmpty(tree)) {
+    if (isEmptyBst(tree)) {
         return false;
     }
     return existsRecursive(tree->root, value);
 }
 
-int getHeight(BinaryTreeNode* node)
+bool existsAvl(AvlTree* tree, int value)
+{
+    if (isEmptyAvl(tree)) {
+        return false;
+    }
+    return existsRecursive(tree->root, value);
+}
+
+int getHeight(TreeNode* node)
 {
     return node == NULL ? 0 : node->height;
 }
 
-int getBalanceFactor(BinaryTreeNode* node)
+int getBalanceFactor(TreeNode* node)
 {
     return getHeight(node->rightChild) - getHeight(node->leftChild);
 }
 
-void updateHeight(BinaryTreeNode* node)
+void updateHeight(TreeNode* node)
 {
     int heightLeft = getHeight(node->leftChild);
     int heightRight = getHeight(node->rightChild);
     node->height = (heightLeft > heightRight ? heightLeft : heightRight) + 1;
 }
 
-BinaryTreeNode* rotateLeft(BinaryTreeNode* root)
+TreeNode* rotateLeft(TreeNode* root)
 {
-    BinaryTreeNode* pivot = root->rightChild;
+    TreeNode* pivot = root->rightChild;
     root->rightChild = pivot->leftChild;
     pivot->leftChild = root;
     updateHeight(root);
@@ -107,9 +145,9 @@ BinaryTreeNode* rotateLeft(BinaryTreeNode* root)
     return pivot;
 }
 
-BinaryTreeNode* rotateRight(BinaryTreeNode* root)
+TreeNode* rotateRight(TreeNode* root)
 {
-    BinaryTreeNode* pivot = root->leftChild;
+    TreeNode* pivot = root->leftChild;
     root->leftChild = pivot->rightChild;
     pivot->rightChild = root;
     updateHeight(root);
@@ -117,7 +155,7 @@ BinaryTreeNode* rotateRight(BinaryTreeNode* root)
     return pivot;
 }
 
-BinaryTreeNode* balanceBranch(BinaryTreeNode* root)
+TreeNode* balanceBranch(TreeNode* root)
 {
     if (getBalanceFactor(root) == 2) {
         if (getBalanceFactor(root->rightChild) < 0) {
@@ -134,7 +172,7 @@ BinaryTreeNode* balanceBranch(BinaryTreeNode* root)
     return root;
 }
 
-BinaryTreeNode* balanceTree(BinaryTreeNode* node)
+TreeNode* balanceTree(TreeNode* node)
 {
     if (isLeaf(node)) {
         node->height = 1;
@@ -150,7 +188,7 @@ BinaryTreeNode* balanceTree(BinaryTreeNode* node)
     return balanceBranch(node);
 }
 
-bool addValueRecursive(BinaryTreeNode* node, int value)
+bool addValueRecursive(TreeNode* node, int value)
 {
     if (node->value == value) {
         return false;
@@ -170,9 +208,9 @@ bool addValueRecursive(BinaryTreeNode* node, int value)
     }
 }
 
-bool addValueToAVL(BinarySearchTree* tree, int value)
+bool addValueToAVL(AvlTree* tree, int value)
 {
-    if (isEmpty(tree)) {
+    if (isEmptyAvl(tree)) {
         tree->root = createNode(value);
         tree->root->height = 1;
         return true;
@@ -186,7 +224,7 @@ bool addValueToAVL(BinarySearchTree* tree, int value)
 
 bool addValueToBST(BinarySearchTree* tree, int value)
 {
-    if (isEmpty(tree)) {
+    if (isEmptyBst(tree)) {
         tree->root = createNode(value);
         return true;
     }
@@ -196,7 +234,7 @@ bool addValueToBST(BinarySearchTree* tree, int value)
     return false;
 }
 
-bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTreeNode* parent, int value, enum Direction direction)
+bool removeRecursiveBst(BinarySearchTree* tree, TreeNode* node, TreeNode* parent, int value, enum Direction direction)
 {
     if (node->value == value) {
         if (isLeaf(node)) {
@@ -214,8 +252,8 @@ bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTreeNod
                 changeParent(tree, parent, node->rightChild, direction);
                 node->rightChild->leftChild = node->leftChild;
             } else {
-                BinaryTreeNode* minimumRightChild = node->rightChild;
-                BinaryTreeNode* minimumRightChildParent = node;
+                TreeNode* minimumRightChild = node->rightChild;
+                TreeNode* minimumRightChildParent = node;
                 while (minimumRightChild->leftChild != NULL) {
                     minimumRightChildParent = minimumRightChild;
                     minimumRightChild = minimumRightChild->leftChild;
@@ -230,20 +268,73 @@ bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTreeNod
         return true;
     }
     if (node->value > value && node->leftChild != NULL) {
-        return removeRecursive(tree, node->leftChild, node, value, left);
+        return removeRecursiveBst(tree, node->leftChild, node, value, left);
     }
     if (node->value < value && node->rightChild != NULL) {
-        return removeRecursive(tree, node->rightChild, node, value, right);
+        return removeRecursiveBst(tree, node->rightChild, node, value, right);
     }
     return false;
 }
 
-bool removeValueFromAVL(BinarySearchTree* tree, int value)
+bool removeValueFromBST(BinarySearchTree* tree, int value)
 {
-    if (isEmpty(tree)) {
+    if (isEmptyBst(tree)) {
         return false;
     }
-    if (removeRecursive(tree, tree->root, NULL, value, none)) {
+    if (removeRecursiveBst(tree, tree->root, NULL, value, none)) {
+        return true;
+    }
+    return false;
+}
+
+bool removeRecursiveAvl(AvlTree* tree, TreeNode* node, TreeNode* parent, int value, enum Direction direction)
+{
+    if (node->value == value) {
+        if (isLeaf(node)) {
+            if (parent != NULL) {
+                changeParentAvl(tree, parent, NULL, direction);
+            } else {
+                tree->root = NULL;
+            }
+        } else if (node->leftChild == NULL && node->rightChild != NULL) {
+            changeParentAvl(tree, parent, node->rightChild, direction);
+        } else if (node->leftChild != NULL && node->rightChild == NULL) {
+            changeParentAvl(tree, parent, node->leftChild, direction);
+        } else if (node->leftChild != NULL && node->rightChild != NULL) {
+            if (node->rightChild->leftChild == NULL) {
+                changeParentAvl(tree, parent, node->rightChild, direction);
+                node->rightChild->leftChild = node->leftChild;
+            } else {
+                TreeNode* minimumRightChild = node->rightChild;
+                TreeNode* minimumRightChildParent = node;
+                while (minimumRightChild->leftChild != NULL) {
+                    minimumRightChildParent = minimumRightChild;
+                    minimumRightChild = minimumRightChild->leftChild;
+                }
+                changeParentAvl(tree, parent, minimumRightChild, direction);
+                changeParentAvl(tree, minimumRightChildParent, minimumRightChild->rightChild, left);
+                minimumRightChild->leftChild = node->leftChild;
+                minimumRightChild->rightChild = node->rightChild;
+            }
+        }
+        free(node);
+        return true;
+    }
+    if (node->value > value && node->leftChild != NULL) {
+        return removeRecursiveAvl(tree, node->leftChild, node, value, left);
+    }
+    if (node->value < value && node->rightChild != NULL) {
+        return removeRecursiveAvl(tree, node->rightChild, node, value, right);
+    }
+    return false;
+}
+
+bool removeValueFromAVL(AvlTree* tree, int value)
+{
+    if (isEmptyAvl(tree)) {
+        return false;
+    }
+    if (removeRecursiveAvl(tree, tree->root, NULL, value, none)) {
         if (tree->root != NULL) {
             tree->root = balanceTree(tree->root);
         }
@@ -252,18 +343,7 @@ bool removeValueFromAVL(BinarySearchTree* tree, int value)
     return false;
 }
 
-bool removeValueFromBST(BinarySearchTree* tree, int value)
-{
-    if (isEmpty(tree)) {
-        return false;
-    }
-    if (removeRecursive(tree, tree->root, NULL, value, none)) {
-        return true;
-    }
-    return false;
-}
-
-void removeTreeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTreeNode* parent, enum Direction direction)
+void removeBinarySearchTreeRecursive(BinarySearchTree* tree, TreeNode* node, TreeNode* parent, enum Direction direction)
 {
     if (node == NULL) {
         return;
@@ -273,18 +353,18 @@ void removeTreeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, BinaryTre
         free(node);
         return;
     }
-    removeTreeRecursive(tree, node->leftChild, node, left);
-    removeTreeRecursive(tree, node->rightChild, node, right);
+    removeBinarySearchTreeRecursive(tree, node->leftChild, node, left);
+    removeBinarySearchTreeRecursive(tree, node->rightChild, node, right);
     changeParent(tree, parent, NULL, direction);
     free(node);
 }
 
-void removeTree(BinarySearchTree* tree)
+void removeBinarySearchTree(BinarySearchTree* tree)
 {
     if (tree != NULL) {
         if (tree->root != NULL) {
-            removeTreeRecursive(tree, tree->root->leftChild, tree->root, left);
-            removeTreeRecursive(tree, tree->root->rightChild, tree->root, right);
+            removeBinarySearchTreeRecursive(tree, tree->root->leftChild, tree->root, left);
+            removeBinarySearchTreeRecursive(tree, tree->root->rightChild, tree->root, right);
             free(tree->root);
         }
         tree->root = NULL;
@@ -292,7 +372,36 @@ void removeTree(BinarySearchTree* tree)
     }
 }
 
-void printAscendingRecursive(BinaryTreeNode* node)
+void removeAvlRecursive(AvlTree* tree, TreeNode* node, TreeNode* parent, enum Direction direction)
+{
+    if (node == NULL) {
+        return;
+    }
+    if (isLeaf(node)) {
+        changeParentAvl(tree, parent, NULL, direction);
+        free(node);
+        return;
+    }
+    removeAvlRecursive(tree, node->leftChild, node, left);
+    removeAvlRecursive(tree, node->rightChild, node, right);
+    changeParentAvl(tree, parent, NULL, direction);
+    free(node);
+}
+
+void removeAvl(AvlTree* tree)
+{
+    if (tree != NULL) {
+        if (tree->root != NULL) {
+            removeAvlRecursive(tree, tree->root->leftChild, tree->root, left);
+            removeAvlRecursive(tree, tree->root->rightChild, tree->root, right);
+            free(tree->root);
+        }
+        tree->root = NULL;
+        free(tree);
+    }
+}
+
+void printAscendingRecursive(TreeNode* node)
 {
     if (node == NULL)
         return;
@@ -302,7 +411,7 @@ void printAscendingRecursive(BinaryTreeNode* node)
     printAscendingRecursive(node->rightChild);
 }
 
-void printAscending(BinarySearchTree* tree)
+void printAscendingBst(BinarySearchTree* tree)
 {
     printf("\n Here's your tree: ");
     if (tree != NULL) {
@@ -310,7 +419,15 @@ void printAscending(BinarySearchTree* tree)
     }
 }
 
-void printInDescendingRecursive(BinaryTreeNode* node)
+void printAscendingAvl(AvlTree* tree)
+{
+    printf("\n Here's your tree: ");
+    if (tree != NULL) {
+        printAscendingRecursive(tree->root);
+    }
+}
+
+void printInDescendingRecursive(TreeNode* node)
 {
     if (node == NULL) {
         return;
@@ -320,7 +437,7 @@ void printInDescendingRecursive(BinaryTreeNode* node)
     printInDescendingRecursive(node->leftChild);
 }
 
-void printDescending(BinarySearchTree* tree)
+void printDescendingBst(BinarySearchTree* tree)
 {
     printf("\n Here's your tree: ");
     if (tree != NULL) {
@@ -328,7 +445,15 @@ void printDescending(BinarySearchTree* tree)
     }
 }
 
-void printInSpecialFormRecursive(BinarySearchTree* tree, BinaryTreeNode* node)
+void printDescendingAvl(AvlTree* tree)
+{
+    printf("\n Here's your tree: ");
+    if (tree != NULL) {
+        printInDescendingRecursive(tree->root);
+    }
+}
+
+void printBstInSpecialFormRecursive(BinarySearchTree* tree, TreeNode* node)
 {
     if (node != NULL) {
         printf("(");
@@ -336,22 +461,50 @@ void printInSpecialFormRecursive(BinarySearchTree* tree, BinaryTreeNode* node)
             printf(" %d null null ", node->value);
         } else if (node->leftChild == NULL) {
             printf(" %d null ", node->value);
-            printInSpecialFormRecursive(tree, node->rightChild);
+            printBstInSpecialFormRecursive(tree, node->rightChild);
         } else if (node->rightChild == NULL) {
             printf(" %d ", node->value);
-            printInSpecialFormRecursive(tree, node->leftChild);
+            printBstInSpecialFormRecursive(tree, node->leftChild);
             printf(" null ");
         } else {
             printf(" %d ", node->value);
-            printInSpecialFormRecursive(tree, node->leftChild);
-            printInSpecialFormRecursive(tree, node->rightChild);
+            printBstInSpecialFormRecursive(tree, node->leftChild);
+            printBstInSpecialFormRecursive(tree, node->rightChild);
         }
         printf(")");
     }
 }
 
-void printInSpecialForm(BinarySearchTree* tree)
+void printBstInSpecialForm(BinarySearchTree* tree)
 {
     printf("\n Here's your tree: ");
-    printInSpecialFormRecursive(tree, tree->root);
+    printBstInSpecialFormRecursive(tree, tree->root);
+}
+
+void printAvlInSpecialFormRecursive(AvlTree* tree, TreeNode* node)
+{
+    if (node != NULL) {
+        printf("(");
+        if (node->leftChild == NULL && node->rightChild == NULL) {
+            printf(" %d null null ", node->value);
+        } else if (node->leftChild == NULL) {
+            printf(" %d null ", node->value);
+            printAvlInSpecialFormRecursive(tree, node->rightChild);
+        } else if (node->rightChild == NULL) {
+            printf(" %d ", node->value);
+            printAvlInSpecialFormRecursive(tree, node->leftChild);
+            printf(" null ");
+        } else {
+            printf(" %d ", node->value);
+            printAvlInSpecialFormRecursive(tree, node->leftChild);
+            printAvlInSpecialFormRecursive(tree, node->rightChild);
+        }
+        printf(")");
+    }
+}
+
+void printAvlInSpecialForm(AvlTree* tree)
+{
+    printf("\n Here's your tree: ");
+    printAvlInSpecialFormRecursive(tree, tree->root);
 }

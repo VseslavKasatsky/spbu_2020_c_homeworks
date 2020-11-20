@@ -4,17 +4,30 @@
 
 typedef struct BinarySearchTree BinarySearchTree;
 
-BinarySearchTree* createTree();
-void removeTree(BinarySearchTree* tree);
+BinarySearchTree* createBinarySearchTree();
+void removeBinarySearchTree(BinarySearchTree* tree);
 
-bool exists(BinarySearchTree* tree, int value);
-bool addValueToAVL(BinarySearchTree* tree, int value);
-bool removeValueFromAVL(BinarySearchTree* tree, int value);
+bool existsBst(BinarySearchTree* tree, int value);
+
 bool addValueToBST(BinarySearchTree* tree, int value);
 bool removeValueFromBST(BinarySearchTree* tree, int value);
 
-void printAscending(BinarySearchTree* tree);
-void printDescending(BinarySearchTree* tree);
-void printInSpecialForm(BinarySearchTree* tree);
+void printAscendingBst(BinarySearchTree* tree);
+void printDescendingBst(BinarySearchTree* tree);
+void printBstInSpecialForm(BinarySearchTree* tree);
+
+typedef struct AvlTree AvlTree;
+
+AvlTree* createAvlTree();
+void removeAvl(AvlTree* tree);
+
+bool existsAvl(AvlTree* tree, int value);
+
+bool addValueToAVL(AvlTree* tree, int value);
+bool removeValueFromAVL(AvlTree* tree, int value);
+
+void printAscendingAvl(AvlTree* tree);
+void printDescendingAvl(AvlTree* tree);
+void printAvlInSpecialForm(AvlTree* tree);
 
 #endif // SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_BINARYSEARCHANDAVLTREE_H_

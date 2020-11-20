@@ -14,12 +14,64 @@ void printSelectionMenu()
     printf("6 - print in special form\n");
 }
 
-bool executeRequest(BinarySearchTree* tree)
+bool executeRequestBst(BinarySearchTree* tree)
 {
     int command = -1;
     scanf("%d", &command);
     switch (command) {
     case 0: {
+        removeBinarySearchTree(tree);
+        return false;
+    }
+    case 1: {
+        printf("Enter number: ");
+        int number = 0;
+        scanf("%d", &number);
+        addValueToBST(tree, number);
+        break;
+    }
+    case 2: {
+        printf("Enter number: ");
+        int number = 0;
+        scanf("%d", &number);
+        removeValueFromBST(tree, number);
+        break;
+    }
+    case 3: {
+        printf("Enter number: ");
+        int number = 0;
+        scanf("%d", &number);
+        printf("Is there a number %d - ", number);
+        printf(existsBst(tree, number) ? "true" : "false");
+        break;
+    }
+    case 4: {
+        printAscendingBst(tree);
+        break;
+    }
+    case 5: {
+        printDescendingBst(tree);
+        break;
+    }
+    case 6: {
+        printBstInSpecialForm(tree);
+        break;
+    }
+    default: {
+        printf("It's not a command \n Try again!");
+        break;
+    }
+    }
+    return true;
+}
+
+bool executeRequestAvl(AvlTree* tree)
+{
+    int command = -1;
+    scanf("%d", &command);
+    switch (command) {
+    case 0: {
+        removeAvl(tree);
         return false;
     }
     case 1: {
@@ -41,19 +93,19 @@ bool executeRequest(BinarySearchTree* tree)
         int number = 0;
         scanf("%d", &number);
         printf("Is there a number %d - ", number);
-        printf(exists(tree, number) ? "true" : "false");
+        printf(existsAvl(tree, number) ? "true" : "false");
         break;
     }
     case 4: {
-        printAscending(tree);
+        printAscendingAvl(tree);
         break;
     }
     case 5: {
-        printDescending(tree);
+        printDescendingAvl(tree);
         break;
     }
     case 6: {
-        printInSpecialForm(tree);
+        printAvlInSpecialForm(tree);
         break;
     }
     default: {
@@ -66,13 +118,27 @@ bool executeRequest(BinarySearchTree* tree)
 
 int main()
 {
-    BinarySearchTree* tree = createTree();
     bool request = true;
-    while (request) {
-        printSelectionMenu();
-        request = executeRequest(tree);
+    printf("What type of tree do you want to create \n 1 - Bst, 2 - Avl \n Enter value: ");
+    int treeType = 0;
+    scanf("%d", &treeType);
+    while (treeType < 1 || treeType > 2) {
+        printf("Invalid type.\n Enter 1 - to create Bst, 2 - to create Avl \n Enter value: ");
+        scanf("%d", &treeType);
     }
-    removeTree(tree);
+    if (treeType == 1) {
+        BinarySearchTree* binarySearchTree = createBinarySearchTree();
+        while (request) {
+            printSelectionMenu();
+            request = executeRequestBst(binarySearchTree);
+        }
+    } else {
+        AvlTree* avlTree = createAvlTree();
+        while (request) {
+            printSelectionMenu();
+            request = executeRequestAvl(avlTree);
+        }
+    }
     printf("\n All done!");
     return 0;
 }
