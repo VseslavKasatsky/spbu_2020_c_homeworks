@@ -31,4 +31,4 @@ void updateHeight(TreeNode* node);
 void printAscendingRecursive(TreeNode* node);
 void printInDescendingRecursive(TreeNode* node);
 
-#endif //SPBU_2020_C_HOMEWORKS_BINARYSEARCHINTERIOR_H
+#endif // SPBU_2020_C_HOMEWORKS_BINARYSEARCHINTERIOR_H

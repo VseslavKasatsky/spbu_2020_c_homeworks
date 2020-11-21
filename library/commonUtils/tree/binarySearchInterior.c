@@ -31,10 +31,7 @@ bool existsRecursive(TreeNode* node, int value)
     return false;
 }
 
-int getHeight(TreeNode* node)
-{
-    return node == NULL ? 0 : node->height;
-}
+int getHeight(TreeNode* node) { return node == NULL ? 0 : node->height; }
 
 int getBalanceFactor(TreeNode* node)
 {

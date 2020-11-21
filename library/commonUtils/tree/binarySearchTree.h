@@ -1,5 +1,5 @@
-#ifndef SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_BINARYSEARCHANDAVLTREE_H_
-#define SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_BINARYSEARCHANDAVLTREE_H_
+#ifndef SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_BINARYSEARCHTREE_H_
+#define SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_BINARYSEARCHTREE_H_
 #include <stdbool.h>
 
 typedef struct BinarySearchTree BinarySearchTree;
@@ -9,11 +9,11 @@ void removeBinarySearchTree(BinarySearchTree* tree);
 
 bool existsBst(BinarySearchTree* tree, int value);
 
-bool addValueToBST(BinarySearchTree* tree, int value);
-bool removeValueFromBST(BinarySearchTree* tree, int value);
+bool addValueToBst(BinarySearchTree* tree, int value);
+bool removeValueFromBst(BinarySearchTree* tree, int value);
 
 void printAscendingBst(BinarySearchTree* tree);
 void printDescendingBst(BinarySearchTree* tree);
 void printBstInSpecialForm(BinarySearchTree* tree);
 
-#endif // SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_BINARYSEARCHANDAVLTREE_H_
+#endif // SPBU_2020_C_HOMEWORKS_LIBRARY_COMMONUTILS_BINARYSEARCHTREE_H_

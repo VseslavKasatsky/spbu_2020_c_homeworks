@@ -41,7 +41,7 @@ bool existsBst(BinarySearchTree* tree, int value)
     return existsRecursive(tree->root, value);
 }
 
-bool addValueToBST(BinarySearchTree* tree, int value)
+bool addValueToBst(BinarySearchTree* tree, int value)
 {
     if (isEmptyBst(tree)) {
         tree->root = createNode(value);
@@ -53,7 +53,8 @@ bool addValueToBST(BinarySearchTree* tree, int value)
     return false;
 }
 
-bool removeRecursiveBst(BinarySearchTree* tree, TreeNode* node, TreeNode* parent, int value, enum Direction direction)
+bool removeRecursiveBst(BinarySearchTree* tree, TreeNode* node,
+    TreeNode* parent, int value, enum Direction direction)
 {
     if (node->value == value) {
         if (isLeaf(node)) {
@@ -78,7 +79,8 @@ bool removeRecursiveBst(BinarySearchTree* tree, TreeNode* node, TreeNode* parent
                     minimumRightChild = minimumRightChild->leftChild;
                 }
                 changeParent(tree, parent, minimumRightChild, direction);
-                changeParent(tree, minimumRightChildParent, minimumRightChild->rightChild, left);
+                changeParent(tree, minimumRightChildParent,
+                    minimumRightChild->rightChild, left);
                 minimumRightChild->leftChild = node->leftChild;
                 minimumRightChild->rightChild = node->rightChild;
             }
@@ -95,7 +97,7 @@ bool removeRecursiveBst(BinarySearchTree* tree, TreeNode* node, TreeNode* parent
     return false;
 }
 
-bool removeValueFromBST(BinarySearchTree* tree, int value)
+bool removeValueFromBst(BinarySearchTree* tree, int value)
 {
     if (isEmptyBst(tree)) {
         return false;
@@ -106,9 +108,9 @@ bool removeValueFromBST(BinarySearchTree* tree, int value)
     return false;
 }
 
-
-
-void removeBinarySearchTreeRecursive(BinarySearchTree* tree, TreeNode* node, TreeNode* parent, enum Direction direction)
+void removeBinarySearchTreeRecursive(BinarySearchTree* tree, TreeNode* node,
+    TreeNode* parent,
+    enum Direction direction)
 {
     if (node == NULL) {
         return;
@@ -128,8 +130,10 @@ void removeBinarySearchTree(BinarySearchTree* tree)
 {
     if (tree != NULL) {
         if (tree->root != NULL) {
-            removeBinarySearchTreeRecursive(tree, tree->root->leftChild, tree->root, left);
-            removeBinarySearchTreeRecursive(tree, tree->root->rightChild, tree->root, right);
+            removeBinarySearchTreeRecursive(tree, tree->root->leftChild, tree->root,
+                left);
+            removeBinarySearchTreeRecursive(tree, tree->root->rightChild, tree->root,
+                right);
             free(tree->root);
         }
         tree->root = NULL;

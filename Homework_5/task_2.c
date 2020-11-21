@@ -28,14 +28,14 @@ bool executeRequestBst(BinarySearchTree* tree)
         printf("Enter number: ");
         int number = 0;
         scanf("%d", &number);
-        addValueToBST(tree, number);
+        addValueToBst(tree, number);
         break;
     }
     case 2: {
         printf("Enter number: ");
         int number = 0;
         scanf("%d", &number);
-        removeValueFromBST(tree, number);
+        removeValueFromBst(tree, number);
         break;
     }
     case 3: {
@@ -120,11 +120,13 @@ bool executeRequestAvl(AvlTree* tree)
 int main()
 {
     bool request = true;
-    printf("What type of tree do you want to create \n 1 - Bst, 2 - Avl \n Enter value: ");
+    printf("What type of tree do you want to create \n 1 - Bst, 2 - Avl \n Enter "
+           "value: ");
     int treeType = 0;
     scanf("%d", &treeType);
     while (treeType < 1 || treeType > 2) {
-        printf("Invalid type.\n Enter 1 - to create Bst, 2 - to create Avl \n Enter value: ");
+        printf("Invalid type.\n Enter 1 - to create Bst, 2 - to create Avl \n "
+               "Enter value: ");
         scanf("%d", &treeType);
     }
     if (treeType == 1) {
