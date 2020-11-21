@@ -1,4 +1,5 @@
-#include "../library/commonUtils/binarySearchAndAvlTree.h"
+#include "../library/commonUtils/tree/avlTree.h"
+#include "../library/commonUtils/tree/binarySearchTree.h"
 #include <stdbool.h>
 #include <stdio.h>
 
