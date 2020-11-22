@@ -9,6 +9,9 @@ set(SOURCE_LIB
 add_library(library ${SOURCE_LIB})
 add_library(stackPostfix library/commonUtils/stackPostfix.c)
 add_library(list library/commonUtils/list.c)
+add_library(binarySearchTree library/commonUtils/tree/binarySearchTree.c library/commonUtils/tree/binarySearchInterior.c)
+add_library(avlTree library/commonUtils/tree/avlTree.c library/commonUtils/tree/binarySearchInterior.c)
+add_library(hashTable library/commonUtils/hashTable.c)
 
 add_executable(1.task_1 Homework_1/task_1.c)
 add_executable(1.task_2 Homework_1/task_2.c)
@@ -31,6 +34,12 @@ add_executable(4.task_1 Homework_4/task_1.c)
 target_link_libraries(4.task_1 stackPostfix)
 add_executable(4.task_2 Homework_4/task_2.c)
 add_executable(4.task_3 Homework_4/task_3.c)
+
+add_executable(5.task_2 Homework_5/task_2.c)
+target_link_libraries(5.task_2 avlTree binarySearchTree)
+
+add_executable(6.task_1 Homework_6/task_1.c)
+target_link_libraries(6.task_1 hashTable)
 
 add_executable(1.Test_1 Test/task_1.c)
 add_executable(1.Test_2 Test/task_2.c library/commonUtils/test1_2.c)
