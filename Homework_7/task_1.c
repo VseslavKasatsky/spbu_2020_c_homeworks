@@ -54,7 +54,6 @@ int main()
     scanf("%d", &numberOfStudents);
 
     Edge** students = (Edge**)malloc(numberOfStudents * sizeof(Edge*));
-    ;
     fillArrayOfEdges(students, numberOfStudents);
 
     Graph* homework = createGraph(numberOfStudents, numberOfStudents + 1, students);
