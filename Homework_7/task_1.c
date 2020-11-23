@@ -31,7 +31,7 @@ void printStudentsVariants(int* homeworkOriginalOwners, int numberOfStudents)
     }
 }
 
-void fillArrayOfEdges(Edge** students, int numberOfStudents)
+void fillStudentRegister(Edge** students, int numberOfStudents)
 {
     for (int i = 0; i < numberOfStudents; ++i) {
         printf("Enter student number and \n "
@@ -54,7 +54,7 @@ int main()
     scanf("%d", &numberOfStudents);
 
     Edge** students = (Edge**)malloc(numberOfStudents * sizeof(Edge*));
-    fillArrayOfEdges(students, numberOfStudents);
+    fillStudentRegister(students, numberOfStudents);
 
     Graph* homework = createGraph(numberOfStudents, numberOfStudents + 1, students);
     int* homeworkOriginalOwners = (int*)malloc((numberOfStudents + 1) * sizeof(int));
