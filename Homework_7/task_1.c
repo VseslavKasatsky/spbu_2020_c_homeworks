@@ -53,7 +53,8 @@ int main()
     printf("Enter number of students: ");
     scanf("%d", &numberOfStudents);
 
-    Edge** students = createEdgeArray(numberOfStudents);
+    Edge** students = (Edge**)malloc(numberOfStudents * sizeof(Edge*));
+    ;
     fillArrayOfEdges(students, numberOfStudents);
 
     Graph* homework = createGraph(numberOfStudents, numberOfStudents + 1, students);
@@ -61,8 +62,12 @@ int main()
     getWorksOwners(homework, homeworkOriginalOwners, numberOfStudents);
     printStudentsVariants(homeworkOriginalOwners, numberOfStudents);
 
+    for (int i = 0; i < numberOfStudents; ++i) {
+        free(students[i]);
+    }
+
+    free(students);
     free(homeworkOriginalOwners);
-    destroyEdgeArray(students, numberOfStudents);
     destroyGraph(homework);
     return 0;
 }

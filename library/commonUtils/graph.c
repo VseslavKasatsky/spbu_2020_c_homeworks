@@ -45,20 +45,6 @@ Graph* createGraph(int countEdges, int countVertex, Edge** edges)
     return graph;
 }
 
-Edge** createEdgeArray(int amount)
-{
-    Edge** edgeArray = (Edge**)malloc(amount * sizeof(Edge*));
-    return edgeArray;
-}
-
-void destroyEdgeArray(Edge** edgeArray, int amount)
-{
-    for (int i = 0; i < amount; ++i) {
-        free(edgeArray[i]);
-    }
-    free(edgeArray);
-}
-
 void destroyGraph(Graph* graph)
 {
     for (int i = 0; i < graph->countVertex; ++i) {
@@ -112,7 +98,7 @@ bool isCycled(Graph* graph)
 void pushConnectedVertexToArray(Graph* graph, int vertex, bool* isConnected)
 {
     for (int i = 0; i < graph->countVertex; ++i) {
-        if (graph->matrix[vertex][i] != 0) {
+        if (graph->matrix[vertex][i] > 0) {
             isConnected[i] = true;
             if (vertex != i) {
                 pushConnectedVertexToArray(graph, i, isConnected);
