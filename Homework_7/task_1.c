@@ -7,17 +7,16 @@ int const VARIANTSNUMBER = 3;
 
 void getWorksOwners(Graph* homework, int* homeworkOriginalOwners, int numberOfStudents)
 {
-    bool* connectedTestWorks = (bool*)malloc((numberOfStudents + 1) * sizeof(bool));
     for (int i = 0; i < VARIANTSNUMBER + 1; ++i) {
-        memset(connectedTestWorks, false, ((numberOfStudents + 1) * sizeof(bool)));
-        pushConnectedVertexToArray(homework, i, connectedTestWorks);
-        for (int j = 1; j < numberOfStudents + 1; ++j) {
-            if (connectedTestWorks[j]) {
-                homeworkOriginalOwners[j] = i;
-            }
-        }
+        homeworkOriginalOwners[i] = i;
     }
-    free(connectedTestWorks);
+    for (int i = VARIANTSNUMBER + 1; i < numberOfStudents + 1; ++i) {
+        int index = 0;
+        while (index < VARIANTSNUMBER + 1 && !isConnected(i, index, homework)) {
+            ++index;
+        }
+        homeworkOriginalOwners[i] = index;
+    }
 }
 
 void printStudentsVariants(int* homeworkOriginalOwners, int numberOfStudents)
@@ -33,16 +32,16 @@ void printStudentsVariants(int* homeworkOriginalOwners, int numberOfStudents)
 
 void fillStudentRegister(Edge** students, int numberOfStudents)
 {
-    for (int i = 0; i < numberOfStudents; ++i) {
+    for (int i = 0; i < numberOfStudents - VARIANTSNUMBER; ++i) {
         printf("Enter student number and \n "
                "the number of the student from which he wrote off: ");
         int studentNumber = 0;
         int sourceStudentNumber = 0;
         scanf("%d %d", &studentNumber, &sourceStudentNumber);
         if (sourceStudentNumber == -1) {
-            students[i] = createEdge(0, studentNumber, 1, true);
+            students[i] = createEdge(0, studentNumber, 1, false);
         } else {
-            students[i] = createEdge(sourceStudentNumber, studentNumber, 1, true);
+            students[i] = createEdge(sourceStudentNumber, studentNumber, 1, false);
         }
     }
 }
@@ -53,18 +52,17 @@ int main()
     printf("Enter number of students: ");
     scanf("%d", &numberOfStudents);
 
-    Edge** students = (Edge**)malloc(numberOfStudents * sizeof(Edge*));
+    Edge** students = (Edge**)malloc((numberOfStudents - VARIANTSNUMBER) * sizeof(Edge*));
     fillStudentRegister(students, numberOfStudents);
 
-    Graph* homework = createGraph(numberOfStudents, numberOfStudents + 1, students);
+    Graph* homework = createGraph(numberOfStudents - VARIANTSNUMBER, numberOfStudents + 1, students);
     int* homeworkOriginalOwners = (int*)malloc((numberOfStudents + 1) * sizeof(int));
     getWorksOwners(homework, homeworkOriginalOwners, numberOfStudents);
     printStudentsVariants(homeworkOriginalOwners, numberOfStudents);
 
-    for (int i = 0; i < numberOfStudents; ++i) {
+    for (int i = VARIANTSNUMBER + 1; i < numberOfStudents - VARIANTSNUMBER; ++i) {
         free(students[i]);
     }
-
     free(students);
     free(homeworkOriginalOwners);
     destroyGraph(homework);
