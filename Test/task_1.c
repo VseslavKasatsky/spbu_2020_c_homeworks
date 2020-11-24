@@ -55,6 +55,7 @@ int main()
         printf("The set of numbers in the file IS NOT symmetrical");
     }
 
+    fclose(file);
     removeList(numbers);
     return 0;
 }
