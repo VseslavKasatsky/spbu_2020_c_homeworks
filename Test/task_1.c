@@ -1,6 +1,5 @@
 #include "../library/commonUtils/list.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 void readFromFileAndPushInList(FILE* file, List* numbers)
 {
@@ -51,9 +50,9 @@ int main()
     int size = getSize(numbers);
 
     if (isSymmetrical(numbers, size)) {
-        printf("The set of numbers in the file is symmetrical");
+        printf("The set of numbers in the file IS symmetrical");
     } else {
-        printf("The set of numbers in the file is NOT symmetrical");
+        printf("The set of numbers in the file IS NOT symmetrical");
     }
 
     removeList(numbers);
