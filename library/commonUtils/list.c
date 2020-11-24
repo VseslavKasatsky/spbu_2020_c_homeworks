@@ -171,3 +171,13 @@ ListElement* getNextInCycle(List* list, ListElement* previousElement)
     }
     return previousElement->next;
 }
+
+ListElement* getPreviousElement(ListElement* element)
+{
+    return element->previous;
+}
+
+ListElement* getNextElement(ListElement* element)
+{
+    return element->next;
+}

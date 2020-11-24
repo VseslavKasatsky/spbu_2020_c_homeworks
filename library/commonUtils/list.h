@@ -11,6 +11,8 @@ ListElement* tail(List* list);
 ListElement* head(List* list);
 ListElement* retrieve(int position, List* list);
 ListElement* getNextInCycle(List* list, ListElement*previousElement);
+ListElement* getNextElement(ListElement* element);
+ListElement* getPreviousElement(ListElement* element);
 
 bool insert(ListElement* element, int position, List* list);
 bool deleteElementOnPosition(int position, List* list);
