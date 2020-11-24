@@ -1,7 +1,6 @@
 #include "../library/commonUtils/graph.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 int const VARIANTSNUMBER = 3;
 
@@ -30,7 +29,7 @@ void printStudentsVariants(int* homeworkOriginalOwners, int numberOfStudents)
     }
 }
 
-void fillStudentRegister(Edge** students, int numberOfStudents)
+void fillStudentRegister(Edge** students, int numberOfStudents, int* homeworkOriginalOwners)
 {
     for (int i = 0; i < numberOfStudents - VARIANTSNUMBER; ++i) {
         printf("Enter student number and \n "
@@ -39,7 +38,7 @@ void fillStudentRegister(Edge** students, int numberOfStudents)
         int sourceStudentNumber = 0;
         scanf("%d %d", &studentNumber, &sourceStudentNumber);
         if (sourceStudentNumber == -1) {
-            students[i] = createEdge(0, studentNumber, 1, false);
+            homeworkOriginalOwners[studentNumber] = 0;
         } else {
             students[i] = createEdge(sourceStudentNumber, studentNumber, 1, false);
         }
@@ -53,10 +52,10 @@ int main()
     scanf("%d", &numberOfStudents);
 
     Edge** students = (Edge**)malloc((numberOfStudents - VARIANTSNUMBER) * sizeof(Edge*));
-    fillStudentRegister(students, numberOfStudents);
+    int* homeworkOriginalOwners = (int*)malloc((numberOfStudents + 1) * sizeof(int));
+    fillStudentRegister(students, numberOfStudents, homeworkOriginalOwners);
 
     Graph* homework = createGraph(numberOfStudents - VARIANTSNUMBER, numberOfStudents + 1, students);
-    int* homeworkOriginalOwners = (int*)malloc((numberOfStudents + 1) * sizeof(int));
     getWorksOwners(homework, homeworkOriginalOwners, numberOfStudents);
     printStudentsVariants(homeworkOriginalOwners, numberOfStudents);
 

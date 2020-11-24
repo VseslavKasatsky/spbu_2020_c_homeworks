@@ -9,7 +9,6 @@ Graph* createGraph(int countEdges, int countVertex, Edge** edges);
 Edge* createEdge(int start, int end, int weight, bool oriented);
 
 void destroyGraph(Graph* graph);
-void pushConnectedVertexToArray(Graph* graph, int vertex, bool* isConnected);
 
 bool depthFirstSearch(Graph* graph, int currentVertex, int* vertexState);
 bool isConnected(int fromVertex, int toVertex, Graph* graph);

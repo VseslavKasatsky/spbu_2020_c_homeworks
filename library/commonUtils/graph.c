@@ -94,15 +94,3 @@ bool isCycled(Graph* graph)
     }
     return false;
 }
-
-void pushConnectedVertexToArray(Graph* graph, int vertex, bool* isConnected)
-{
-    for (int i = 0; i < graph->countVertex; ++i) {
-        if (graph->matrix[vertex][i] > 0) {
-            isConnected[i] = true;
-            if (vertex != i) {
-                pushConnectedVertexToArray(graph, i, isConnected);
-            }
-        }
-    }
-}
