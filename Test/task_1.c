@@ -1,34 +1,61 @@
+#include "../library/commonUtils/list.h"
 #include <stdio.h>
-#include <stdlib.h>
 
-int arraySort(const void* b, const void* a)
+void readFromFileAndPushInList(FILE* file, List* numbers)
 {
-    return *(int*)a - *(int*)b;
+    bool isEndOfFile = false;
+    int index = 0;
+    while (!isEndOfFile) {
+        char word = '0';
+        char buffer = fgetc(file);
+        if (buffer == EOF) {
+            isEndOfFile = true;
+        } else {
+            ListElement* newElement = createListElement(buffer - '0');
+            insert(newElement, index, numbers);
+            ++index;
+        }
+    }
+}
+
+bool isSymmetrical(List* numbers, int amount)
+{
+    int counter = 0;
+    ListElement* startElement = retrieve(0, numbers);
+    ListElement* endElement = retrieve(amount - 1, numbers);
+    while ((startElement != endElement) && (getNextElement(endElement) != startElement)) {
+        if (getElementValue(startElement) == getElementValue(endElement)) {
+            ++counter;
+        }
+        startElement = getNextElement(startElement);
+        endElement = getPreviousElement(endElement);
+    }
+    if (counter == (amount / 2)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 int main()
 {
-    int subjects = 0;
-    printf("Enter the amount of subjects:");
-    scanf("%d", &subjects);
-    int* vasyaSummary = malloc(subjects * sizeof(int));
-    int* petyaSummary = malloc(subjects * sizeof(int));
-    printf("Enter Vasya summary with %d elements", subjects);
-    for (int i = 0; i < subjects; ++i) {
-        scanf("%d", &vasyaSummary[i]);
+    FILE* file = fopen("text.txt", "r");
+    if (file == NULL) {
+        printf("ERROR! The program could not open the file!");
+        return -1;
     }
-    printf("Enter Petya summary with %d elements", subjects);
-    for (int i = 0; i < subjects; ++i) {
-        scanf("%d", &petyaSummary[i]);
+
+    List* numbers = createList();
+    readFromFileAndPushInList(file, numbers);
+    int size = getSize(numbers);
+
+    if (isSymmetrical(numbers, size)) {
+        printf("The set of numbers in the file IS symmetrical");
+    } else {
+        printf("The set of numbers in the file IS NOT symmetrical");
     }
-    int* summary = malloc(subjects * 2 * sizeof(int));
-    for (int i = 0; i < subjects; ++i) {
-        summary[i] = vasyaSummary[i];
-        summary[i + subjects] = petyaSummary[i];
-    }
-    qsort(summary, 2 * subjects, sizeof(int), arraySort);
-    for (int i = 0; i < 2 * subjects; ++i) {
-        printf("%d", summary[i]);
-    }
+
+    fclose(file);
+    removeList(numbers);
     return 0;
 }
