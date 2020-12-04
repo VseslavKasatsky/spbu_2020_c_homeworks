@@ -63,28 +63,22 @@ void initializeStatesAndPushTransitions(DFAState** states)
     }
 }
 
-bool isNumber(char* expression, int statesAmount)
+int main()
 {
+    int statesAmount = 8;
+    char* expression = getString();
+
     DFAState** states = (DFAState**)malloc(statesAmount * sizeof(DFAState*));
     initializeStatesAndPushTransitions(states);
     DFA* dfa = createDFA(states[0]);
-    bool isExpressionIsNumber = isStringCorrect(expression, dfa);
+
+    printf("This expression is%s a number", isStringCorrect(expression, dfa) ? "" : " not");
 
     for (int i = 0; i < statesAmount; ++i) {
         removeDFAState(states[i]);
     }
     removeDFA(dfa);
     free(states);
-
-    return isExpressionIsNumber;
-}
-
-int main()
-{
-    int statesAmount = 8;
-    char* expression = getString();
-    printf("This expression is%s a number", isNumber(expression, statesAmount) ? "" : " not");
-
     free(expression);
     return 0;
 }
