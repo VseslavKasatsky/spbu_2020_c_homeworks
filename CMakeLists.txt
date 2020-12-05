@@ -14,6 +14,7 @@ add_library(avlTree library/commonUtils/tree/avlTree.c library/commonUtils/tree/
 add_library(graph library/commonUtils/graph.c)
 add_library(hashTable library/commonUtils/hashTable.c)
 add_library(dfa library/commonUtils/dfa.c)
+add_library(stringOperations library/commonUtils/stringOperations.c)
 
 add_executable(1.task_1 Homework_1/task_1.c)
 add_executable(1.task_2 Homework_1/task_2.c)
@@ -48,6 +49,7 @@ target_link_libraries(7.task_1 graph)
 
 add_executable(8.task_1 Homework_8/task_1.c)
 target_link_libraries(8.task_1 dfa)
+target_link_libraries(8.task_1 stringOperations)
 
 add_executable(Test_2 Test/task_2.c library/commonUtils/test1_2.c)
 add_executable(1.Test_1 Test/task_1.c)
