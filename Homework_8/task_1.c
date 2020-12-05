@@ -63,6 +63,13 @@ void initializeStatesAndPushTransitions(DFAState** states)
     }
 }
 
+void destroyStates(DFAState** states, int statesAmount)
+{
+    for (int i = 0; i < statesAmount; ++i) {
+        removeDFAState(states[i]);
+    }
+}
+
 int main()
 {
     int statesAmount = 8;
@@ -74,9 +81,7 @@ int main()
 
     printf("This expression is%s a number", isStringCorrect(expression, dfa) ? "" : " not");
 
-    for (int i = 0; i < statesAmount; ++i) {
-        removeDFAState(states[i]);
-    }
+    destroyStates(states, statesAmount);
     removeDFA(dfa);
     free(states);
     free(expression);
