@@ -109,20 +109,32 @@ Graph* createIncidentalGraph(int countEdges, int countVertex, Edge** edges)
 
     for (int i = 0; i < countEdges; ++i) {
         graph->matrix[edges[i]->start][i] = edges[i]->weight;
-        graph->matrix[edges[i]->end][i] = -edges[i]->weight;
+        graph->matrix[edges[i]->end][i] = edges[i]->weight;
+        if (edges[i]->oriented) {
+            graph->matrix[edges[i]->end][i] *= -1;
+        }
     }
 
     return graph;
 }
 
-void getVertexImposibleToCome(Graph* graph, int vertexNumber, bool* arrayOfVertex)
+void destroyIncidentalGraph(Graph* graph)
+{
+    for (int i = 0; i < (graph->countVertex + 1); ++i) {
+        free(graph->matrix[i]);
+    }
+    free(graph->matrix);
+    free(graph);
+}
+
+void getConnectedVertexArray(Graph* graph, int vertexNumber, bool* arrayOfVertex)
 {
     for (int i = 0; i < graph->countEdges; ++i) {
         if (graph->matrix[vertexNumber][i] < 0) {
-            for (int j = 1; j < graph->countVertex + 1; ++i) {
+            for (int j = 1; j < graph->countVertex + 1; ++j) {
                 if (graph->matrix[j][i] > 0 && !arrayOfVertex[j]) {
                     arrayOfVertex[j] = true;
-                    getVertexImposibleToCome(graph, j, arrayOfVertex);
+                    getConnectedVertexArray(graph, j, arrayOfVertex);
                 }
             }
         }
