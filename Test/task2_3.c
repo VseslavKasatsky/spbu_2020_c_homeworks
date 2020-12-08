@@ -1,6 +1,7 @@
 #include "../library/commonUtils/graph.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main()
 {
@@ -21,4 +22,15 @@ int main()
         edges[i] = createEdge(startVertex, endVertex, 1, true);
     }
     Graph* graph = createIncidentalGraph(edgesNumber, vertexNumber, edges);
+
+    printf("Enter the vertex for which to search for vertices from which it is impossible to come to the given: ");
+    int givenVertex = 0;
+    scanf("%d",&givenVertex);
+    bool* vertexArray = (bool*)malloc((vertexNumber+1)*sizeof(bool));
+    memset(vertexArray, 0, (vertexNumber+1) * sizeof(bool));
+    getVertexImposibleToCome(graph,givenVertex,vertexArray);
+    for(int i =0;i<vertexNumber+1;++i)
+    {
+        printf("%d",vertexArray[i]);
+    }
 }

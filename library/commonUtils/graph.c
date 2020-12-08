@@ -114,3 +114,17 @@ Graph* createIncidentalGraph(int countEdges, int countVertex, Edge** edges)
 
     return graph;
 }
+
+void getVertexImposibleToCome(Graph* graph, int vertexNumber, bool* arrayOfVertex)
+{
+    for (int i = 0; i < graph->countEdges; ++i) {
+        if (graph->matrix[vertexNumber][i] < 0) {
+            for (int j = 1; j < graph->countVertex + 1; ++i) {
+                if (graph->matrix[j][i] > 0 && !arrayOfVertex[j]) {
+                    arrayOfVertex[j] = true;
+                    getVertexImposibleToCome(graph, j, arrayOfVertex);
+                }
+            }
+        }
+    }
+}
