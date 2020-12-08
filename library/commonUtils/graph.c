@@ -1,5 +1,6 @@
 #include "graph.h"
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -93,4 +94,23 @@ bool isCycled(Graph* graph)
         }
     }
     return false;
+}
+
+Graph* createIncidentalGraph(int countEdges, int countVertex, Edge** edges)
+{
+    Graph* graph = (Graph*)malloc(sizeof(Graph));
+    graph->countVertex = countVertex;
+    graph->countEdges = countEdges;
+    graph->matrix = (int**)malloc((countVertex + 1) * sizeof(int*));
+    for (int i = 0; i < countVertex + 1; ++i) {
+        graph->matrix[i] = (int*)malloc((countEdges) * sizeof(int));
+        memset(graph->matrix[i], 0, (countEdges) * sizeof(int));
+    }
+
+    for (int i = 0; i < countEdges; ++i) {
+        graph->matrix[edges[i]->start][i] = edges[i]->weight;
+        graph->matrix[edges[i]->end][i] = -edges[i]->weight;
+    }
+
+    return graph;
 }
