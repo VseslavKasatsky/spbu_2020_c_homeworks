@@ -31,7 +31,7 @@ int main()
     memset(vertexArray, 0, (vertexNumber + 1) * sizeof(bool));
     getConnectedVertexArray(graph, givenVertex, vertexArray);
 
-    printf("Given is not connected to vertices with the following numbers: ");
+    printf("Given vertex is not connected to vertices with the following numbers: ");
     for (int i = 1; i < vertexNumber + 1; ++i) {
         if (vertexArray[i]) {
             printf("%d", i);
