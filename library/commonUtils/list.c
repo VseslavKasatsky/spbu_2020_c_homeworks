@@ -4,6 +4,7 @@
 
 struct ListElement {
     int value;
+    int quantity;
     struct ListElement* next;
     struct ListElement* previous;
 };
@@ -24,6 +25,7 @@ ListElement* createListElement(int value)
 {
     ListElement* element = malloc(sizeof(ListElement));
     element->value = value;
+    element->quantity = 0;
     element->next = NULL;
     element->previous = NULL;
     return element;
@@ -180,4 +182,60 @@ ListElement* getPreviousElement(ListElement* element)
 ListElement* getNextElement(ListElement* element)
 {
     return element->next;
+}
+
+void updateQuantity(ListElement* element)
+{
+    element->quantity++;
+}
+
+bool isValueInList(List* list, int value)
+{
+    ListElement* initialElement = head(list);
+    while (initialElement != tail(list)) {
+        if (initialElement->value == value) {
+            return true;
+        }
+        initialElement = initialElement->next;
+    }
+    return false;
+}
+
+int getValuePosition(List* list, int value)
+{
+    ListElement* initialElement = head(list);
+    while (initialElement != tail(list)) {
+        if (initialElement->value == value) {
+            return locate(initialElement, list);
+        }
+        initialElement = initialElement->next;
+    }
+    return -1;
+}
+
+bool pushToListInIncrease(List* list, ListElement* element)
+{
+    if (isEmpty(list)) {
+        return insert(element, 0, list);
+    }
+    ListElement* initialElement = head(list);
+    while (initialElement->value < element->value && initialElement != tail(list)) {
+        initialElement = initialElement->next;
+    }
+    if (initialElement == tail(list) && tail(list)->value < element->value) {
+        return insert(element, locate(initialElement, list) + 1, list);
+    }
+    return insert(element, locate(initialElement, list), list);
+}
+
+void printListElementQuantity(List* list)
+{
+    printf("Formant x[y] where x - value, y - quantity\n");
+    printf("START -> ");
+    ListElement* toPrint = head(list);
+    while (toPrint != NULL) {
+        printf("%d[%d] -> ", toPrint->value, toPrint->quantity);
+        toPrint = toPrint->next;
+    }
+    printf("END\n");
 }

@@ -17,13 +17,18 @@ ListElement* getPreviousElement(ListElement* element);
 bool insert(ListElement* element, int position, List* list);
 bool deleteElementOnPosition(int position, List* list);
 bool isEmpty(List* list);
+bool isValueInList(List* list, int value);
+bool pushToListInIncrease(List* list, ListElement* element);
 
 void removeList(List* list);
 void removeElement(ListElement* list);
 void printList(List* list);
+void printListElementQuantity(List* list);
+void updateQuantity(ListElement* element);
 
 int getSize(List* list);
 int locate(ListElement* element, List* list);
 int getElementValue(ListElement* element);
+int getValuePosition(List* list, int value);
 
 #endif // SPBU_2020_C_HOMEWORKS_LIBRARY_commonUtils_LIST_H_
