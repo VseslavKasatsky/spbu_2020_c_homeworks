@@ -230,7 +230,7 @@ bool pushToListInIncrease(List* list, ListElement* element)
 
 void printListElementQuantity(List* list)
 {
-    printf("Formant x[y] where x - value, y - quantity\n");
+    printf("Format x[y] where x - value, y - quantity\n");
     printf("START -> ");
     ListElement* toPrint = head(list);
     while (toPrint != NULL) {
