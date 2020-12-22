@@ -36,6 +36,7 @@ void initializeStatesAndPushTransitions(DFAState** states)
     addTransition(leftSymbols, '-', leftSymbols);
     addTransition(leftSymbols, '.', leftSymbols);
     addTransition(leftSymbols, '@', atSymbol);
+
     for (char symbol = 'A'; (int)symbol <= (int)'Z'; ++symbol) {
         addTransition(atSymbol, symbol, rightSymbols);
         addTransition(rightSymbols, symbol, rightSymbols);
@@ -47,6 +48,7 @@ void initializeStatesAndPushTransitions(DFAState** states)
     addTransition(atSymbol, '-', rightSymbols);
     addTransition(rightSymbols, '-', rightSymbols);
     addTransition(rightSymbols, '.', dot);
+
     for (char symbol = 'A'; (int)symbol <= (int)'Z'; ++symbol) {
         addTransition(dot, symbol, endSymbols);
         addTransition(endSymbols, symbol, endSymbols);
