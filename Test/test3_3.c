@@ -21,25 +21,35 @@ void initializeStatesAndPushTransitions(DFAState** states)
 
     for (char symbol = 'A'; (int)symbol <= (int)'Z'; ++symbol) {
         addTransition(initialState, symbol, leftSymbols);
+        addTransition(leftSymbols, symbol, leftSymbols);
     }
     for (char digitSymbol = '0'; (int)digitSymbol <= (int)'9'; ++digitSymbol) {
         addTransition(initialState, digitSymbol, leftSymbols);
+        addTransition(leftSymbols, digitSymbol, leftSymbols);
     }
     addTransition(initialState, '%', leftSymbols);
     addTransition(initialState, '+', leftSymbols);
     addTransition(initialState, '-', leftSymbols);
     addTransition(initialState, '.', leftSymbols);
+    addTransition(leftSymbols, '%', leftSymbols);
+    addTransition(leftSymbols, '+', leftSymbols);
+    addTransition(leftSymbols, '-', leftSymbols);
+    addTransition(leftSymbols, '.', leftSymbols);
     addTransition(leftSymbols, '@', atSymbol);
     for (char symbol = 'A'; (int)symbol <= (int)'Z'; ++symbol) {
         addTransition(atSymbol, symbol, rightSymbols);
+        addTransition(rightSymbols, symbol, rightSymbols);
     }
     for (char digitSymbol = '0'; (int)digitSymbol <= (int)'9'; ++digitSymbol) {
         addTransition(atSymbol, digitSymbol, rightSymbols);
+        addTransition(rightSymbols, digitSymbol, rightSymbols);
     }
     addTransition(atSymbol, '-', rightSymbols);
+    addTransition(rightSymbols, '-', rightSymbols);
     addTransition(rightSymbols, '.', dot);
     for (char symbol = 'A'; (int)symbol <= (int)'Z'; ++symbol) {
         addTransition(dot, symbol, endSymbols);
+        addTransition(endSymbols, symbol, endSymbols);
     }
 }
 
