@@ -75,10 +75,11 @@ int cleaner(char* inf, char* outf)
     return 0;
 }
 
-int main()
+int main(void)
 {
     int res = 0;
-    char *input = "scanned.txt", *output = "cleaned.txt";
+    char* input = "scanned.txt";
+    char* output = "cleaned.txt";
 
     res = cleaner(input, output);
 
