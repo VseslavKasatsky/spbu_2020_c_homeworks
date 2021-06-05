@@ -44,13 +44,17 @@ int cleaner(const char* inf, const char* outf)
         }
         str = strcpy(str, buf);
         for (i = 0; str[i]; i++) {
-            if (strchr(t, str[i]))
-                fprintf(OUT, "%c", str[i]);
-            else {
+            if (!strchr(t, str[i])) {
                 char* buffer = (char*)malloc(100 * sizeof(char));
                 int counter = 0;
                 for (j = i; str[j]; j++) {
                     if (strchr(t, str[j])) {
+                        if (counter == 2) {
+                            flag = 1;
+                        }
+                        if (counter == 3 && buffer[0] == buffer[1] && buffer[0] == buffer[2]) {
+                            flag = 1;
+                        }
                         if (counter >= 4 && buffer[0] == buffer[counter - 2] && buffer[1] == buffer[counter - 1]) {
                             flag = 1;
                         }
