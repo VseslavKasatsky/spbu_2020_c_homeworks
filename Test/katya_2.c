@@ -8,7 +8,8 @@ int cleaner(char* inf, char* outf)
 {
     int i = 0, j = 0, k = 0, flag = 0;
     char buf[10001];
-    char *str = 0, *t = ".,;:?!()[] ";
+    char* str = 0;
+    const char* t = ".,;:?!()[] ";
     FILE *IN, *OUT;
 
     if (!(IN = fopen(inf, "r")))
