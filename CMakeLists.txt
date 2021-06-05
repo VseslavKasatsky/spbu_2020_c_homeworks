@@ -53,6 +53,7 @@ target_link_libraries(1.Test_1 list)
 add_executable(1.Test_2 Test/task_2.c library/commonUtils/test1_2.c)
 add_executable(2.Test_1 Test/task2_1.c)
 add_executable(2.Test_2 Test/task2_2.c)
+add_executable(2.Katya Test/katya_2.c)
 
 add_executable(3.task_1 Homework_3/task_1.c)
 target_link_libraries(3.task_1 list)
