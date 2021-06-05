@@ -1,14 +1,15 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-int cleaner(char* inf, char* outf);
+int cleaner(const char* inf, const char* outf);
 
-int cleaner(char* inf, char* outf)
+int cleaner(const char* inf, const char* outf)
 {
-    int i = 0, j = 0, k = 0, flag = 0;
+    int i = 0, j, k, flag = 0;
     char buf[10001];
-    char* str = 0;
+    char* str;
     const char* t = ".,;:?!()[] ";
     FILE *IN, *OUT;
 
@@ -77,11 +78,8 @@ int cleaner(char* inf, char* outf)
 
 int main(void)
 {
-    int res = 0;
-    char* input = "scanned.txt";
-    char* output = "cleaned.txt";
-
-    res = cleaner(input, output);
+    int res;
+    res = cleaner("scanned.txt", "cleaned.txt");
 
     if (res == -1) {
         printf("Can not open file");
